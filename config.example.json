@@ -1,0 +1,29 @@
+{
+    "token": "",
+    "prefix": "g!",
+    "trusted": [
+        "153173425844781056"
+    ],
+    "api_keys": {
+        "bot_list": {
+            "discordbots.org": "",
+            "bots.discord.pw": "",
+            "carbonitex": ""
+        },
+        "datadog": {
+            "api_key": "",
+            "app_key": ""
+        }
+    },
+    "links": {
+        "bot": "https://bot.discord.io/guessthatnumber",
+        "server": "https://discord.io/passthemayo",
+        "paypal": "https://www.paypal.me/JacobGunther",
+        "patreon": "https://www.patreon.com/passthemayo",
+        "discordbots.org": "https://goo.gl/dNj1kr",
+        "feedback": {
+            "form": "https://goo.gl/forms/jEfoFtHxodfcEy762",
+            "responses": "https://goo.gl/xXB8RX"
+        }
+    }
+}

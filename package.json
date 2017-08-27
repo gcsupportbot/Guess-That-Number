@@ -1,0 +1,35 @@
+{
+    "name": "guessthatnumber",
+    "description": "A unique and addicting game in which you have to guess the randomly generated number based on hints.",
+    "version": "1.0.0",
+    "keywords": [
+        "numbers",
+        "guessing",
+        "guess",
+        "random"
+    ],
+    "scripts": {
+        "start": "pm2 start shard.js --name GuessThatNumber",
+        "restart": "pm2 restart GuessThatNumber",
+        "stop": "pm2 stop GuessThatNumber",
+        "delete": "pm2 delete GuessThatNumber"
+    },
+    "dependencies": {
+        "dateformat": "^2.0.0",
+        "discord.js": "^11.1.0",
+        "humanize-duration": "^3.10.0",
+        "sqlite3": "^3.1.9",
+        "snekfetch": "^3.1.11",
+        "dogapi": "^2.8.0",
+        "express": "^4.15.4",
+        "body-parser": "^1.17.2"
+    },
+    "homepage": "https://passthemayo.space/guess-that-number/",
+    "main": "shard.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/PassTheMayo/Guess-That-Number"
+    },
+    "author": "PassTheMayo",
+    "license": "Apache-2.0"
+}
