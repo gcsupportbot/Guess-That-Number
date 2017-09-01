@@ -15,7 +15,7 @@ module.exports = {
         if (config.trusted.indexOf(msg.author.id) > -1) {
             if (args.length > 0) {
                 if (args[0] === "all") {
-                    var commands = fs.readdir(__dirname + "/", (error, files) => {
+                    var commands = fs.readdir("./commands/", (error, files) => {
                         if (error) return msg.channel.send({
                             embed: {
                                 title: "Error!",
@@ -26,7 +26,7 @@ module.exports = {
                         files.forEach((c) => {
                             delete require.cache[path.normalize(__dirname + "/" + c)];
                             try {
-                                bot.commands[c.replace(/\..*/g, "")] = require(path.normalize(__dirname + "/" + c));
+                                bot.commands[c.replace(/\..*/g, "")] = require(path.normalize("./commands/" + c));
                                 if (files.indexOf(c) === files.length - 1) {
                                     msg.channel.send({
                                         embed: {
@@ -50,9 +50,9 @@ module.exports = {
                 } else {
                     var check = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(args[0]) > -1);
                     if (check.length > 0) {
-                        delete require.cache[__dirname + "/" + check[0] + ".js"];
+                        delete require.cache[path.normalize(__dirname + "/" + check[0] + ".js")];
                         try {
-                            bot.commands[check[0]] = require(__dirname + "/" + check[0] + ".js");
+                            bot.commands[check[0]] = require("./" + check[0] + ".js");
                             msg.channel.send({
                                 embed: {
                                     title: "Reloaded!",
@@ -70,7 +70,7 @@ module.exports = {
                             });
                         }
                     } else {
-                        fs.readdir(__dirname, (error, files) => {
+                        fs.readdir("./commands/", (error, files) => {
                             if (error) return msg.channel.send({
                                 embed: {
                                     title: "Error!",
@@ -85,9 +85,9 @@ module.exports = {
                                     description: "Unknown command, `" + args[0] + "`."
                                 }
                             });
-                            delete require.cache[__dirname + "/" + args[0] + ".js"];
+                            delete require.cache[path.normalize(__dirname + "/" + args[0] + ".js")];
                             try {
-                                bot.commands[args[0]] = require(__dirname + "/" + args[0] + ".js");
+                                bot.commands[args[0]] = require("./commands/" + args[0] + ".js");
                                 msg.channel.send({
                                     embed: {
                                         title: "Reloaded!",
