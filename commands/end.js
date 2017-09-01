@@ -17,10 +17,10 @@ module.exports = {
         r.table("games").filter({userID: msg.author.id}).run((error, response) => {
             if (error) return handleDatabaseError(error, msg);
             if (response.length > 0) {
-                r.table("games").filter({userID: msg.author.id}).delete().run(error => {
+                r.table("games").filter({userID: msg.author.id}).delete().run((error) => {
                     if (error) return handleDatabaseError(error, msg);
                     if (msg.author.data && msg.author.data.toggle) {
-                        r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                        r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
                             if (error) return handleDatabaseError(error, msg);
                             msg.author.data.toggle = false;
                             msg.channel.send({

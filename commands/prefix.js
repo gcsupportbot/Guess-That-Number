@@ -31,7 +31,7 @@ module.exports = {
                     r.table("prefixes").filter({serverID: msg.guild.id}).count().run((error, count) => {
                         if (error) return handleDatabaseError(error, msg);
                         if (count > 0) {
-                            r.table("prefixes").filter({serverID: msg.guild.id}).update({prefix: args.join(" ")}).run(error => {
+                            r.table("prefixes").filter({serverID: msg.guild.id}).update({prefix: args.join(" ")}).run((error) => {
                                 if (error) return handleDatabaseError(error, msg);
                                 msg.guild.data.prefix = args.join(" ");
                                 msg.channel.send({
@@ -46,7 +46,7 @@ module.exports = {
                             r.table("prefixes").insert({
                                 serverID: msg.guild.id,
                                 prefix: args.join(" ")
-                            }).run(error => {
+                            }).run((error) => {
                                 if (error) return handleDatabaseError(error, msg);
                                 msg.guild.data.prefix = args.join(" ");
                                 msg.channel.send({

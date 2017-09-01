@@ -12,7 +12,7 @@ module.exports = {
                         r.table("games").filter({userID: index.userID}).delete().run((error) => {
                             if (error) return handleDatabaseError(error);
                             if (bot.users.get(index.userID) && bot.users.get(index.userID).data && bot.users.get(index.userID).data.toggle) {
-                                r.table("toggle").filter({userID: index.userID}).delete().run(error => {
+                                r.table("toggle").filter({userID: index.userID}).delete().run((error) => {
                                     if (error) return handleDatabaseError(error);
                                     bot.users.get(index.userID).data.toggle = false;
                                 });

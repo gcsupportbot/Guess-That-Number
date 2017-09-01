@@ -30,7 +30,7 @@ module.exports = {
                         number: Math.floor(Math.random() * max),
                         start_time: Date.now(),
                         difficulty
-                    }).run(error => {
+                    }).run((error) => {
                         if (error) return handleDatabaseError(error, msg);
                         msg.channel.send({
                             embed: {

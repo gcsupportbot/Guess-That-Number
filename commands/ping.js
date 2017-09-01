@@ -13,7 +13,7 @@ module.exports = {
                 title: "Pinging...",
                 color: 3066993
             }
-        }).then(newmsg => {
+        }).then((newmsg) => {
             const end = Date.now();
             newmsg.edit({
                 embed: {

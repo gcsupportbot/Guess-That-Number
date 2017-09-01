@@ -23,7 +23,7 @@ module.exports = {
                                 description: "An unexpected error occured while reading commands directory."
                             }
                         });
-                        files.forEach(c => {
+                        files.forEach((c) => {
                             delete require.cache[path.normalize(__dirname + "/" + c)];
                             try {
                                 bot.commands[c.replace(/\..*/g, "")] = require(path.normalize(__dirname + "/" + c));
@@ -48,7 +48,7 @@ module.exports = {
                         });
                     });
                 } else {
-                    var check = Object.keys(bot.commands).filter(c => bot.commands[c].commands.indexOf(args[0]) > -1);
+                    var check = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(args[0]) > -1);
                     if (check.length > 0) {
                         delete require.cache[__dirname + "/" + check[0] + ".js"];
                         try {

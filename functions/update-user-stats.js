@@ -12,7 +12,7 @@ module.exports = (r, msg, response, callback) => {
                 easy_game_time: ((response[0].difficulty === "1") ? Number(response2[0].easy_game_time) + (Date.now() - Number(response[0].start_time)) : response2[0].easy_game_time),
                 medium_game_time: ((response[0].difficulty === "2") ? Number(response2[0].medium_game_time) + (Date.now() - Number(response[0].start_time)) : response2[0].medium_game_time),
                 hard_game_time: ((response[0].difficulty === "3") ? Number(response2[0].hard_game_time) + (Date.now() - Number(response[0].start_time)) : response2[0].hard_game_time),
-            }).run(error => {
+            }).run((error) => {
                 if (error) return callback(error);
                 callback(false);
             });
@@ -28,7 +28,7 @@ module.exports = (r, msg, response, callback) => {
                 easy_game_time: ((response[0].difficulty === "1") ? (Date.now() - Number(response[0].start_time)) : 0),
                 medium_game_time: ((response[0].difficulty === "2") ? (Date.now() - Number(response[0].start_time)) : 0),
                 hard_game_time: ((response[0].difficulty === "3") ? (Date.now() - Number(response[0].start_time)) : 0)
-            }).run(error => {
+            }).run((error) => {
                 if (error) return callback(error);
                 callback(false);
             });

@@ -49,7 +49,7 @@ module.exports = {
                 } else {
                     if (/.{2,32}\#\d{4}/.test(args.join(" "))) {
                         const match = args.join(" ").split("#");
-                        const usercheck = bot.users.filter(u => u.username === match[0] && u.discriminator === match[1]);
+                        const usercheck = bot.users.filter((u) => u.username === match[0] && u.discriminator === match[1]);
                         if (usercheck.size) {
                             user = usercheck.first();
                         } else {
@@ -62,7 +62,7 @@ module.exports = {
                             });
                         }
                     } else {
-                        const usercheck = bot.users.filter(u => u.username.toLowerCase() === args.join(" ").toLowerCase());
+                        const usercheck = bot.users.filter((u) => u.username.toLowerCase() === args.join(" ").toLowerCase());
                         if (usercheck.size) {
                             user = usercheck.first();
                         } else {
@@ -125,17 +125,17 @@ module.exports = {
                                 },
                                 {
                                     name: "Easy Best Score",
-                                    value: ((stats.length > 0) ? ((leaderboard.filter(r => r.difficulty === "1").length > 0) ? leaderboard.filter(r => r.difficulty === "1")[0].score : "Unknown") : "Unknown"),
+                                    value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === "1").length > 0) ? leaderboard.filter((r) => r.difficulty === "1")[0].score : "Unknown") : "Unknown"),
                                     inline: true
                                 },
                                 {
                                     name: "Medium Best Score",
-                                    value: ((stats.length > 0) ? ((leaderboard.filter(r => r.difficulty === "2").length > 0) ? leaderboard.filter(r => r.difficulty === "2")[0].score : "Unknown") : "Unknown"),
+                                    value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === "2").length > 0) ? leaderboard.filter((r) => r.difficulty === "2")[0].score : "Unknown") : "Unknown"),
                                     inline: true
                                 },
                                 {
                                     name: "Hard Best Score",
-                                    value: ((stats.length > 0) ? ((leaderboard.filter(r => r.difficulty === "3").length > 0) ? leaderboard.filter(r => r.difficulty === "3")[0].score : "Unknown") : "Unknown"),
+                                    value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === "3").length > 0) ? leaderboard.filter((r) => r.difficulty === "3")[0].score : "Unknown") : "Unknown"),
                                     inline: true
                                 },
                                 {
@@ -212,10 +212,10 @@ module.exports = {
         } else {
             r.table("games").count().run((error, activegames) => {
                 if (error) return handleDatabaseError(error, msg);
-                bot.shard.broadcastEval("[this.guilds.size, this.users.size, (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1)]").then(data => {
+                bot.shard.broadcastEval("[this.guilds.size, this.users.size, (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1)]").then((data) => {
                     let newdata = [0, 0, 0];
-                    data.forEach(v => {
-                        v.forEach(nv => {
+                    data.forEach((v) => {
+                        v.forEach((nv) => {
                             newdata[v.indexOf(nv)] += Number(nv);
                         });
                     });
@@ -274,7 +274,7 @@ module.exports = {
                             ]
                         }
                     });
-                }).catch(error => {
+                }).catch((error) => {
                     msg.channel.send({
                         embed: {
                             title: "Error!",

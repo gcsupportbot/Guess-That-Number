@@ -34,7 +34,7 @@ module.exports = {
                         if (guess >= 1 && guess <= max) {
                             r.table("games").filter({userID: msg.author.id}).update({
                                 score: response[0].score + 1
-                            }).run(error => {
+                            }).run((error) => {
                                 if (error) return handleDatabaseError(error, msg);
                                 if (guess > response[0].number) {
                                     msg.channel.send({
@@ -59,7 +59,7 @@ module.exports = {
                                         }
                                     });
                                 } else if (guess === response[0].number) {
-                                    r.table("games").filter({userID: msg.author.id}).delete().run(error => {
+                                    r.table("games").filter({userID: msg.author.id}).delete().run((error) => {
                                         if (error) return handleDatabaseError(error, msg);
                                         updateUserStats(r, msg, response, (error) => {
                                             if (error) return handleDatabaseError(error, msg);
@@ -67,10 +67,10 @@ module.exports = {
                                                 if (error) return handleDatabaseError(error, msg);
                                                 if (response2.length > 0) {
                                                     if ((response[0].score + 1) < response2[0].score) {
-                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run(error => {
+                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run((error) => {
                                                             if (error) return handleDatabaseError(error, msg);
                                                             if (msg.author.data && msg.author.data.toggle) {
-                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
                                                                     if (error) return handleDatabaseError(error, msg);
                                                                     msg.author.data.toggle = false;
                                                                     msg.channel.send({
@@ -102,10 +102,10 @@ module.exports = {
                                                             }
                                                         });
                                                     } else {
-                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run(error => {
+                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run((error) => {
                                                             if (error) return handleDatabaseError(error, msg);
                                                             if (msg.author.data && msg.author.data.toggle) {
-                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
                                                                     if (error) return handleDatabaseError(error, msg);
                                                                     msg.author.data.toggle = false;
                                                                     msg.channel.send({
@@ -142,10 +142,10 @@ module.exports = {
                                                         userID: msg.author.id,
                                                         score: response[0].score + 1,
                                                         difficulty: response[0].difficulty
-                                                    }).run(error => {
+                                                    }).run((error) => {
                                                         if (error) return handleDatabaseError(error, msg);
                                                         if (msg.author.data && msg.author.data.toggle) {
-                                                            r.table("toggle").filter({userID: msg.author.id}).run(error => {
+                                                            r.table("toggle").filter({userID: msg.author.id}).run((error) => {
                                                                 if (error) return handleDatabaseError(error, msg);
                                                                 msg.author.data.prefix = false;
                                                                 msg.channel.send({

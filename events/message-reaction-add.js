@@ -25,19 +25,19 @@ module.exports = (bot, r) => {
                         user.data.leaderboardpages.page--;
                         r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
                             if (error) return handleDatabaseError(error, msg);
-                            bot.shard.broadcastEval(JSON.stringify(response.map(u => {
+                            bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
                                 return {
                                     userID: u.userID,
                                     score: u.score
                                 };
-                            })) + ".map(u => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter(a => a)").then(response => {
+                            })) + ".map((u) => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
                                 response = [...new Set([].concat.apply([], response))];
                                 reaction.message.edit({
                                     embed: {
                                         title: "Global Leaderboard",
                                         description: response.length + " users have played " + ((user.data.leaderboardpages.difficulty === 1) ? "easy" : ((user.data.leaderboardpages.difficulty === 2) ? "medium" : ((user.data.leaderboardpages.difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
                                         color: 3066993,
-                                        fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map(v => {
+                                        fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map((v) => {
                                             return {
                                                 name: (response.indexOf(v) + 1) + ". " + v.tag,
                                                 value: "Score: " + v.score,
@@ -49,7 +49,7 @@ module.exports = (bot, r) => {
                                         }
                                     }
                                 });
-                            }).catch(error => {
+                            }).catch((error) => {
                                 reaction.message.channel.send({
                                     embed: {
                                         title: "Error!",
@@ -74,12 +74,12 @@ module.exports = (bot, r) => {
                     try {
                         r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
                             if (error) return handleDatabaseError(error, msg);
-                            bot.shard.broadcastEval(JSON.stringify(response.map(u => {
+                            bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
                                 return {
                                     userID: u.userID,
                                     score: u.score
                                 };
-                            })) + ".map(u => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter(a => a)").then(response => {
+                            })) + ".map((u) => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
                                 response = [...new Set([].concat.apply([], response))];
                                 if (user.data.leaderboardpages.page === Math.ceil(response.length / 10)) return;
                                 user.data.leaderboardpages.page++;
@@ -88,7 +88,7 @@ module.exports = (bot, r) => {
                                         title: "Global Leaderboard",
                                         description: response.length + " users have played " + ((user.data.leaderboardpages.difficulty === 1) ? "easy" : ((user.data.leaderboardpages.difficulty === 2) ? "medium" : ((user.data.leaderboardpages.difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
                                         color: 3066993,
-                                        fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map(v => {
+                                        fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map((v) => {
                                             return {
                                                 name: (response.indexOf(v) + 1) + ". " + v.tag,
                                                 value: "Score: " + v.score,
@@ -100,7 +100,7 @@ module.exports = (bot, r) => {
                                         }
                                     }
                                 });
-                            }).catch(error => {
+                            }).catch((error) => {
                                 reaction.message.channel.send({
                                     embed: {
                                         title: "Error!",

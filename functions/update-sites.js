@@ -13,7 +13,7 @@ module.exports = (bot) => {
         shard_id: bot.shard.id,
         shard_count: bot.shard.count
     }).catch(() => {});
-    bot.shard.fetchClientValues("guilds.size").then(guilds => {
+    bot.shard.fetchClientValues("guilds.size").then((guilds) => {
         snekfetch.post("https://www.carbonitex.net/discord/data/botdata.php").send({
             key: config.api_keys.bot_list.carbonitex,
             servercount: guilds.reduce((a, b) => a + b, 0)

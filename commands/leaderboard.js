@@ -23,12 +23,12 @@ module.exports = {
         if (!isNaN(difficulty)) {
             r.table("leaderboard").filter({difficulty}).orderBy(r.asc("score")).run((error, response) => {
                 if (error) return handleDatabaseError(error, msg);
-                bot.shard.broadcastEval(JSON.stringify(response.map(u => {
+                bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
                     return {
                         userID: u.userID,
                         score: u.score
                     };
-                })) + ".map(u => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter(a => a)").then(response => {
+                })) + ".map((u) => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
                     response = [...new Set([].concat.apply([], response))];
                     if (response.length > 0) {
                         msg.channel.send({
@@ -36,7 +36,7 @@ module.exports = {
                                 title: "Global Leaderboard",
                                 description: response.length + " users have played " + ((difficulty === 1) ? "easy" : ((difficulty === 2) ? "medium" : ((difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
                                 color: 3066993,
-                                fields: response.slice(0, 10).map(v => {
+                                fields: response.slice(0, 10).map((v) => {
                                     return {
                                         name: (response.indexOf(v) + 1) + ". " + v.tag,
                                         value: "Score: " + v.score,
@@ -47,7 +47,7 @@ module.exports = {
                                     text: "Page 1 / " + Math.ceil(response.length / 10)
                                 }
                             }
-                        }).then(msgresponse => {
+                        }).then((msgresponse) => {
                             if (response.length < 11) return;
                             setTimeout(() => {
                                 msgresponse.react("⬅").then(() => {

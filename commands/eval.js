@@ -32,7 +32,7 @@ module.exports = {
                                     description: "Result was over 2,000 characters, Generated hastebin link instead. https://haste.passthemayo.space/" + body.body.key + ".js"
                                 }
                             });
-                        }).catch(error => {
+                        }).catch((error) => {
                             msg.channel.send({
                                 embed: {
                                     title: "Error!",
