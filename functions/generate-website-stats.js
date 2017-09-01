@@ -1,11 +1,11 @@
 const handleDatabaseError = require("./handle-database-error.js");
 const humanizeduration = require("humanize-duration");
 
-module.exports = (bot, database) => {
+module.exports = (bot, r) => {
     return new Promise((resolve, reject) => {
-        database.all("SELECT count(*) AS activegames FROM games", (error, activegames) => {
+        r.table("games").count().run((error, active_games) => {
             if (error) {
-                handleDatabaseError(bot, error);
+                handleDatabaseError(error);
                 reject(error);
             } else {
                 bot.shard.fetchClientValues("guilds.size").then(guilds => {
@@ -26,7 +26,7 @@ module.exports = (bot, database) => {
                                                     round: true
                                                 }),
                                                 commands: Object.keys(bot.commands).length,
-                                                active_games: activegames[0].activegames
+                                                active_games
                                             });
                                         }).catch(error => {
                                             reject(error);

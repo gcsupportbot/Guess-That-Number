@@ -15,7 +15,7 @@ module.exports = {
     description: "View bot statistics or information about a user.",
     category: "Information",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         if (args.length > 0) {
             let user = msg.author;
             if (args.length > 0) {
@@ -84,10 +84,10 @@ module.exports = {
                     description: "Bots are not able to play this game, so they do not have statistics."
                 }
             });
-            database.all("SELECT * FROM leaderboard WHERE userID = ?", [user.id], (error, leaderboard) => {
-                if (error) return handleDatabaseError(bot, error, msg);
-                database.all("SELECT * FROM user_statistics WHERE userID = ?", [user.id], (error, stats) => {
-                    if (error) return handleDatabaseError(bot, error, msg);
+            r.table("leaderboard").filter({userID: user.id}).run((error, leaderboard) => {
+                if (error) return handleDatabaseError(error, msg);
+                r.table("user_statistics").filter({userID: user.id}).run((error, stats) => {
+                    if (error) return handleDatabaseError(error, msg);
                     msg.channel.send({
                         embed: {
                             title: "User Statistics - " + user.tag,
@@ -210,8 +210,8 @@ module.exports = {
                 });
             });
         } else {
-            database.all("SELECT count(*) AS activegames FROM games", (error, activegames) => {
-                if (error) return handleDatabaseError(bot, error, msg);
+            r.table("games").count().run((error, activegames) => {
+                if (error) return handleDatabaseError(error, msg);
                 bot.shard.broadcastEval("[this.guilds.size, this.users.size, (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1)]").then(data => {
                     let newdata = [0, 0, 0];
                     data.forEach(v => {
@@ -236,7 +236,7 @@ module.exports = {
                                 },
                                 {
                                     name: "Active Games",
-                                    value: activegames[0].activegames.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
+                                    value: activegames.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
                                     inline: true
                                 },
                                 {

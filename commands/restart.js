@@ -10,7 +10,7 @@ module.exports = {
     description: "Restarts the bot.",
     category: "Developers",
     hidden: true,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         if (config.trusted.indexOf(msg.author.id) > -1) {
             if (args.length > 0) {
                 if (isNaN(Number(args[0]))) return msg.channel.send({

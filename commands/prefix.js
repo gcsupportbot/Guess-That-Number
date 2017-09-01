@@ -9,7 +9,7 @@ module.exports = {
     description: "View the prefix for your server or change it to a new one.",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         if (args.length > 0) {
             if (msg.channel.type === "dm") return msg.channel.send({
                 embed: {
@@ -28,11 +28,11 @@ module.exports = {
                         }
                     });
                 } else {
-                    database.all("SELECT count(*) AS count FROM prefixes WHERE serverID = ?", [msg.guild.id], (error, response) => {
-                        if (error) return handleDatabaseError(bot, error, msg);
-                        if (response[0].count > 0) {
-                            database.run("UPDATE prefixes SET prefix = ? WHERE serverID = ?", [args.join(" "), msg.guild.id], (error) => {
-                                if (error) return handleDatabaseError(bot, error, msg);
+                    r.table("prefixes").filter({serverID: msg.guild.id}).count().run((error, count) => {
+                        if (error) return handleDatabaseError(error, msg);
+                        if (count > 0) {
+                            r.table("prefixes").filter({serverID: msg.guild.id}).update({prefix: args.join(" ")}).run(error => {
+                                if (error) return handleDatabaseError(error, msg);
                                 msg.guild.data.prefix = args.join(" ");
                                 msg.channel.send({
                                     embed: {
@@ -43,8 +43,11 @@ module.exports = {
                                 });
                             });
                         } else {
-                            database.run("INSERT INTO prefixes (serverID, prefix) VALUES (?, ?)", [msg.guild.id, args.join(" ")], (error) => {
-                                if (error) return handleDatabaseError(bot, error, msg);
+                            r.table("prefixes").insert({
+                                serverID: msg.guild.id,
+                                prefix: args.join(" ")
+                            }).run(error => {
+                                if (error) return handleDatabaseError(error, msg);
                                 msg.guild.data.prefix = args.join(" ");
                                 msg.channel.send({
                                     embed: {

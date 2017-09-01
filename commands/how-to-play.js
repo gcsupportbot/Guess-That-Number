@@ -9,7 +9,7 @@ module.exports = {
     description: "Learn how to play this game.",
     category: "Information",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         msg.channel.send({
             embed: {
                 title: "How to Play",

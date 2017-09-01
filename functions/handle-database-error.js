@@ -1,4 +1,4 @@
-module.exports = (bot, error, msg) => {
+module.exports = (error, msg) => {
     if (msg) msg.channel.send({
         embed: {
             title: "Error!",

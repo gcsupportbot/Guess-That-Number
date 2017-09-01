@@ -11,7 +11,7 @@ module.exports = {
     description: "View the server leaderboard.",
     category: "Game",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         let difficulty = NaN;
         if (args.length > 0) {
             if (args[0] === "easy") difficulty = 1;
@@ -21,8 +21,8 @@ module.exports = {
             difficulty = 2;
         }
         if (!isNaN(difficulty)) {
-            database.all("SELECT * FROM leaderboard WHERE difficulty = ? ORDER BY score ASC", [difficulty], (error, response) => {
-                if (error) return handleDatabaseError(bot, error, msg);
+            r.table("leaderboard").filter({difficulty}).orderBy(r.asc("score")).run((error, response) => {
+                if (error) return handleDatabaseError(error, msg);
                 bot.shard.broadcastEval(JSON.stringify(response.map(u => {
                     return {
                         userID: u.userID,

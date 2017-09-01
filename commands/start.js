@@ -10,9 +10,9 @@ module.exports = {
     description: "Start a new game.",
     category: "Game",
     hidden: false,
-    execute: (bot, database, msg, args) => {
-        database.all("SELECT * FROM games WHERE userID = ?", [msg.author.id], (error, response) => {
-            if (error) return handleDatabaseError(bot, error, msg);
+    execute: (bot, r, msg, args) => {
+        r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+            if (error) return handleDatabaseError(error, msg);
             if (response.length === 0) {
                 let difficulty = NaN;
                 if (args.length > 0) {
@@ -24,8 +24,14 @@ module.exports = {
                 }
                 if (!isNaN(difficulty)) {
                     const max = ((difficulty === 1) ? 10000 : ((difficulty === 2) ? 100000 : ((difficulty === 3) ? 1000000 : 100000)));
-                    database.run("INSERT INTO games (userID, score, number, start_time, difficulty) VALUES (?, 0, ?, ?, ?)", [msg.author.id, Math.floor(Math.random() * max), Date.now(), difficulty], (error) => {
-                        if (error) return handleDatabaseError(bot, error, msg);
+                    r.table("games").insert({
+                        userID: msg.author.id,
+                        score: 0,
+                        number: Math.floor(Math.random() * max),
+                        start_time: Date.now(),
+                        difficulty
+                    }).run(error => {
+                        if (error) return handleDatabaseError(error, msg);
                         msg.channel.send({
                             embed: {
                                 title: "You started a new game!",

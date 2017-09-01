@@ -12,9 +12,9 @@ module.exports = {
     description: "Guess a number in your game.",
     category: "Game",
     hidden: false,
-    execute: (bot, database, msg, args) => {
-        database.all("SELECT * FROM games WHERE userID = ?", [msg.author.id], (error, response) => {
-            if (error) return handleDatabaseError(bot, error, msg);
+    execute: (bot, r, msg, args) => {
+        r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+            if (error) return handleDatabaseError(error, msg);
             if (response.length > 0) {
                 if (args.length > 0) {
                     const guess = Number(args[0].replace(/\,/g, ""));
@@ -32,8 +32,10 @@ module.exports = {
                     } else {
                         const max = ((response[0].difficulty === "1") ? 10000 : ((response[0].difficulty === "2") ? 100000 : ((response[0].difficulty === "3") ? 1000000 : 100000)));
                         if (guess >= 1 && guess <= max) {
-                            database.run("UPDATE games SET score = (score + 1) WHERE userID = ?", [msg.author.id], (error) => {
-                                if (error) return handleDatabaseError(bot, error, msg);
+                            r.table("games").filter({userID: msg.author.id}).update({
+                                score: response[0].score + 1
+                            }).run(error => {
+                                if (error) return handleDatabaseError(error, msg);
                                 if (guess > response[0].number) {
                                     msg.channel.send({
                                         embed: {
@@ -57,19 +59,19 @@ module.exports = {
                                         }
                                     });
                                 } else if (guess === response[0].number) {
-                                    database.run("DELETE FROM games WHERE userID = ?", [msg.author.id], (error) => {
-                                        if (error) return handleDatabaseError(bot, error, msg);
-                                        updateUserStats(database, msg, response, (error) => {
-                                            if (error) return handleDatabaseError(bot, error, msg);
-                                            database.all("SELECT * FROM leaderboard WHERE userID = ? AND difficulty = ?", [msg.author.id, response[0].difficulty], (error, response2) => {
-                                                if (error) return handleDatabaseError(bot, error, msg);
+                                    r.table("games").filter({userID: msg.author.id}).delete().run(error => {
+                                        if (error) return handleDatabaseError(error, msg);
+                                        updateUserStats(r, msg, response, (error) => {
+                                            if (error) return handleDatabaseError(error, msg);
+                                            r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).run((error, response2) => {
+                                                if (error) return handleDatabaseError(error, msg);
                                                 if (response2.length > 0) {
                                                     if ((response[0].score + 1) < response2[0].score) {
-                                                        database.run("UPDATE leaderboard SET score = ? WHERE userID = ? AND difficulty = ?", [(response[0].score + 1), msg.author.id, response[0].difficulty], (error) => {
-                                                            if (error) return handleDatabaseError(bot, error, msg);
+                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run(error => {
+                                                            if (error) return handleDatabaseError(error, msg);
                                                             if (msg.author.data && msg.author.data.toggle) {
-                                                                database.run("DELETE FROM toggle WHERE userID = ?", [msg.author.id], (error) => {
-                                                                    if (error) return handleDatabaseError(bot, error, msg);
+                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                                                                    if (error) return handleDatabaseError(error, msg);
                                                                     msg.author.data.toggle = false;
                                                                     msg.channel.send({
                                                                         embed: {
@@ -100,11 +102,11 @@ module.exports = {
                                                             }
                                                         });
                                                     } else {
-                                                        database.run("UPDATE leaderboard SET score = ? WHERE userID = ? AND difficulty = ?", [(response[0].score + 1), msg.author.id, response[0].difficulty], (error) => {
-                                                            if (error) return handleDatabaseError(bot, error, msg);
+                                                        r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run(error => {
+                                                            if (error) return handleDatabaseError(error, msg);
                                                             if (msg.author.data && msg.author.data.toggle) {
-                                                                database.run("DELETE FROM toggle WHERE userID = ?", [msg.author.id], (error) => {
-                                                                    if (error) return handleDatabaseError(bot, error, msg);
+                                                                r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                                                                    if (error) return handleDatabaseError(error, msg);
                                                                     msg.author.data.toggle = false;
                                                                     msg.channel.send({
                                                                         embed: {
@@ -136,11 +138,15 @@ module.exports = {
                                                         });
                                                     }
                                                 } else {
-                                                    database.all("INSERT INTO leaderboard (userID, score, difficulty) VALUES (?, ?, ?)", [msg.author.id, (response[0].score + 1), response[0].difficulty], (error) => {
-                                                        if (error) return handleDatabaseError(bot, error, msg);
+                                                    r.table("leaderboard").insert({
+                                                        userID: msg.author.id,
+                                                        score: response[0].score + 1,
+                                                        difficulty: response[0].difficulty
+                                                    }).run(error => {
+                                                        if (error) return handleDatabaseError(error, msg);
                                                         if (msg.author.data && msg.author.data.toggle) {
-                                                            database.run("DELETE FROM toggle WHERE userID = ?", [msg.author.id], (error) => {
-                                                                if (error) return handleDatabaseError(bot, error, msg);
+                                                            r.table("toggle").filter({userID: msg.author.id}).run(error => {
+                                                                if (error) return handleDatabaseError(error, msg);
                                                                 msg.author.data.prefix = false;
                                                                 msg.channel.send({
                                                                     embed: {

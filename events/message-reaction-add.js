@@ -2,7 +2,7 @@ const config = require("../config.json");
 const handleDatabaseError = require("../functions/handle-database-error.js");
 const util = require("util");
 
-module.exports = (bot, database) => {
+module.exports = (bot, r) => {
     bot.on("messageReactionAdd", (reaction, user) => {
         if (reaction._emoji.name === "❌") {
             if (config.trusted.indexOf(user.id) === -1) return;
@@ -23,8 +23,8 @@ module.exports = (bot, database) => {
                     try {
                         if (user.data.leaderboardpages.page === 1) return;
                         user.data.leaderboardpages.page--;
-                        database.all("SELECT * FROM leaderboard WHERE difficulty = ? ORDER BY score ASC", [user.data.leaderboardpages.difficulty], (error, response) => {
-                            if (error) return handleDatabaseError(bot, error, msg);
+                        r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
+                            if (error) return handleDatabaseError(error, msg);
                             bot.shard.broadcastEval(JSON.stringify(response.map(u => {
                                 return {
                                     userID: u.userID,
@@ -72,8 +72,8 @@ module.exports = (bot, database) => {
                     }
                 } else if (reaction._emoji.name === "➡") {
                     try {
-                        database.all("SELECT * FROM leaderboard WHERE difficulty = ? ORDER BY score ASC", [user.data.leaderboardpages.difficulty], (error, response) => {
-                            if (error) return handleDatabaseError(bot, error, msg);
+                        r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
+                            if (error) return handleDatabaseError(error, msg);
                             bot.shard.broadcastEval(JSON.stringify(response.map(u => {
                                 return {
                                     userID: u.userID,

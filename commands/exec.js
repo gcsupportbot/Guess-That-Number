@@ -9,9 +9,9 @@ module.exports = {
     ],
     usage: "exec <command>",
     description: "Execute commands in the console.",
-    category: "Owner Only",
+    category: "Developers",
     hidden: true,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         if (config.trusted.indexOf(msg.author.id) > -1) {
             if (args.length > 0) {
                 child_process.exec(args.join(" "), (error, stdout, stderr) => {

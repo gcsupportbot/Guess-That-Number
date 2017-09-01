@@ -11,9 +11,9 @@ module.exports = {
     ],
     usage: "eval <code>",
     description: "Evalute code inside the bot.",
-    category: "Owner Only",
+    category: "Developers",
     hidden: true,
-    execute: async (bot, database, msg, args) => {
+    execute: async (bot, r, msg, args) => {
         if (config.trusted.indexOf(msg.author.id) > -1) {
             if (args.length > 0) {
                 try {

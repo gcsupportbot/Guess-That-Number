@@ -4,6 +4,11 @@
     "trusted": [
         "153173425844781056"
     ],
+    "rethink": {
+        "host": "",
+        "db": "",
+        "silent": true
+    },
     "api_keys": {
         "bot_list": {
             "discordbots.org": "",

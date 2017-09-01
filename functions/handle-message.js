@@ -1,13 +1,13 @@
 const config = require("../config.json");
 const guess = require("../commands/guess.js");
 
-module.exports = (bot, database, msg) => {
+module.exports = (bot, r, msg) => {
     if (msg.author.bot) return;
     if (msg.author.data && msg.author.data.toggle) {
         if (msg.content !== "" && !isNaN(parseInt(msg.content))) {
             let new_event = Object.create(msg);
             new_event.content = config.prefix + "guess " + Number(msg.content);
-            guess.execute(bot, database, new_event, new_event.content.split(" ").slice(1));
+            guess.execute(bot, r, new_event, new_event.content.split(" ").slice(1));
             return;
         }
     }
@@ -17,7 +17,7 @@ module.exports = (bot, database, msg) => {
     if (command.length > 0) {
         const args = ((msg.content.replace(prefix, "").split(" ").length > 1) ? msg.content.replace(prefix, "").split(" ").slice(1) : []);
         try {
-            bot.commands[command[0]].execute(bot, database, msg, args);
+            bot.commands[command[0]].execute(bot, r, msg, args);
         } catch (error) {
             msg.channel.send({
                 embed: {

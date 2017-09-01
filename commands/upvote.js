@@ -9,7 +9,7 @@ module.exports = {
     description: "Upvote the bot on popular bot lists.",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         msg.channel.send({
             embed: {
                 title: "Upvote",

@@ -13,15 +13,15 @@ module.exports = {
     description: "End your current game.",
     category: "Game",
     hidden: false,
-    execute: (bot, database, msg, args) => {
-        database.all("SELECT * FROM games WHERE userID = ?", [msg.author.id], (error, response) => {
-            if (error) return handleDatabaseError(bot, error, msg);
+    execute: (bot, r, msg, args) => {
+        r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+            if (error) return handleDatabaseError(error, msg);
             if (response.length > 0) {
-                database.run("DELETE FROM games WHERE userID = ?", [msg.author.id], (error) => {
-                    if (error) return handleDatabaseError(bot, error, msg);
+                r.table("games").filter({userID: msg.author.id}).delete().run(error => {
+                    if (error) return handleDatabaseError(error, msg);
                     if (msg.author.data && msg.author.data.toggle) {
-                        database.run("DELETE FROM toggle WHERE userID = ?", [msg.author.id], (error) => {
-                            if (error) return handleDatabaseError(bot, error, msg);
+                        r.table("toggle").filter({userID: msg.author.id}).delete().run(error => {
+                            if (error) return handleDatabaseError(error, msg);
                             msg.author.data.toggle = false;
                             msg.channel.send({
                                 embed: {

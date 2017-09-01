@@ -9,7 +9,7 @@ module.exports = {
     description: "Invite this bot to your server.",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         msg.channel.send({
             embed: {
                 title: "Invite Links",

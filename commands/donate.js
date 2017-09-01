@@ -10,7 +10,7 @@ module.exports = {
     description: "Get the donation links to support the creator.",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         msg.channel.send({
             embed: {
                 title: "Donation Links",

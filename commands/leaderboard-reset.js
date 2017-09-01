@@ -12,9 +12,9 @@ module.exports = {
     description: "Check how long until the leaderboard resets.",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
-        database.all("SELECT * FROM reset", (error, response) => {
-            if (error) return handleDatabaseError(bot, error, msg);
+    execute: (bot, r, msg, args) => {
+        r.table("reset").run((error, response) => {
+            if (error) return handleDatabaseError(error, msg);
             msg.channel.send({
                 embed: {
                     title: "Leaderboard Reset",

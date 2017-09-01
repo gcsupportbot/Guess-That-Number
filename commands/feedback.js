@@ -12,7 +12,7 @@ module.exports = {
     usage: "feedback",
     category: "General",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         msg.channel.send({
             embed: {
                 title: "Feedback",

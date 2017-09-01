@@ -6,7 +6,7 @@ module.exports = {
     description: "Shows a list of shards and their stats.",
     category: "Information",
     hidden: false,
-    execute: (bot, database, msg, args) => {
+    execute: (bot, r, msg, args) => {
         bot.shard.broadcastEval("[(this.shard.id + 1), this.guilds.size, this.users.size, Math.round(this.ping) + 'ms', (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1) + ' MB']").then(r => {
             msg.channel.send({
                 embed: {
