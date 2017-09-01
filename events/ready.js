@@ -20,8 +20,7 @@ module.exports = (bot, r) => {
                 if (error.code === 50001) return;
                 if (error.code === 50007) return;
             }
-            console.error(error);
-            console.error(promise);
+            console.error("Unhandled rejection caught.", error);
         });
         process.on("uncaughtException", console.error);
         r.table("restart").run((error, response) => {

@@ -24,7 +24,7 @@ module.exports = (bot, r) => {
                         if (user.data.leaderboardpages.page === 1) return;
                         user.data.leaderboardpages.page--;
                         r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
-                            if (error) return handleDatabaseError(error, msg);
+                            if (error) return handleDatabaseError(error, reaction.message);
                             bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
                                 return {
                                     userID: u.userID,
@@ -68,12 +68,12 @@ module.exports = (bot, r) => {
                                 description: "Failed to switch pages on global leaderboard."
                             }
                         });
-                        console.error(error);
+                        console.error("Failed to switch pages on global leaderboard.", error);
                     }
                 } else if (reaction._emoji.name === "➡") {
                     try {
                         r.table("leaderboard").filter({difficulty: user.data.leaderboardpages.difficulty}).orderBy(r.asc("score")).run((error, response) => {
-                            if (error) return handleDatabaseError(error, msg);
+                            if (error) return handleDatabaseError(error, reaction.message);
                             bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
                                 return {
                                     userID: u.userID,
@@ -108,7 +108,7 @@ module.exports = (bot, r) => {
                                         description: "Failed to get user information across shards."
                                     }
                                 });
-                                console.error(error);
+                                console.error("Failed to switch pages on global leaderboard.", error);
                             });
                         });
                     } catch (e) {

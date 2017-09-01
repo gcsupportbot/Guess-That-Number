@@ -78,7 +78,7 @@ module.exports = {
                                 name: v,
                                 value: bot.commands[Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(v.trim()) > -1)[0]].description,
                                 inline: false
-                            }
+                            };
                         })
                     }
                 });

@@ -14,9 +14,13 @@ module.exports = {
     execute: (bot, r, msg, args) => {
         let difficulty = NaN;
         if (args.length > 0) {
-            if (args[0] === "easy") difficulty = 1;
-            if (args[0] === "medium") difficulty = 2;
-            if (args[0] === "hard") difficulty = 3;
+            if (args[0] === "easy") {
+                difficulty = 1;
+            } else if (args[0] === "medium") {
+                difficulty = 2;
+            } else if (args[0] === "hard") {
+                difficulty = 3;
+            }
         } else {
             difficulty = 2;
         }
