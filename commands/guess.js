@@ -41,7 +41,7 @@ module.exports = {
                                         embed: {
                                             title: "Lower!",
                                             color: 3066993,
-                                            description: "The number is lower than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "`.",
+                                            description: "The number is lower than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
                                             footer: {
                                                 text: "Requested by " + msg.author.tag
                                             }
@@ -52,7 +52,7 @@ module.exports = {
                                         embed: {
                                             title: "Higher!",
                                             color: 3066993,
-                                            description: "The number is higher than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "`.",
+                                            description: "The number is higher than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
                                             footer: {
                                                 text: "Requested by " + msg.author.tag
                                             }
@@ -187,7 +187,7 @@ module.exports = {
                                 embed: {
                                     title: "Error!",
                                     color: 0xE50000,
-                                    description: "The guessing amount cannot be above `" + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "` or below `1`.",
+                                    description: "The guessing amount cannot be above `" + String(max).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "` or below `1`.",
                                     footer: {
                                         text: "Requested by " + msg.author.tag
                                     }

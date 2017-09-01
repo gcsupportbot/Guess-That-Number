@@ -36,7 +36,7 @@ module.exports = {
                             embed: {
                                 title: "You started a new game!",
                                 color: 3066993,
-                                description: "Use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "guess <number>` to guess a number.\n\nThe numbers range from `1 to " + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "`.\n\nYou will be given a hint every time you guess, that will say either 'higher' or 'lower'.\n\nGood luck!"
+                                description: "Use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "guess <number>` to guess a number.\n\nThe numbers range from `1 to " + String(max).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.\n\nYou will be given a hint every time you guess, that will say either 'higher' or 'lower'.\n\nGood luck!"
                             }
                         });
                     });

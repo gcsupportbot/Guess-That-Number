@@ -7,7 +7,7 @@ module.exports = {
     category: "Information",
     hidden: false,
     execute: (bot, r, msg, args) => {
-        bot.shard.broadcastEval("[(this.shard.id + 1), this.guilds.size, this.users.size, Math.round(this.ping) + 'ms', (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1) + ' MB']").then(r => {
+        bot.shard.broadcastEval("[(this.shard.id + 1), this.guilds.size, this.users.size, Math.round(this.ping) + \"ms\", (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1) + \" MB\"]").then(r => {
             msg.channel.send({
                 embed: {
                     title: "Shards",

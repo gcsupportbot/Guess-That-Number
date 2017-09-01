@@ -141,7 +141,7 @@ module.exports = {
                                 {
                                     name: "Easy Avg. Game Time",
                                     value: ((stats.length > 0) ? humanizeduration(stats[0].easy_game_time / stats[0].easy_games_played, {
-                                        language: 'shortEn',
+                                        language: "shortEn",
                                         spacer: "",
                                         delimiter: "",
                                         round: true,
@@ -163,7 +163,7 @@ module.exports = {
                                 {
                                     name: "Medium Avg. Game Time",
                                     value: ((stats.length > 0) ? humanizeduration(stats[0].medium_game_time / stats[0].medium_games_played, {
-                                        language: 'shortEn',
+                                        language: "shortEn",
                                         spacer: "",
                                         delimiter: "",
                                         round: true,
@@ -185,7 +185,7 @@ module.exports = {
                                 {
                                     name: "Hard Avg. Game Time",
                                     value: ((stats.length > 0) ? humanizeduration(stats[0].hard_game_time / stats[0].hard_games_played, {
-                                        language: 'shortEn',
+                                        language: "shortEn",
                                         spacer: "",
                                         delimiter: "",
                                         round: true,
@@ -252,7 +252,7 @@ module.exports = {
                                 {
                                     name: "Uptime",
                                     value: humanizeduration(Date.now() - bot.startuptime, {
-                                        language: 'shortEn',
+                                        language: "shortEn",
                                         spacer: "",
                                         delimiter: "",
                                         round: true,
