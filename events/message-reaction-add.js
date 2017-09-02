@@ -108,7 +108,7 @@ module.exports = (bot, r) => {
                                         description: "Failed to get user information across shards."
                                     }
                                 });
-                                console.error("Failed to get user information across shards.", e);
+                                console.error("Failed to get user information across shards.", error);
                             });
                         });
                     } catch (e) {
