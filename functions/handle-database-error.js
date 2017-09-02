@@ -6,6 +6,6 @@ module.exports = (error, msg) => {
             description: "An error occured when attempting to execute query in database!"
         }
     });
-    console.error(error);
+    console.error("Failed to query the database.\n\n" + error.message);
     if (error.fatal) process.exit();
 };

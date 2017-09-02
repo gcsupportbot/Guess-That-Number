@@ -57,7 +57,7 @@ module.exports = (bot, r) => {
                                         description: "Failed to get user information across shards."
                                     }
                                 });
-                                console.error(error);
+                                console.error("Failed to get user information across shards.", error);
                             });
                         });
                     } catch (e) {
@@ -108,7 +108,7 @@ module.exports = (bot, r) => {
                                         description: "Failed to get user information across shards."
                                     }
                                 });
-                                console.error("Failed to switch pages on global leaderboard.", e);
+                                console.error("Failed to get user information across shards.", e);
                             });
                         });
                     } catch (e) {
@@ -119,7 +119,7 @@ module.exports = (bot, r) => {
                                 description: "Failed to switch pages on global leaderboard."
                             }
                         });
-                        console.error(error);
+                        console.error("Failed to switch pages on global leaderboard.", e);
                     }
                 }
             }

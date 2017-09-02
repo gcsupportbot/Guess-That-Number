@@ -63,7 +63,7 @@ module.exports = (bot, r) => {
             app.use(bodyParser.json());
             app.get("/stats", (req, res) => {
                 generateWebsiteStats(bot, r).then((r) => res.send(r)).catch((error) => {
-                    console.error(error);
+                    console.error("Failed to generate website statistics.", error);
                     res.send({
                         error
                     });

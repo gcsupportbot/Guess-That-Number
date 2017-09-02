@@ -26,7 +26,7 @@ module.exports = (bot, r, msg) => {
                     description: "An error occured when attempting to execute command."
                 }
             });
-            console.error(error);
+            console.error("Failed to execute '" + bot.commands[command[0]].commands[0] + "' command.", error);
         }
     }
 };
