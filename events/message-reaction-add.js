@@ -68,7 +68,7 @@ module.exports = (bot, r) => {
                                 description: "Failed to switch pages on global leaderboard."
                             }
                         });
-                        console.error("Failed to switch pages on global leaderboard.", error);
+                        console.error("Failed to switch pages on global leaderboard.", e);
                     }
                 } else if (reaction._emoji.name === "➡") {
                     try {
@@ -108,7 +108,7 @@ module.exports = (bot, r) => {
                                         description: "Failed to get user information across shards."
                                     }
                                 });
-                                console.error("Failed to switch pages on global leaderboard.", error);
+                                console.error("Failed to switch pages on global leaderboard.", e);
                             });
                         });
                     } catch (e) {
