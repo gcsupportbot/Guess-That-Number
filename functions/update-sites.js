@@ -9,16 +9,16 @@ module.exports = (bot) => {
             servercount: server_count.reduce((a, b) => a + b, 0)
         }).catch(console.error);
         snekfetch.post("https://list.passthemayo.space/api/bots/" + bot.user.id + "/").set("Authorization", config.api_keys.bot_list["list.passthemayo.space"]).send({
-            server_count
+            server_count: server_count.reduce((a, b) => a + b, 0)
         }).catch(console.error);
         snekfetch.post("https://bots.iderp.space/api/bots/" + bot.user.id + "/").set("Authorization", config.api_keys.bot_list["bots.iderp.space"]).send({
-            server_count
+            server_count: server_count.reduce((a, b) => a + b, 0)
         }).catch(console.error);
         snekfetch.post("https://discordbots.org/api/bots/" + bot.user.id + "/stats").set("Authorization", config.api_keys.bot_list["discordbots.org"]).send({
-            server_count
+            server_count: server_count.reduce((a, b) => a + b, 0)
         }).catch(console.error);
         snekfetch.post("https://bots.discord.pw/api/bots/" + bot.user.id + "/stats").set("Authorization", config.api_keys.bot_list["bots.discord.pw"]).send({
-            server_count
+            server_count: server_count.reduce((a, b) => a + b, 0)
         }).catch(console.error);
     }).catch(console.error);
 };
