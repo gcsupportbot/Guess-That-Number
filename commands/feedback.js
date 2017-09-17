@@ -20,13 +20,8 @@ module.exports = {
                 description: "To submit feedback, you can fill out the form using the link below and click 'Submit'.",
                 fields: [
                     {
-                        name: "Form Link",
-                        value: config.links.feedback.form,
-                        inline: true
-                    },
-                    {
-                        name: "Form Responses",
-                        value: config.links.feedback.responses,
+                        name: "Website Form",
+                        value: config.links.contact,
                         inline: true
                     }
                 ]
