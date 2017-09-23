@@ -1,6 +1,5 @@
 const log = require("../managers/logger.js");
 const handleDatabaseError = require("../functions/handle-database-error.js");
-const updatePresence = require("../functions/update-presence.js");
 const updateSites = require("../functions/update-sites.js");
 const config = require("../config.json");
 const generateWebsiteStats = require("../functions/generate-website-stats.js");
@@ -10,8 +9,6 @@ module.exports = (bot, r) => {
 	bot.on("ready", () => {
 		log(bot.user.username + " is ready!");
 		bot.startuptime = Date.now();
-		updatePresence(bot);
-		updateSites(bot);
 		process.on("unhandledRejection", (error) => {
 			if (error.name === "DiscordAPIError") {
 				if (error.code === 50013) return;
