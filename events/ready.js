@@ -18,7 +18,7 @@ module.exports = (bot, r) => {
 				if (error.code === 50001) return;
 				if (error.code === 50007) return;
 			}
-			console.error("Unhandled rejection caught.", error);
+			console.error(error);
 		});
 		process.on("uncaughtException", console.error);
 		r.table("toggle").run((error, response) => {
