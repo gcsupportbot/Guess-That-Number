@@ -1,4 +1,5 @@
 const config = require("../config.json");
+const handleDatabaseError = require("./handle-database-error.js");
 const guess = require("../commands/guess.js");
 
 module.exports = (bot, r, msg) => {
@@ -31,5 +32,15 @@ module.exports = (bot, r, msg) => {
 			});
 			console.error("Failed to execute '" + bot.commands[command[0]].commands[0] + "' command.", error);
 		}
+		r.table("command_stats").insert({
+			userID: msg.author.id,
+			channelID: (msg.guild) ? msg.channel.id : null,
+			serverID: (msg.guild) ? msg.guild.id : null,
+			command: bot.commands[command[0]].commands[0],
+			args: (args.length > 0) ? args : null,
+			timestamp: Date.now()
+		}).run((error) => {
+			if (error) handleDatabaseError(error);
+		});
 	}
 };

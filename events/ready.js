@@ -21,9 +21,7 @@ module.exports = (bot, r) => {
 		r.table("toggle").run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((u) => {
-				if (bot.users.get(u.userID)) bot.users.get(u.userID).data = {
-					toggle: true
-				};
+				if (bot.users.get(u.userID)) bot.users.get(u.userID).data.toggle = true;
 			});
 		});
 		bot.guilds.map((g) => {
@@ -33,9 +31,7 @@ module.exports = (bot, r) => {
 		r.table("prefixes").run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((v) => {
-				if (bot.guilds.get(v.serverID)) bot.guilds.get(v.serverID).data = {
-					prefix: v.prefix
-				};
+				if (bot.guilds.get(v.serverID)) bot.guilds.get(v.serverID).data.prefix = v.prefix;
 			});
 		});
 		if (bot.shard.id === 0) {

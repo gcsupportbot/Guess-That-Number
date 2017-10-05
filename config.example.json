@@ -17,14 +17,11 @@
         }
     },
     "links": {
-        "bot": "https://bot.discord.io/guessthatnumber",
-        "server": "https://discord.io/passthemayo",
-        "paypal": "https://www.paypal.me/JacobGunther",
-        "patreon": "https://www.patreon.com/passthemayo",
-        "discordbots.org": "https://goo.gl/dNj1kr",
-        "feedback": {
-            "form": "https://goo.gl/forms/jEfoFtHxodfcEy762",
-            "responses": "https://goo.gl/xXB8RX"
-        }
+		"bot": "https://passthemayo.space/guess-that-number/invite",
+		"server": "https://passthemayo.space/server",
+		"paypal": "https://www.paypal.me/JacobGunther",
+		"patreon": "https://www.patreon.com/passthemayo",
+		"contact": "https://passthemayo.space/contact",
+		"website": "https://passthemayo.space/guess-that-number/"
     }
 }

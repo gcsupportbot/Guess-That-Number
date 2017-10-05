@@ -1,7 +1,7 @@
 const handleDatabaseError = require("../functions/handle-database-error.js");
 
 module.exports = {
-	interval: 30000,
+	interval: (1000 * 60 * 60),
 	execute: (bot, r) => {
 		r.table("games").run((error, response) => {
 			if (error) return handleDatabaseError(error);
