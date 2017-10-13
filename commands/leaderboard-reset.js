@@ -13,13 +13,13 @@ module.exports = {
 	category: "General",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		r.table("reset").run((error, response) => {
+		r.table("intervals").get("reset").run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
 			msg.channel.send({
 				embed: {
 					title: "Leaderboard Reset",
 					color: 3066993,
-					description: "The leaderboard will reset in `" + humanizeduration((1000 * 60 * 60 * 24 * 15) - (Date.now() - response[0].timestamp), {
+					description: "The leaderboard will reset in `" + humanizeduration((1000 * 60 * 60 * 24 * 15) - (Date.now() - response.timestamp), {
 						round: true
 					}) + "`."
 				}
