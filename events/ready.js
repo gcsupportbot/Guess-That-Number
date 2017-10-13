@@ -59,7 +59,10 @@ module.exports = (bot, r) => {
 				res.send(categorized);
 			});
 			app.listen(82, (error) => {
-				if (error) throw new error;
+				if (error) {
+					if (error.code === "EADDRINUSE") return;
+					throw new error;
+				}
 				log("Express server listening on port 82.");
 			});
 		}
