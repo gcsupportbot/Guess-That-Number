@@ -21,7 +21,9 @@ module.exports = (bot, r) => {
 		r.table("toggle").run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((u) => {
-				if (bot.users.get(u.userID)) bot.users.get(u.userID).data.toggle = true;
+				if (bot.users.get(u.userID)) bot.users.get(u.userID).data = {
+					toggle: true
+				};
 			});
 		});
 		bot.guilds.map((g) => {
