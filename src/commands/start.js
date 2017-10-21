@@ -13,7 +13,7 @@ module.exports = {
 	execute: (bot, r, msg, args) => {
 		r.table("games").get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
-			if (response.length === 0) {
+			if (!response) {
 				let difficulty = NaN;
 				if (args.length > 0) {
 					if (args[0] === "easy") difficulty = 1;

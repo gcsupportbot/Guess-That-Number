@@ -14,9 +14,9 @@ module.exports = {
 	category: "Information",
 	hidden: false,
 	execute: (bot, r, msg, args) => {
-		if (args.length > 0) {
+		if (args) {
 			let user = msg.author;
-			if (args.length > 0) {
+			if (args) {
 				const match = /^\d+$/.test(args[0]);
 				if (/(?:<@)\d+(?:>)/.test(args[0])) {
 					const usercheck = msg.guild.members.get(args[0].match(/\d+/)[0]);
@@ -93,52 +93,52 @@ module.exports = {
 							fields: [
 								{
 									name: "Easy Games",
-									value: ((stats.length > 0) ? stats.easy_games_played : 0),
+									value: ((stats) ? stats.easy_games_played : 0),
 									inline: true
 								},
 								{
 									name: "Medium Games",
-									value: ((stats.length > 0) ? stats.medium_games_played : 0),
+									value: ((stats) ? stats.medium_games_played : 0),
 									inline: true
 								},
 								{
 									name: "Hard Games",
-									value: ((stats.length > 0) ? stats.hard_games_played : 0),
+									value: ((stats) ? stats.hard_games_played : 0),
 									inline: true
 								},
 								{
 									name: "Easy Avg. Guesses",
-									value: ((stats.length > 0) ? ((stats.easy_guesses !== 0) ? (stats.easy_guesses / stats.easy_games_played).toFixed(1) : "0") : 0),
+									value: ((stats) ? ((stats.easy_guesses !== 0) ? (stats.easy_guesses / stats.easy_games_played).toFixed(1) : "0") : 0),
 									inline: true
 								},
 								{
 									name: "Medium Avg. Guesses",
-									value: ((stats.length > 0) ? ((stats.medium_guesses !== 0) ? (stats.medium_guesses / stats.medium_games_played).toFixed(1) : "0") : 0),
+									value: ((stats) ? ((stats.medium_guesses !== 0) ? (stats.medium_guesses / stats.medium_games_played).toFixed(1) : "0") : 0),
 									inline: true
 								},
 								{
 									name: "Hard Avg. Guesses",
-									value: ((stats.length > 0) ? ((stats.hard_guesses !== 0) ? (stats.hard_guesses / stats.hard_games_played).toFixed(1) : "0") : 0),
+									value: ((stats) ? ((stats.hard_guesses !== 0) ? (stats.hard_guesses / stats.hard_games_played).toFixed(1) : "0") : 0),
 									inline: true
 								},
 								{
 									name: "Easy Best Score",
-									value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === 1).length > 0) ? leaderboard.filter((r) => r.difficulty === 1)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 1)) ? leaderboard.filter((r) => r.difficulty === 1)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
 									name: "Medium Best Score",
-									value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === 2).length > 0) ? leaderboard.filter((r) => r.difficulty === 2)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 2)) ? leaderboard.filter((r) => r.difficulty === 2)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
 									name: "Hard Best Score",
-									value: ((stats.length > 0) ? ((leaderboard.filter((r) => r.difficulty === 3).length > 0) ? leaderboard.filter((r) => r.difficulty === 3)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 3)) ? leaderboard.filter((r) => r.difficulty === 3)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
 									name: "Easy Avg. Game Time",
-									value: ((stats.length > 0) ? humanizeduration(stats.easy_game_time / stats.easy_games_played, {
+									value: ((stats) ? humanizeduration(stats.easy_game_time / stats.easy_games_played, {
 										language: "shortEn",
 										spacer: "",
 										delimiter: "",
@@ -160,7 +160,7 @@ module.exports = {
 								},
 								{
 									name: "Medium Avg. Game Time",
-									value: ((stats.length > 0) ? humanizeduration(stats.medium_game_time / stats.medium_games_played, {
+									value: ((stats) ? humanizeduration(stats.medium_game_time / stats.medium_games_played, {
 										language: "shortEn",
 										spacer: "",
 										delimiter: "",
@@ -182,7 +182,7 @@ module.exports = {
 								},
 								{
 									name: "Hard Avg. Game Time",
-									value: ((stats.length > 0) ? humanizeduration(stats.hard_game_time / stats.hard_games_played, {
+									value: ((stats) ? humanizeduration(stats.hard_game_time / stats.hard_games_played, {
 										language: "shortEn",
 										spacer: "",
 										delimiter: "",

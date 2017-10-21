@@ -1,7 +1,7 @@
 module.exports = (r, msg, response, callback) => {
 	r.table("user_statistics").get(msg.author.id).run((error, response2) => {
 		if (error) return callback(error);
-		if (response2.length > 0) {
+		if (response2) {
 			r.table("user_statistics").get(msg.author.id).update({
 				easy_games_played: ((response.difficulty === 1) ? response2.easy_games_played + 1 : response2.easy_games_played),
 				medium_games_played: ((response.difficulty === 2) ? response2.medium_games_played + 1 : response2.medium_games_played),
