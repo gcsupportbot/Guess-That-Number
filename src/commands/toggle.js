@@ -11,13 +11,13 @@ module.exports = {
 	category: "Game",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+		r.table("games").get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
-			if (response.length > 0) {
-				r.table("toggle").filter({userID: msg.author.id}).run((error, response) => {
+			if (response) {
+				r.table("toggle").get(msg.author.id).run((error, response) => {
 					if (error) return handleDatabaseError(error, msg);
-					if (response.length > 0) {
-						r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
+					if (response) {
+						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							if (msg.author.data) msg.author.data.toggle = false;
 							msg.channel.send({
@@ -29,7 +29,7 @@ module.exports = {
 							});
 						});
 					} else {
-						r.table("toggle").insert({userID: msg.author.id}).run((error) => {
+						r.table("toggle").insert({ id: msg.author.id }).run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							if (!msg.author.data) msg.author.data = {};
 							msg.author.data.toggle = true;

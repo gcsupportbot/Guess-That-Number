@@ -1,0 +1,54 @@
+.profile-avatar {
+	margin-right: 30px;
+	width: 200px;
+	height: 200px;
+}
+
+.margin-top-20 {
+	margin-top: 20px;
+}
+
+.margin-top-40 {
+	margin-top: 40px;
+}
+
+.margin-bottom-40 {
+	margin-bottom: 40px;
+}
+
+.no-border-radius {
+	border-radius: 0;
+}
+
+.bot-avatar {
+	margin-right: 30px;
+	width: 175px;
+	height: 175px;
+}
+
+.padding-bottom-120 {
+	padding-bottom: 120px;
+}
+
+.lato-hairline {
+	font-family: "LatoWebHairline", sans-serif;
+}
+
+.lato-light {
+	font-family: "LatoWebLight", sans-serif;
+}
+
+.lato-medium {
+	font-family: "LatoWebMedium", sans-serif;
+}
+
+.feature {
+	width: 150px;
+	height: 150px;
+}
+
+.server-icon {
+	width: 60px;
+	height: 60px;
+	margin-right: 10px;
+}

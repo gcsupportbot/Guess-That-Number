@@ -25,14 +25,14 @@ module.exports = {
 			difficulty = 2;
 		}
 		if (!isNaN(difficulty)) {
-			r.table("leaderboard").filter({difficulty}).orderBy(r.asc("score")).run((error, response) => {
+			r.table("leaderboard").filter({ difficulty }).orderBy(r.asc("score")).run((error, response) => {
 				if (error) return handleDatabaseError(error, msg);
 				bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
 					return {
-						userID: u.userID,
+						id: u.id,
 						score: u.score
 					};
-				})) + ".map((u) => this.users.get(u.userID) && {userID: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
+				})) + ".map((u) => this.users.get(u.id) && {id: u.id, score: u.score, tag: this.users.get(u.id).tag}).filter((a) => a)").then((response) => {
 					response = [...new Set([].concat.apply([], response))];
 					if (response.length > 0) {
 						msg.channel.send({
@@ -61,7 +61,6 @@ module.exports = {
 									if (!msg.author.data) msg.author.data = {};
 									msg.author.data.leaderboardpages = {
 										page: 1,
-										channelID: msg.channel.id,
 										messageID: msgresponse.id,
 										difficulty
 									};

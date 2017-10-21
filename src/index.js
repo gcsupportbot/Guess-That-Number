@@ -14,6 +14,8 @@ const bot = new Discord.Client({
 	messageCacheMaxSize: 100
 });
 
+if (!bot.shard) throw new Error("You must run bot using 'shard.js' or the bot will not function properly.");
+
 const r = rethink(config.rethink);
 
 let start = Date.now();

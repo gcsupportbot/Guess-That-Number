@@ -1,0 +1,45 @@
+doctype html
+html
+	head
+		title Guess That Number
+		link(rel="stylesheet" href="/assets/css/bootstrap.min.css")
+		link(rel="stylesheet" href="/assets/css/lato.css")
+		link(rel="stylesheet" href="/assets/css/style.css")
+	body
+		nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+			.container
+				a.navbar-brand(href="/") Guess That Number
+				button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation")
+					span.navbar-toggler-icon
+				#navbar.collapse.navbar-collapse
+					ul.navbar-nav.mr-auto
+						li.nav-item
+							a.nav-link(href="/")
+								| Home
+						li.nav-item
+							a.nav-link(href="/commands")
+								| Commands
+						li.nav-item
+							a.nav-link(href="/statistics")
+								| Statistics
+					ul.navbar-nav.navbar-right
+						if user
+							li.nav-item
+								a.nav-link(href="/dashboard")
+									| Dashboard
+							li.nav-item
+								a.nav-link(href="/auth/logout")
+									| Log out
+						else
+							li.nav-item
+								a.nav-link(href="/dashboard")
+									| Dashboard
+						li.nav-item
+							a.nav-link(href="/invite") Invite
+						li.nav-item
+							a.nav-link(href="https://github.com/PassTheMayo" target="_blank") GitHub
+		block content
+	script(type="text/javascript" src="/assets/js/jquery-3.2.1.min.js")
+	script(type="text/javascript" src="/assets/js/popper.min.js")
+	script(type="text/javascript" src="/assets/js/bootstrap.min.js")
+	block scripts

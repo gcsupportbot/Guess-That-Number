@@ -13,9 +13,9 @@ module.exports = {
 	category: "Game",
 	hidden: false,
 	execute: (bot, r, msg, args) => {
-		r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+		r.table("games").get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
-			if (response.length > 0) {
+			if (response) {
 				if (args.length > 0) {
 					const guess = Number(args[0].replace(/,/g, ""));
 					if (isNaN(guess)) {
@@ -30,13 +30,13 @@ module.exports = {
 							}
 						});
 					} else {
-						const max = ((response[0].difficulty === "1") ? 10000 : ((response[0].difficulty === "2") ? 100000 : ((response[0].difficulty === "3") ? 1000000 : 100000)));
+						const max = ((response.difficulty === 1) ? 10000 : ((response.difficulty === 2) ? 100000 : ((response.difficulty === 3) ? 1000000 : 100000)));
 						if (guess >= 1 && guess <= max) {
-							r.table("games").filter({userID: msg.author.id}).update({
-								score: response[0].score + 1
+							r.table("games").get(msg.author.id).update({
+								score: response.score + 1
 							}).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
-								if (guess > response[0].number) {
+								if (guess > response.number) {
 									msg.channel.send({
 										embed: {
 											title: "Lower!",
@@ -47,7 +47,7 @@ module.exports = {
 											}
 										}
 									});
-								} else if (guess < response[0].number) {
+								} else if (guess < response.number) {
 									msg.channel.send({
 										embed: {
 											title: "Higher!",
@@ -58,26 +58,26 @@ module.exports = {
 											}
 										}
 									});
-								} else if (guess === response[0].number) {
-									r.table("games").filter({userID: msg.author.id}).delete().run((error) => {
+								} else if (guess === response.number) {
+									r.table("games").get(msg.author.id).delete().run((error) => {
 										if (error) return handleDatabaseError(error, msg);
 										updateUserStats(r, msg, response, (error) => {
 											if (error) return handleDatabaseError(error, msg);
-											r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).run((error, response2) => {
+											r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).run((error, response2) => {
 												if (error) return handleDatabaseError(error, msg);
 												if (response2.length > 0) {
-													if ((response[0].score + 1) < response2[0].score) {
-														r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run((error) => {
+													if ((response.score + 1) < response2.score) {
+														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
 															if (msg.author.data && msg.author.data.toggle) {
-																r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
+																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
 																	msg.author.data.toggle = false;
 																	msg.channel.send({
 																		embed: {
 																			title: "You guessed the correct number!",
 																			color: 306993,
-																			description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																			description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																				round: true
 																			}) + "`.",
 																			footer: {
@@ -91,7 +91,7 @@ module.exports = {
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 3066993,
-																		description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																			round: true
 																		}) + "`.",
 																		footer: {
@@ -102,17 +102,17 @@ module.exports = {
 															}
 														});
 													} else {
-														r.table("leaderboard").filter({userID: msg.author.id, difficulty: response[0].difficulty}).update({score: response[0].score + 1}).run((error) => {
+														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
 															if (msg.author.data && msg.author.data.toggle) {
-																r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
+																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
 																	msg.author.data.toggle = false;
 																	msg.channel.send({
 																		embed: {
 																			title: "You guessed the correct number!",
 																			color: 3066993,
-																			description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																			description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																				round: true
 																			}) + "`.",
 																			footer: {
@@ -126,7 +126,7 @@ module.exports = {
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 3066993,
-																		description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																			round: true
 																		}) + "`.",
 																		footer: {
@@ -140,19 +140,19 @@ module.exports = {
 												} else {
 													r.table("leaderboard").insert({
 														userID: msg.author.id,
-														score: response[0].score + 1,
-														difficulty: response[0].difficulty
+														score: response.score + 1,
+														difficulty: response.difficulty
 													}).run((error) => {
 														if (error) return handleDatabaseError(error, msg);
 														if (msg.author.data && msg.author.data.toggle) {
-															r.table("toggle").filter({userID: msg.author.id}).run((error) => {
+															r.table("toggle").get(msg.author.id).delete().run((error) => {
 																if (error) return handleDatabaseError(error, msg);
 																msg.author.data.prefix = false;
 																msg.channel.send({
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 306993,
-																		description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																			round: true
 																		}) + "`.",
 																		footer: {
@@ -166,7 +166,7 @@ module.exports = {
 																embed: {
 																	title: "You guessed the correct number!",
 																	color: 3066993,
-																	description: "The number was `" + response[0].number + "`.\n\nYou guessed `" + (response[0].score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+																	description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 																		round: true
 																	}) + "`.",
 																	footer: {

@@ -14,20 +14,20 @@ module.exports = {
 	category: "Game",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+		r.table("games").get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
-			if (response.length > 0) {
-				r.table("games").filter({userID: msg.author.id}).delete().run((error) => {
+			if (response) {
+				r.table("games").get(msg.author.id).delete().run((error) => {
 					if (error) return handleDatabaseError(error, msg);
 					if (msg.author.data && msg.author.data.toggle) {
-						r.table("toggle").filter({userID: msg.author.id}).delete().run((error) => {
+						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							msg.author.data.toggle = false;
 							msg.channel.send({
 								embed: {
 									title: "You force ended the game!",
 									color: 3066993,
-									description: "The correct number is `" + response[0].number + "`.\n\nYou guessed `" + response[0].score + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+									description: "The correct number is `" + response.number + "`.\n\nYou guessed `" + response.score + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 										round: true
 									}) + "`.",
 									footer: {
@@ -41,7 +41,7 @@ module.exports = {
 							embed: {
 								title: "You force ended the game!",
 								color: 3066993,
-								description: "The correct number is `" + response[0].number + "`.\n\nYou guessed `" + response[0].score + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response[0].start_time, {
+								description: "The correct number is `" + response.number + "`.\n\nYou guessed `" + response.score + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 									round: true
 								}) + "`.",
 								footer: {

@@ -1,0 +1,26 @@
+extends layout.pug
+
+block content
+	.jumbotron.bg-dark.no-border-radius.text-light
+		.container
+			h2.display-3.lato-hairline Statistics
+	.container
+		center
+			.d-flex.justify-content-around
+				.p-2
+					h2.lato-light Servers
+					h4.lato-medium #{stats.servers}
+				.p-2
+					h2.lato-light Users
+					h4.lato-medium #{stats.users}
+				.p-2
+					h2.lato-light Servers
+					h4.lato-medium #{stats.servers}
+			hr
+			.d-flex.justify-content-around
+				.p-2
+					h2.lato-light Commands
+					h4.lato-medium #{stats.commands}
+				.p-2
+					h2.lato-light Uptime
+					h4.lato-medium #{stats.uptime}

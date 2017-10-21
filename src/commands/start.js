@@ -11,7 +11,7 @@ module.exports = {
 	category: "Game",
 	hidden: false,
 	execute: (bot, r, msg, args) => {
-		r.table("games").filter({userID: msg.author.id}).run((error, response) => {
+		r.table("games").get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
 			if (response.length === 0) {
 				let difficulty = NaN;
@@ -25,7 +25,7 @@ module.exports = {
 				if (!isNaN(difficulty)) {
 					const max = ((difficulty === 1) ? 10000 : ((difficulty === 2) ? 100000 : ((difficulty === 3) ? 1000000 : 100000)));
 					r.table("games").insert({
-						userID: msg.author.id,
+						id: msg.author.id,
 						score: 0,
 						number: Math.floor(Math.random() * max),
 						start_time: Date.now(),
