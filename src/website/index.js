@@ -17,7 +17,6 @@ module.exports = (bot, r) => {
 	}, (accessToken, refreshToken, profile, done) => {
 		if (accessToken !== null) {
 			r.table("users").insert(profile, { conflict: "replace" }).run((error) => {
-				console.log(error);
 				if (error) return done(error, null);
 				done(null, profile);
 			});
