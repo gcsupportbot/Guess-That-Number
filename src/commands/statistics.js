@@ -14,7 +14,7 @@ module.exports = {
 	category: "Information",
 	hidden: false,
 	execute: (bot, r, msg, args) => {
-		if (args) {
+		if (args.length > 0) {
 			let user = msg.author;
 			if (args) {
 				const match = /^\d+$/.test(args[0]);
