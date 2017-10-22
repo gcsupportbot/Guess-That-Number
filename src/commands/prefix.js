@@ -28,7 +28,7 @@ module.exports = {
 						}
 					});
 				} else {
-					r.table("prefixes").get(msg.guild.id).count().run((error, count) => {
+					r.table("prefixes").get(msg.guild.id).run((error, count) => {
 						if (error) return handleDatabaseError(error, msg);
 						if (count) {
 							r.table("prefixes").get(msg.guild.id).update({ prefix: args.join(" ") }).run((error) => {
