@@ -13,7 +13,7 @@ module.exports = (bot, r) => {
 		clientID: bot.user.id,
 		clientSecret: config.secret,
 		scope: [ "identify" ],
-		callbackURL: "/auth/callback"
+		callbackURL: "/guess-that-number/auth/callback"
 	}, (accessToken, refreshToken, profile, done) => {
 		if (accessToken !== null) {
 			r.table("users").insert(profile, { conflict: "replace" }).run((error) => {
