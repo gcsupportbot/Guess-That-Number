@@ -1,10 +1,10 @@
 @font-face {
     font-family: "LatoWebHairline";
-    src: url("/assets/fonts/Lato-Hairline.eot"); 
-    src: url("/assets/fonts/Lato-Hairline.eot?#iefix") format("embedded-opentype"), 
-         url("/assets/fonts/Lato-Hairline.woff2") format("woff2"), 
-         url("/assets/fonts/Lato-Hairline.woff") format("woff"), 
-         url("/assets/fonts/Lato-Hairline.ttf") format("truetype");
+    src: url("/guess-that-number/assets/fonts/Lato-Hairline.eot"); 
+    src: url("/guess-that-number/assets/fonts/Lato-Hairline.eot?#iefix") format("embedded-opentype"), 
+         url("/guess-that-number/assets/fonts/Lato-Hairline.woff2") format("woff2"), 
+         url("/guess-that-number/assets/fonts/Lato-Hairline.woff") format("woff"), 
+         url("/guess-that-number/assets/fonts/Lato-Hairline.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     text-rendering: optimizeLegibility;
@@ -12,11 +12,11 @@
 
 @font-face {
     font-family: "LatoWebLight";
-    src: url("/assets/fonts/Lato-Light.eot"); 
-    src: url("/assets/fonts/Lato-Light.eot?#iefix") format("embedded-opentype"), 
-         url("/assets/fonts/Lato-Light.woff2") format("woff2"), 
-         url("/assets/fonts/Lato-Light.woff") format("woff"), 
-         url("/assets/fonts/Lato-Light.ttf") format("truetype");
+    src: url("/guess-that-number/assets/fonts/Lato-Light.eot"); 
+    src: url("/guess-that-number/assets/fonts/Lato-Light.eot?#iefix") format("embedded-opentype"), 
+         url("/guess-that-number/assets/fonts/Lato-Light.woff2") format("woff2"), 
+         url("/guess-that-number/assets/fonts/Lato-Light.woff") format("woff"), 
+         url("/guess-that-number/assets/fonts/Lato-Light.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     text-rendering: optimizeLegibility;
@@ -24,11 +24,11 @@
 
 @font-face {
     font-family: "LatoWebMedium";
-    src: url("/assets/fonts/Lato-Medium.eot"); 
-    src: url("/assets/fonts/Lato-Medium.eot?#iefix") format("embedded-opentype"), 
-         url("/assets/fonts/Lato-Medium.woff2") format("woff2"), 
-         url("/assets/fonts/Lato-Medium.woff") format("woff"), 
-         url("/assets/fonts/Lato-Medium.ttf") format("truetype");
+    src: url("/guess-that-number/assets/fonts/Lato-Medium.eot"); 
+    src: url("/guess-that-number/assets/fonts/Lato-Medium.eot?#iefix") format("embedded-opentype"), 
+         url("/guess-that-number/assets/fonts/Lato-Medium.woff2") format("woff2"), 
+         url("/guess-that-number/assets/fonts/Lato-Medium.woff") format("woff"), 
+         url("/guess-that-number/assets/fonts/Lato-Medium.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     text-rendering: optimizeLegibility;
