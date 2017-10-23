@@ -123,17 +123,17 @@ module.exports = {
 								},
 								{
 									name: "Easy Best Score",
-									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 1)) ? leaderboard.filter((r) => r.difficulty === 1)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 1).length > 0) ? leaderboard.filter((r) => r.difficulty === 1)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
 									name: "Medium Best Score",
-									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 2)) ? leaderboard.filter((r) => r.difficulty === 2)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 2).length > 0) ? leaderboard.filter((r) => r.difficulty === 2)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
 									name: "Hard Best Score",
-									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 3)) ? leaderboard.filter((r) => r.difficulty === 3)[0].score : "Unknown") : "Unknown"),
+									value: ((stats) ? ((leaderboard.filter((r) => r.difficulty === 3).length > 0) ? leaderboard.filter((r) => r.difficulty === 3)[0].score : "Unknown") : "Unknown"),
 									inline: true
 								},
 								{
