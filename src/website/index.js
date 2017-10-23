@@ -55,7 +55,7 @@ module.exports = (bot, r) => {
 	});
 	
 	app.get("/dashboard", (req, res) => {
-		if (!req.user) return res.redirect("/auth");
+		if (!req.user) return res.redirect("/guess-that-number/auth");
 		bot.shard.broadcastEval("this.guilds.filter(g => g.members.get('" + req.user.id + "') && g.members.get('" + req.user.id + "').hasPermission('MANAGE_GUILD')).map(g => ({name: g.name, icon: g.icon, id: g.id}))").then(guilds => {
 			guilds = [].concat.apply([], guilds);
 			res.render("dashboard/index.pug", {
@@ -72,7 +72,7 @@ module.exports = (bot, r) => {
 	});
 	
 	app.get("/dashboard/:id", (req, res) => {
-		if (!req.user) res.redirect("/auth");
+		if (!req.user) res.redirect("/guess-that-number/auth");
 		if (!/^\d+$/.test(req.params.id)) return res.render("error.pug", {
 			user: req.user,
 			code: 400,
@@ -147,12 +147,12 @@ module.exports = (bot, r) => {
 	app.get("/auth", passport.authenticate("discord"));
 
 	app.get("/auth/callback", passport.authenticate("discord"), (req, res) => {
-		res.redirect("/dashboard");
+		res.redirect("/guess-that-number/dashboard");
 	});
 
 	app.get("/auth/logout", (req, res) => {
 		req.logout();
-		res.redirect("/");
+		res.redirect("/guess-that-number/");
 	});
 
 	app.use("/assets", express.static(__dirname + "/static"));

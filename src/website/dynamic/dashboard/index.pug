@@ -14,6 +14,6 @@ block content
 	.container
 		.list-group
 			for server in servers
-				a.list-group-item.list-group-item-action.align-middle(href="/dashboard/" + server.id)
+				a.list-group-item.list-group-item-action.align-middle(href="/guess-that-number/dashboard/" + server.id)
 					img.rounded.float-left.server-icon(src="https://cdn.discordapp.com/icons/" + server.id + "/" + server.icon + "?size=2048")
 					h4 #{server.name}

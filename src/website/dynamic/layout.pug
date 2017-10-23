@@ -8,38 +8,38 @@ html
 	body
 		nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 			.container
-				a.navbar-brand(href="/") Guess That Number
+				a.navbar-brand(href="/guess-that-number") Guess That Number
 				button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation")
 					span.navbar-toggler-icon
 				#navbar.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto
 						li.nav-item
-							a.nav-link(href="/")
+							a.nav-link(href="/guess-that-number/")
 								| Home
 						li.nav-item
-							a.nav-link(href="/commands")
+							a.nav-link(href="/guess-that-number/commands")
 								| Commands
 						li.nav-item
-							a.nav-link(href="/statistics")
+							a.nav-link(href="/guess-that-number/statistics")
 								| Statistics
 					ul.navbar-nav.navbar-right
 						if user
 							li.nav-item
-								a.nav-link(href="/dashboard")
+								a.nav-link(href="/guess-that-number/dashboard")
 									| Dashboard
 							li.nav-item
-								a.nav-link(href="/auth/logout")
+								a.nav-link(href="/guess-that-number/auth/logout")
 									| Log out
 						else
 							li.nav-item
-								a.nav-link(href="/dashboard")
+								a.nav-link(href="/guess-that-number/dashboard")
 									| Dashboard
 						li.nav-item
-							a.nav-link(href="/invite") Invite
+							a.nav-link(href="/guess-that-number/invite") Invite
 						li.nav-item
 							a.nav-link(href="https://github.com/PassTheMayo" target="_blank") GitHub
 		block content
-	script(type="text/javascript" src="/assets/js/jquery-3.2.1.min.js")
-	script(type="text/javascript" src="/assets/js/popper.min.js")
-	script(type="text/javascript" src="/assets/js/bootstrap.min.js")
+	script(type="text/javascript" src="/guess-that-number/assets/js/jquery-3.2.1.min.js")
+	script(type="text/javascript" src="/guess-that-number/assets/js/popper.min.js")
+	script(type="text/javascript" src="/guess-that-number/assets/js/bootstrap.min.js")
 	block scripts
