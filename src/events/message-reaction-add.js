@@ -71,14 +71,9 @@ module.exports = (bot, r) => {
 					}
 				} else if (reaction._emoji.name === "➡") {
 					try {
-						r.table("leaderboard").filter({ difficulty: user.data.leaderboardpages.difficulty }).orderBy(r.asc("score")).run((error, response) => {
+						r.table("leaderboard").filter({ difficulty: user.data.leaderboardpages.difficulty }).orderBy(r.asc("score")).without("id", "difficulty").run((error, response) => {
 							if (error) return handleDatabaseError(error, reaction.message);
-							bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
-								return {
-									id: u.id,
-									score: u.score
-								};
-							})) + ".map((u) => this.users.get(u.id) && {id: u.id, score: u.score, tag: this.users.get(u.id).tag}).filter((a) => a)").then((response) => {
+							bot.shard.broadcastEval(JSON.stringify(response) + ".map((u) => this.users.get(u.userID) && { score: u.score, tag: this.users.get(u.userID).tag }).filter((a) => a)").then((response) => {
 								response = [...new Set([].concat.apply([], response))];
 								if (user.data.leaderboardpages.page === Math.ceil(response.length / 10)) return;
 								user.data.leaderboardpages.page++;
