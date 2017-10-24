@@ -18,11 +18,11 @@ module.exports = (bot, r) => {
 			}
 		} else {
 			if (user.data && user.data.leaderboardpages) {
+				if (reaction._emoji.name === "⬅" && user.data.leaderboardpages.page === 1) return;
 				if (reaction._emoji.name === "➡") user.data.leaderboardpages.page++;
 				if (reaction._emoji.name === "⬅") user.data.leaderboardpages.page--;
 				if (reaction._emoji.name !== "⬅" && reaction._emoji.name !== "➡") return;
 				try {
-					if (reaction._emoji.name === "⬅" && user.data.leaderboardpages.page === 0) return;
 					r.table("leaderboard").filter({ difficulty: user.data.leaderboardpages.difficulty }).orderBy(r.asc("score")).run((error, response) => {
 						if (error) return handleDatabaseError(error, reaction.message);
 						bot.shard.broadcastEval(JSON.stringify(response) + ".map((u) => this.users.get(u.userID) && { score: u.score, tag: this.users.get(u.userID).tag }).filter((a) => a)").then((response) => {
