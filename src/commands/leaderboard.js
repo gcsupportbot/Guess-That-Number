@@ -27,16 +27,8 @@ module.exports = {
 		if (!isNaN(difficulty)) {
 			r.table("leaderboard").filter({ difficulty }).orderBy(r.asc("score")).without("id", "difficulty").run((error, response) => {
 				if (error) return handleDatabaseError(error, msg);
-				console.log(response);
-				bot.shard.broadcastEval(JSON.stringify(response.map((u) => {
-					return {
-						id: u.id,
-						score: u.score
-					};
-				})) + ".map((u) => this.users.get(u.userID) && {id: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
-					console.log(response);
+				bot.shard.broadcastEval(JSON.stringify(response) + ".map((u) => this.users.get(u.userID) && {id: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
 					response = [...new Set([].concat.apply([], response))];
-					console.log(response);
 					if (response.length > 0) {
 						msg.channel.send({
 							embed: {
