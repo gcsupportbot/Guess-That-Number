@@ -32,7 +32,7 @@ module.exports = {
 						id: u.id,
 						score: u.score
 					};
-				})) + ".map((u) => this.users.get(u.id) && {id: u.id, score: u.score, tag: this.users.get(u.id).tag}).filter((a) => a)").then((response) => {
+				})) + ".map((u) => this.users.get(u.userID) && {id: u.userID, score: u.score, tag: this.users.get(u.userID).tag}).filter((a) => a)").then((response) => {
 					response = [...new Set([].concat.apply([], response))];
 					if (response.length > 0) {
 						msg.channel.send({
