@@ -15,7 +15,7 @@ module.exports = {
 	execute: (bot, r, msg) => {
 		r.table("intervals").get("reset").run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Leaderboard Reset",
 					color: 3066993,

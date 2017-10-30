@@ -23,7 +23,7 @@ module.exports = {
 					result = removeSensitiveInformation(result);
 					if (result.length > 1985) {
 						snekfetch.post("https://haste.passthemayo.space/documents").send(result).then((body) => {
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Warning!",
 									color: 0xFFA500,
@@ -31,7 +31,7 @@ module.exports = {
 								}
 							});
 						}).catch((error) => {
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
@@ -40,13 +40,13 @@ module.exports = {
 							});
 						});
 					} else {
-						msg.channel.send("```js\n" + result + "```");
+						msg.channel.createMessage("```js\n" + result + "```");
 					}
 				} catch (e) {
-					msg.channel.send("```js\n" + e + "```");
+					msg.channel.createMessage("```js\n" + e + "```");
 				}
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
@@ -55,7 +55,7 @@ module.exports = {
 				});
 			}
 		} else {
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Error!",
 					color: 0xE50000,

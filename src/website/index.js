@@ -56,18 +56,9 @@ module.exports = (bot, r) => {
 	
 	app.get("/dashboard", (req, res) => {
 		if (!req.user) return res.redirect("/guess-that-number/auth");
-		bot.shard.broadcastEval("this.guilds.filter(g => g.members.get('" + req.user.id + "') && g.members.get('" + req.user.id + "').hasPermission('MANAGE_GUILD')).map(g => ({name: g.name, icon: g.icon, id: g.id}))").then(guilds => {
-			guilds = [].concat.apply([], guilds);
-			res.render("dashboard/index.pug", {
-				user: req.user,
-				servers: guilds
-			});
-		}).catch(() => {
-			res.render("error.pug", {
-				user: req.user,
-				code: 500,
-				message: "An unknown error occured."
-			});
+		res.render("dashboard/index.pug", {
+			user: req.user,
+			servers: bot.guilds.filter(g => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild")).map(g => ({ name: g.name, icon: g.icon, id: g.id }))
 		});
 	});
 	
@@ -78,7 +69,7 @@ module.exports = (bot, r) => {
 			code: 400,
 			message: "That is not a valid Discord server ID."
 		});
-		bot.shard.broadcastEval("this.guilds.get('" + req.params.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "').hasPermission('MANAGE_GUILD') && { name: this.guilds.get('" + req.params.id + "').name, memberCount: this.guilds.get('" + req.params.id + "').memberCount, channelCount: this.guilds.get('" + req.params.id + "').channels.size, roleCount: this.guilds.get('" + req.params.id + "').roles.size, avatar: this.guilds.get('" + req.params.id + "').avatar }").then(guilds => {
+		bot.shard.broadcastEval("this.guilds.get('" + req.params.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "').permission.has('manageGuild') && { name: this.guilds.get('" + req.params.id + "').name, memberCount: this.guilds.get('" + req.params.id + "').memberCount, channelCount: this.guilds.get('" + req.params.id + "').channels.size, roleCount: this.guilds.get('" + req.params.id + "').roles.size, avatar: this.guilds.get('" + req.params.id + "').avatar }").then(guilds => {
 			guilds = guilds.filter(v => v)[0];
 			if (guilds) {
 				res.render("dashboard/manage.pug", {

@@ -1,5 +1,5 @@
 module.exports = (error, msg) => {
-	if (msg) msg.channel.send({
+	if (msg) msg.channel.createMessage({
 		embed: {
 			title: "Error!",
 			color: 0xE50000,

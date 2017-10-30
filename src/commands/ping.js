@@ -8,7 +8,7 @@ module.exports = {
 	hidden: false,
 	execute: (bot, r, msg) => {
 		const start = Date.now();
-		msg.channel.send({
+		msg.channel.createMessage({
 			embed: {
 				title: "Pinging...",
 				color: 3066993

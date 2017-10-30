@@ -11,66 +11,17 @@ module.exports = {
 	hidden: true,
 	execute: (bot, r, msg, args) => {
 		if (config.trusted.indexOf(msg.author.id) > -1) {
-			if (args.length > 0) {
-				if (isNaN(Number(args[0]))) return msg.channel.send({
-					embed: {
-						title: "Error!",
-						color: 0xE50000,
-						description: "`" + args[0] + "` isn't a valid number."
-					}
-				});
-				if (Number(args[0]) < 1) return msg.channel.send({
-					embed: {
-						title: "Error!",
-						color: 0xE50000,
-						description: "Shard IDs do not go below `1`."
-					}
-				});
-				if (Number(args[0]) > bot.shard.count) return msg.channel.send({
-					embed: {
-						title: "Error!",
-						color: 0xE50000,
-						description: "The bot does not have that many shards."
-					}
-				});
-				bot.shard.broadcastEval("(this.shard.id + 1) === " + args[0] + " && process.exit()").then(() => {
-					msg.channel.send({
-						embed: {
-							title: "Restarting...",
-							color: 3066993,
-							description: "Shard `#" + args[0] + "` is restarting."
-						}
-					});
-				}).catch(() => {
-					msg.channel.send({
-						embed: {
-							title: "Error!",
-							color: 3066993,
-							description: "Failed to kill shard `" + args[0] + "`."
-						}
-					});
-				});
-			} else {
-				msg.channel.send({
-					embed: {
-						title: "Restarting...",
-						color: 3066993,
-						description: "All shards are currently restarting."
-					}
-				}).then(() => {
-					bot.shard.broadcastEval("process.exit()").catch(() => {
-						msg.channel.send({
-							embed: {
-								title: "Error!",
-								color: 3066993,
-								description: "Failed to exit a shard."
-							}
-						});
-					});
-				});
-			}
+			msg.channel.createMessage({
+				embed: {
+					title: "Restarting...",
+					color: 3066993,
+					description: "Automatically restarting the bot."
+				}
+			}).then(() => {
+				process.exit();
+			});
 		} else {
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Error!",
 					color: 0xE50000,

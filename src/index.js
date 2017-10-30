@@ -1,20 +1,19 @@
-const Discord = require("discord.js");
+const Eris = require("eris");
 const fs = require("fs");
 const rethink = require("rethinkdbdash");
 const config = require("./config.json");
 const log = require("./managers/logger.js");
 
-const bot = new Discord.Client({
-	disabledEvents: [
-		"TYPING_START",
-		"TYPING_STOP",
-		"PRESENCE_UPDATE"
-	],
+const bot = new Eris(config.token, {
+	disableEvents: {
+		"TYPING_START": true,
+		"USER_UPDATE": true,
+		"VOICE_STATE_UPDATE": true,
+		"PRESENCE_UPDATE": true
+	},
 	disableEveryone: true,
-	messageCacheMaxSize: 100
+	maxShards: "auto"
 });
-
-if (!bot.shard) throw new Error("You must run bot using 'shard.js' or the bot will not function properly.");
 
 const r = rethink(config.rethink);
 
@@ -40,7 +39,7 @@ fs.readdir("./commands/", (error, files) => {
 								setInterval(require("./schedulers/" + index).execute, require("./schedulers/" + index).interval, bot, r);
 								if (files.indexOf(index) === files.length - 1) {
 									log("Loaded " + files.length + " schedules! (" + (Date.now() - start) + " ms)");
-									bot.login(config.token);
+									bot.connect();
 								}
 							});
 						});

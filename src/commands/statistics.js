@@ -19,11 +19,11 @@ module.exports = {
 			if (args) {
 				const match = /^\d+$/.test(args[0]);
 				if (/(?:<@)\d+(?:>)/.test(args[0])) {
-					const usercheck = msg.guild.members.get(args[0].match(/\d+/)[0]);
+					const usercheck = msg.channel.guild.members.get(args[0].match(/\d+/)[0]);
 					if (usercheck) {
 						user = usercheck;
 					} else {
-						return msg.channel.send({
+						return msg.channel.createMessage({
 							embed: {
 								title: "Error!",
 								color: 0xE50000,
@@ -32,11 +32,11 @@ module.exports = {
 						});
 					}
 				} else if (match) {
-					const usercheck = msg.guild.members.get(args[0]);
+					const usercheck = msg.channel.guild.members.get(args[0]);
 					if (usercheck) {
 						user = usercheck;
 					} else {
-						return msg.channel.send({
+						return msg.channel.createMessage({
 							embed: {
 								title: "Error!",
 								color: 0xE50000,
@@ -51,7 +51,7 @@ module.exports = {
 						if (usercheck.size) {
 							user = usercheck.first();
 						} else {
-							return msg.channel.send({
+							return msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
@@ -64,7 +64,7 @@ module.exports = {
 						if (usercheck.size) {
 							user = usercheck.first();
 						} else {
-							return msg.channel.send({
+							return msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
@@ -75,7 +75,7 @@ module.exports = {
 					}
 				}
 			}
-			if (user.bot) return msg.channel.send({
+			if (user.bot) return msg.channel.createMessage({
 				embed: {
 					title: "Error!",
 					color: 0xE50000,
@@ -86,9 +86,9 @@ module.exports = {
 				if (error) return handleDatabaseError(error, msg);
 				r.table("user_statistics").get(user.id).run((error, stats) => {
 					if (error) return handleDatabaseError(error, msg);
-					msg.channel.send({
+					msg.channel.createMessage({
 						embed: {
-							title: "User Statistics - " + user.tag,
+							title: "User Statistics - " + user.username + "#" + user.discriminator,
 							color: 3066993,
 							fields: [
 								{
@@ -217,7 +217,7 @@ module.exports = {
 							newdata[v.indexOf(nv)] += Number(nv);
 						});
 					});
-					msg.channel.send({
+					msg.channel.createMessage({
 						embed: {
 							title: "Bot Statistics",
 							color: 3066993,
@@ -273,7 +273,7 @@ module.exports = {
 						}
 					});
 				}).catch((error) => {
-					msg.channel.send({
+					msg.channel.createMessage({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,

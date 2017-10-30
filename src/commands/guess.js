@@ -19,13 +19,13 @@ module.exports = {
 				if (args.length > 0) {
 					const guess = Number(args[0].replace(/,/g, ""));
 					if (isNaN(guess)) {
-						msg.channel.send({
+						msg.channel.createMessage({
 							embed: {
 								title: "Error!",
 								color: 0xE50000,
 								description: "The guessing number must be a valid number.",
 								footer: {
-									text: "Requested by " + msg.author.tag
+									text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 								}
 							}
 						});
@@ -37,24 +37,24 @@ module.exports = {
 							}).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
 								if (guess > response.number) {
-									msg.channel.send({
+									msg.channel.createMessage({
 										embed: {
 											title: "Lower!",
 											color: 3066993,
 											description: "The number is lower than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
 											footer: {
-												text: "Requested by " + msg.author.tag
+												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 											}
 										}
 									});
 								} else if (guess < response.number) {
-									msg.channel.send({
+									msg.channel.createMessage({
 										embed: {
 											title: "Higher!",
 											color: 3066993,
 											description: "The number is higher than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
 											footer: {
-												text: "Requested by " + msg.author.tag
+												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 											}
 										}
 									});
@@ -73,7 +73,7 @@ module.exports = {
 																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
 																	msg.author.data.toggle = false;
-																	msg.channel.send({
+																	msg.channel.createMessage({
 																		embed: {
 																			title: "You guessed the correct number!",
 																			color: 306993,
@@ -81,13 +81,13 @@ module.exports = {
 																				round: true
 																			}) + "`.",
 																			footer: {
-																				text: "Requested by " + msg.author.tag
+																				text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																			}
 																		}
 																	});
 																});
 															} else {
-																msg.channel.send({
+																msg.channel.createMessage({
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 3066993,
@@ -95,7 +95,7 @@ module.exports = {
 																			round: true
 																		}) + "`.",
 																		footer: {
-																			text: "Requested by " + msg.author.tag
+																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																		}
 																	}
 																});
@@ -108,7 +108,7 @@ module.exports = {
 																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
 																	msg.author.data.toggle = false;
-																	msg.channel.send({
+																	msg.channel.createMessage({
 																		embed: {
 																			title: "You guessed the correct number!",
 																			color: 3066993,
@@ -116,13 +116,13 @@ module.exports = {
 																				round: true
 																			}) + "`.",
 																			footer: {
-																				text: "Requested by " + msg.author.tag
+																				text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																			}
 																		}
 																	});
 																});
 															} else {
-																msg.channel.send({
+																msg.channel.createMessage({
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 3066993,
@@ -130,7 +130,7 @@ module.exports = {
 																			round: true
 																		}) + "`.",
 																		footer: {
-																			text: "Requested by " + msg.author.tag
+																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																		}
 																	}
 																});
@@ -148,7 +148,7 @@ module.exports = {
 															r.table("toggle").get(msg.author.id).delete().run((error) => {
 																if (error) return handleDatabaseError(error, msg);
 																msg.author.data.prefix = false;
-																msg.channel.send({
+																msg.channel.createMessage({
 																	embed: {
 																		title: "You guessed the correct number!",
 																		color: 306993,
@@ -156,13 +156,13 @@ module.exports = {
 																			round: true
 																		}) + "`.",
 																		footer: {
-																			text: "Requested by " + msg.author.tag
+																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																		}
 																	}
 																});
 															});
 														} else {
-															msg.channel.send({
+															msg.channel.createMessage({
 																embed: {
 																	title: "You guessed the correct number!",
 																	color: 3066993,
@@ -170,7 +170,7 @@ module.exports = {
 																		round: true
 																	}) + "`.",
 																	footer: {
-																		text: "Requested by " + msg.author.tag
+																		text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 																	}
 																}
 															});
@@ -183,38 +183,38 @@ module.exports = {
 								}
 							});
 						} else {
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
 									description: "The guessing amount cannot be above `" + String(max).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "` or below `1`.",
 									footer: {
-										text: "Requested by " + msg.author.tag
+										text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 									}
 								}
 							});
 						}
 					}
 				} else {
-					msg.channel.send({
+					msg.channel.createMessage({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,
 							description: "Missing `<number>` option.",
 							footer: {
-								text: "Requested by " + msg.author.tag
+								text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 							}
 						}
 					});
 				}
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
-						description: "You're not in a game. To start one, use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "start`.",
+						description: "You're not in a game. To start one, use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`.",
 						footer: {
-							text: "Requested by " + msg.author.tag
+							text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 						}
 					}
 				});

@@ -34,6 +34,6 @@ module.exports = (bot, r) => {
 				if (bot.guilds.get(v.id)) bot.guilds.get(v.id).data.prefix = v.prefix;
 			});
 		});
-		if (bot.shard.id === 0) dashboard(bot, r);
+		dashboard(bot, r);
 	});
 };

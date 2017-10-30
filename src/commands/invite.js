@@ -10,7 +10,7 @@ module.exports = {
 	category: "General",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		msg.channel.send({
+		msg.channel.createMessage({
 			embed: {
 				title: "Invite Links",
 				description: "You can invite the bot using the 'Bot Invite' link or you can join the official support server using the 'Official Server' link.",

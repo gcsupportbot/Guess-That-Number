@@ -13,7 +13,7 @@ module.exports = {
 	category: "General",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		msg.channel.send({
+		msg.channel.createMessage({
 			embed: {
 				title: "Feedback",
 				color: 3066993,

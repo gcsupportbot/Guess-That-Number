@@ -20,7 +20,7 @@ module.exports = {
 						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							if (msg.author.data) msg.author.data.toggle = false;
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Toggled!",
 									color: 3066993,
@@ -33,7 +33,7 @@ module.exports = {
 							if (error) return handleDatabaseError(error, msg);
 							if (!msg.author.data) msg.author.data = {};
 							msg.author.data.toggle = true;
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Toggled!",
 									color: 3066993,
@@ -44,11 +44,11 @@ module.exports = {
 					}
 				});
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
-						description: "You must be in a game to use this command. Start a game using `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "start`."
+						description: "You must be in a game to use this command. Start a game using `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`."
 					}
 				});
 			}

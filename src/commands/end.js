@@ -23,7 +23,7 @@ module.exports = {
 						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							msg.author.data.toggle = false;
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "You force ended the game!",
 									color: 3066993,
@@ -31,13 +31,13 @@ module.exports = {
 										round: true
 									}) + "`.",
 									footer: {
-										text: "Requested by " + msg.author.tag
+										text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 									}
 								}
 							});
 						});
 					} else {
-						msg.channel.send({
+						msg.channel.createMessage({
 							embed: {
 								title: "You force ended the game!",
 								color: 3066993,
@@ -45,20 +45,20 @@ module.exports = {
 									round: true
 								}) + "`.",
 								footer: {
-									text: "Requested by " + msg.author.tag
+									text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 								}
 							}
 						});
 					}
 				});
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
-						description: "You're not in a game. To start one, use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "start`.",
+						description: "You're not in a game. To start one, use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`.",
 						footer: {
-							text: "Requested by " + msg.author.tag
+							text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 						}
 					}
 				});

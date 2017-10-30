@@ -32,16 +32,16 @@ module.exports = {
 						difficulty
 					}).run((error) => {
 						if (error) return handleDatabaseError(error, msg);
-						msg.channel.send({
+						msg.channel.createMessage({
 							embed: {
 								title: "You started a new game!",
 								color: 3066993,
-								description: "Use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "guess <number>` to guess a number.\n\nThe numbers range from `1 to " + String(max).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.\n\nYou will be given a hint every time you guess, that will say either 'higher' or 'lower'.\n\nGood luck!"
+								description: "Use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "guess <number>` to guess a number.\n\nThe numbers range from `1 to " + String(max).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.\n\nYou will be given a hint every time you guess, that will say either 'higher' or 'lower'.\n\nGood luck!"
 							}
 						});
 					});
 				} else {
-					msg.channel.send({
+					msg.channel.createMessage({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,
@@ -50,7 +50,7 @@ module.exports = {
 					});
 				}
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,

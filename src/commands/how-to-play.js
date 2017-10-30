@@ -10,14 +10,14 @@ module.exports = {
 	category: "Information",
 	hidden: false,
 	execute: (bot, r, msg) => {
-		msg.channel.send({
+		msg.channel.createMessage({
 			embed: {
 				title: "How to Play",
 				color: 3066993,
 				fields: [
 					{
 						name: "Overview",
-						value: bot.user.username + " is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "start`. This will start a new game.",
+						value: bot.user.username + " is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`. This will start a new game.",
 						inline: false
 					},
 					{

@@ -16,7 +16,7 @@ module.exports = {
 			if (args.length > 0) {
 				if (args[0] === "all") {
 					fs.readdir("./commands/", (error, files) => {
-						if (error) return msg.channel.send({
+						if (error) return msg.channel.createMessage({
 							embed: {
 								title: "Error!",
 								color: 0xE50000,
@@ -28,7 +28,7 @@ module.exports = {
 							try {
 								bot.commands[c.replace(/\..*/g, "")] = require(path.normalize("./commands/" + c));
 								if (files.indexOf(c) === files.length - 1) {
-									msg.channel.send({
+									msg.channel.createMessage({
 										embed: {
 											title: "Reloaded!",
 											color: 3066993,
@@ -37,7 +37,7 @@ module.exports = {
 									});
 								}
 							} catch (e) {
-								msg.channel.send({
+								msg.channel.createMessage({
 									embed: {
 										title: "Error!",
 										color: 0xE50000,
@@ -53,7 +53,7 @@ module.exports = {
 						delete require.cache[path.normalize(__dirname + "/" + check[0] + ".js")];
 						try {
 							bot.commands[check[0]] = require("./" + check[0] + ".js");
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Reloaded!",
 									color: 3066993,
@@ -61,7 +61,7 @@ module.exports = {
 								}
 							});
 						} catch (e) {
-							msg.channel.send({
+							msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
@@ -71,14 +71,14 @@ module.exports = {
 						}
 					} else {
 						fs.readdir("./commands/", (error, files) => {
-							if (error) return msg.channel.send({
+							if (error) return msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
 									description: "An unexpected error occured while reading commands directory."
 								}
 							});
-							if (files.indexOf(args[0] + ".js") < 0) return msg.channel.send({
+							if (files.indexOf(args[0] + ".js") < 0) return msg.channel.createMessage({
 								embed: {
 									title: "Error!",
 									color: 0xE50000,
@@ -88,7 +88,7 @@ module.exports = {
 							delete require.cache[path.normalize(__dirname + "/" + args[0] + ".js")];
 							try {
 								bot.commands[args[0]] = require("./commands/" + args[0] + ".js");
-								msg.channel.send({
+								msg.channel.createMessage({
 									embed: {
 										title: "Reloaded!",
 										color: 3066993,
@@ -96,7 +96,7 @@ module.exports = {
 									}
 								});
 							} catch (e) {
-								msg.channel.send({
+								msg.channel.createMessage({
 									embed: {
 										title: "Error!",
 										color: 0xE50000,
@@ -108,7 +108,7 @@ module.exports = {
 					}
 				}
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
@@ -117,7 +117,7 @@ module.exports = {
 				});
 			}
 		} else {
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Error!",
 					color: 0xE50000,

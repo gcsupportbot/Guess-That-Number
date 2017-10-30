@@ -45,7 +45,7 @@ module.exports = {
 			if ([].concat.apply([], Object.keys(bot.commands).map((c) => bot.commands[c].commands)).indexOf(args[0]) > -1) {
 				commands.forEach((command) => {
 					if (bot.commands[command].commands.indexOf(args[0]) > -1) {
-						msg.channel.send({
+						msg.channel.createMessage({
 							embed: {
 								title: bot.commands[command].commands[0],
 								description: bot.commands[command].description,
@@ -68,7 +68,7 @@ module.exports = {
 				});
 			} else if (fields.map((f) => f.name.split(" — ")[0]).indexOf(args[0]) > -1) {
 				const field = fields.filter((f) => f.name.split(" — ")[0] === args[0])[0];
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Command List",
 						description: "Displaying all commands for category `" + field.name.split(" — ")[0] + "`.",
@@ -83,7 +83,7 @@ module.exports = {
 					}
 				});
 			} else {
-				msg.channel.send({
+				msg.channel.createMessage({
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
@@ -118,10 +118,10 @@ module.exports = {
 				f.name = f.name + " — " + f.value.split(",").length;
 				return f;
 			});
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Command List",
-					description: "To view specific information about a command, run `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "help <command>`. Additionally, you can use `" + ((msg.guild) ? msg.guild.data.prefix : config.prefix) + "help <category>` to view all commands and information in a category.",
+					description: "To view specific information about a command, run `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "help <command>`. Additionally, you can use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "help <category>` to view all commands and information in a category.",
 					color: 3066993,
 					fields,
 					footer: {

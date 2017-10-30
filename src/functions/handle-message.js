@@ -3,7 +3,7 @@ const handleDatabaseError = require("./handle-database-error.js");
 const guess = require("../commands/guess.js");
 
 module.exports = (bot, r, msg) => {
-	if (msg.author.bot) return;
+	if (!msg.author || msg.author.bot) return;
 	if (msg.author.data && msg.author.data.toggle) {
 		if (msg.content !== "" && !isNaN(parseInt(msg.content))) {
 			let new_event = Object.create(msg);
@@ -12,10 +12,10 @@ module.exports = (bot, r, msg) => {
 			return;
 		}
 	}
-	if (msg.guild && !msg.guild.data && !msg.guild.data.prefix) msg.guild.data = {
+	if (msg.channel.guild && !msg.channel.guild.data && !msg.channel.guild.data.prefix) msg.channel.guild.data = {
 		prefix: config.prefix
 	};
-	let prefix = ((msg.content.startsWith(((msg.guild) ? msg.guild.data.prefix : config.prefix))) ? ((msg.guild) ? msg.guild.data.prefix : config.prefix) : ((msg.content.startsWith("<@" + bot.user.id + ">")) ? "<@" + bot.user.id + "> " : ((msg.content.startsWith("<@!" + bot.user.id + ">")) ? "<@!" + bot.user.id + "> " : null)));
+	let prefix = ((msg.content.startsWith(((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix))) ? ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) : ((msg.content.startsWith("<@" + bot.user.id + ">")) ? "<@" + bot.user.id + "> " : ((msg.content.startsWith("<@!" + bot.user.id + ">")) ? "<@!" + bot.user.id + "> " : null)));
 	if (!prefix) return;
 	let command = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(msg.content.replace(prefix, "").split(" ")[0]) > -1);
 	if (command.length > 0) {
@@ -23,7 +23,7 @@ module.exports = (bot, r, msg) => {
 		try {
 			bot.commands[command[0]].execute(bot, r, msg, args);
 		} catch (error) {
-			msg.channel.send({
+			msg.channel.createMessage({
 				embed: {
 					title: "Error!",
 					color: 0xE50000,
@@ -34,8 +34,8 @@ module.exports = (bot, r, msg) => {
 		}
 		r.table("command_stats").insert({
 			userID: msg.author.id,
-			channelID: (msg.guild) ? msg.channel.id : null,
-			serverID: (msg.guild) ? msg.guild.id : null,
+			channelID: (msg.channel.guild) ? msg.channel.id : null,
+			serverID: (msg.channel.guild) ? msg.channel.guild.id : null,
 			command: bot.commands[command[0]].commands[0],
 			args: (args.length > 0) ? args : null,
 			timestamp: Date.now()

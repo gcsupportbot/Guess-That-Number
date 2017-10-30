@@ -25,34 +25,26 @@ module.exports = (bot, r) => {
 				try {
 					r.table("leaderboard").filter({ difficulty: user.data.leaderboardpages.difficulty }).orderBy(r.asc("score")).run((error, response) => {
 						if (error) return handleDatabaseError(error, reaction.message);
-						bot.shard.broadcastEval(JSON.stringify(response) + ".map((u) => this.users.get(u.userID) && { score: u.score, tag: this.users.get(u.userID).tag }).filter((a) => a)").then((response) => {
-							response = [...new Set([].concat.apply([], response))];
-							reaction.message.edit({
-								embed: {
-									title: "Global Leaderboard",
-									description: response.length + " users have played " + ((user.data.leaderboardpages.difficulty === 1) ? "easy" : ((user.data.leaderboardpages.difficulty === 2) ? "medium" : ((user.data.leaderboardpages.difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
-									color: 3066993,
-									fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map((v) => {
-										return {
-											name: (response.indexOf(v) + 1) + ". " + v.tag,
-											value: "Score: " + v.score,
-											inline: false
-										};
-									}),
-									footer: {
-										text: "Page " + user.data.leaderboardpages.page + " / " + Math.ceil(response.length / 10)
-									}
+						response = response.map((i) => {
+							i.tag = bot.users.get(i.id) && bot.users.get(i.id).username + "#" + bot.users.get(i.id).discriminator;
+							return i;
+						}).filter((v) => v.tag);
+						reaction.message.edit({
+							embed: {
+								title: "Global Leaderboard",
+								description: response.length + " users have played " + ((user.data.leaderboardpages.difficulty === 1) ? "easy" : ((user.data.leaderboardpages.difficulty === 2) ? "medium" : ((user.data.leaderboardpages.difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
+								color: 3066993,
+								fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map((v) => {
+									return {
+										name: (response.indexOf(v) + 1) + ". " + v.tag,
+										value: "Score: " + v.score,
+										inline: false
+									};
+								}),
+								footer: {
+									text: "Page " + user.data.leaderboardpages.page + " / " + Math.ceil(response.length / 10)
 								}
-							});
-						}).catch((error) => {
-							reaction.message.channel.send({
-								embed: {
-									title: "Error!",
-									color: 0xE50000,
-									description: "Failed to get user information across shards."
-								}
-							});
-							console.error("Failed to get user information across shards.", error);
+							}
 						});
 					});
 				} catch (e) {
