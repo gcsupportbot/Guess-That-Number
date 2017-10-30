@@ -9,7 +9,7 @@
         "random"
     ],
     "scripts": {
-        "start": "pm2 start shard.js --name GuessThatNumber",
+        "start": "pm2 start src/index.js --name GuessThatNumber",
         "restart": "pm2 restart GuessThatNumber",
         "stop": "pm2 stop GuessThatNumber",
         "delete": "pm2 delete GuessThatNumber"
@@ -29,7 +29,7 @@
         "uws": "^8.14.1"
     },
     "homepage": "https://passthemayo.space/guess-that-number/",
-    "main": "shard.js",
+    "main": "src/index.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/PassTheMayo/Guess-That-Number"

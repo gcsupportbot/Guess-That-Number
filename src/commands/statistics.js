@@ -210,77 +210,60 @@ module.exports = {
 		} else {
 			r.table("games").count().run((error, activegames) => {
 				if (error) return handleDatabaseError(error, msg);
-				bot.shard.broadcastEval("[this.guilds.size, this.users.size, (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1)]").then((data) => {
-					let newdata = [0, 0, 0];
-					data.forEach((v) => {
-						v.forEach((nv) => {
-							newdata[v.indexOf(nv)] += Number(nv);
-						});
-					});
-					msg.channel.createMessage({
-						embed: {
-							title: "Bot Statistics",
-							color: 3066993,
-							fields: [
-								{
-									name: "Servers",
-									value: newdata[0].toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
-									inline: true
-								},
-								{
-									name: "Users",
-									value: newdata[1].toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
-									inline: true
-								},
-								{
-									name: "Active Games",
-									value: activegames.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
-									inline: true
-								},
-								{
-									name: "Memory Usage",
-									value: newdata[2].toFixed(1) + " MB",
-									inline: true
-								},
-								{
-									name: "Commands",
-									value: Object.keys(bot.commands).length,
-									inline: true
-								},
-								{
-									name: "Uptime",
-									value: humanizeduration(Date.now() - bot.startuptime, {
-										language: "shortEn",
-										spacer: "",
-										delimiter: "",
-										round: true,
-										languages: {
-											shortEn: {
-												y: "y",
-												mo: "mo",
-												w: "w",
-												d: "d",
-												h: "h",
-												m: "m",
-												s: "s",
-												ms: "ms",
-											}
+				msg.channel.createMessage({
+					embed: {
+						title: "Bot Statistics",
+						color: 3066993,
+						fields: [
+							{
+								name: "Servers",
+								value: bot.guilds.size.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
+								inline: true
+							},
+							{
+								name: "Users",
+								value: bot.users.size.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
+								inline: true
+							},
+							{
+								name: "Active Games",
+								value: activegames.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,"),
+								inline: true
+							},
+							{
+								name: "Memory Usage",
+								value: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1) + " MB",
+								inline: true
+							},
+							{
+								name: "Commands",
+								value: Object.keys(bot.commands).length,
+								inline: true
+							},
+							{
+								name: "Uptime",
+								value: humanizeduration(Date.now() - bot.startuptime, {
+									language: "shortEn",
+									spacer: "",
+									delimiter: "",
+									round: true,
+									languages: {
+										shortEn: {
+											y: "y",
+											mo: "mo",
+											w: "w",
+											d: "d",
+											h: "h",
+											m: "m",
+											s: "s",
+											ms: "ms",
 										}
-									}),
-									inline: true
-								}
-							]
-						}
-					});
-				}).catch((error) => {
-					msg.channel.createMessage({
-						embed: {
-							title: "Error!",
-							color: 0xE50000,
-							description: "An error occured while generating stats."
-						}
-					});
-					console.error("Failed to generate statistics.", error);
+									}
+								}),
+								inline: true
+							}
+						]
+					}
 				});
 			});
 		}

@@ -12,7 +12,7 @@ module.exports = (bot, r) => {
 	passport.use(new passportDiscord.Strategy({
 		clientID: bot.user.id,
 		clientSecret: config.secret,
-		scope: [ "identify" ],
+		scope: ["identify"],
 		callbackURL: "/guess-that-number/auth/callback"
 	}, (accessToken, refreshToken, profile, done) => {
 		if (accessToken !== null) {
@@ -53,7 +53,7 @@ module.exports = (bot, r) => {
 			user: req.user
 		});
 	});
-	
+
 	app.get("/dashboard", (req, res) => {
 		if (!req.user) return res.redirect("/guess-that-number/auth");
 		res.render("dashboard/index.pug", {
@@ -61,7 +61,7 @@ module.exports = (bot, r) => {
 			servers: bot.guilds.filter(g => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild")).map(g => ({ name: g.name, icon: g.icon, id: g.id }))
 		});
 	});
-	
+
 	app.get("/dashboard/:id", (req, res) => {
 		if (!req.user) res.redirect("/guess-that-number/auth");
 		if (!/^\d+$/.test(req.params.id)) return res.render("error.pug", {
@@ -69,56 +69,34 @@ module.exports = (bot, r) => {
 			code: 400,
 			message: "That is not a valid Discord server ID."
 		});
-		bot.shard.broadcastEval("this.guilds.get('" + req.params.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "') && this.guilds.get('" + req.params.id + "').members.get('" + req.user.id + "').permission.has('manageGuild') && { name: this.guilds.get('" + req.params.id + "').name, memberCount: this.guilds.get('" + req.params.id + "').memberCount, channelCount: this.guilds.get('" + req.params.id + "').channels.size, roleCount: this.guilds.get('" + req.params.id + "').roles.size, avatar: this.guilds.get('" + req.params.id + "').avatar }").then(guilds => {
-			guilds = guilds.filter(v => v)[0];
-			if (guilds) {
-				res.render("dashboard/manage.pug", {
-					user: req.user,
-					server: guilds
-				});
-			} else {
-				res.render("error.pug", {
-					user: req.user,
-					code: "404",
-					message: "Either that server doesn't exist or you don't have permission to manage it."
-				});
-			}
-		}).catch(() => {
+		const guild = bot.guilds.get(req.params.id) && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has("manageGuild") && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
+		if (guild) {
+			res.render("dashboard/manage.pug", {
+				user: req.user,
+				server: guild
+			});
+		} else {
 			res.render("error.pug", {
 				user: req.user,
-				code: 500,
-				message: "An unknown error occured."
+				code: "404",
+				message: "Either that server doesn't exist or you don't have permission to manage it."
 			});
-		});
+		}
 	});
-	
+
 	app.get("/statistics", (req, res) => {
-		bot.shard.broadcastEval("[this.guilds.size, this.users.size, this.channels.size]").then((stats) => {
-			const statistics = {
-				servers: 0,
-				users: 0,
-				channels: 0,
-				uptime: humanizeduration(Date.now() - bot.startuptime, {round: true}),
+		res.render("statistics.pug", {
+			user: req.user,
+			stats: {
+				servers: bot.guilds.size,
+				users: bot.users.size,
+				channels: bot.channels.size,
+				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
 				commands: Object.keys(bot.commands).length
-			};
-			for (var i = 0; i < stats.length; i++) {
-				statistics.servers += stats[i][0];
-				statistics.users += stats[i][1];
-				statistics.channels += stats[i][2];
 			}
-			res.render("statistics.pug", {
-				user: req.user,
-				stats: statistics
-			});
-		}).catch(() => {
-			res.render("error.pug", {
-				user: req.user,
-				code: 500,
-				message: "An unknown error occured."
-			});
 		});
 	});
-	
+
 	app.get("/commands", (req, res) => {
 		let sorted = [];
 		Object.keys(bot.commands).forEach(v => {
@@ -130,11 +108,11 @@ module.exports = (bot, r) => {
 			commands: sorted
 		});
 	});
-	
+
 	app.get("/invite", (req, res) => {
 		res.redirect("https://discordapp.com/oauth2/authorize?client_id=307994108792799244&scope=bot");
 	});
-	
+
 	app.get("/auth", passport.authenticate("discord"));
 
 	app.get("/auth/callback", passport.authenticate("discord"), (req, res) => {
