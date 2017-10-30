@@ -15,13 +15,15 @@ const bot = new Eris(config.token, {
 	maxShards: "auto"
 });
 
+bot.commands = [];
+bot.prefixes = {};
+
 const r = rethink(config.rethink);
 
 let start = Date.now();
 
 fs.readdir("./commands/", (error, files) => {
 	if (error) throw new error();
-	bot.commands = [];
 	files.map((file) => {
 		bot.commands[file.replace(/\..*/, "")] = require("./commands/" + file);
 		if (files.indexOf(file) === files.length - 1) {

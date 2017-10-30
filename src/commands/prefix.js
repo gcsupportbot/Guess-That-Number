@@ -33,7 +33,7 @@ module.exports = {
 						if (count) {
 							r.table("prefixes").get(msg.channel.guild.id).update({ prefix: args.join(" ") }).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
-								msg.channel.guild.data.prefix = args.join(" ");
+								bot.prefixes[msg.channel.guild.id] = args.join(" ");
 								msg.channel.createMessage({
 									embed: {
 										title: "Updated!",
@@ -48,7 +48,7 @@ module.exports = {
 								prefix: args.join(" ")
 							}).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
-								msg.channel.guild.data.prefix = args.join(" ");
+								bot.prefixes[msg.channel.guild.id] = args.join(" ");
 								msg.channel.createMessage({
 									embed: {
 										title: "Updated!",
@@ -74,7 +74,7 @@ module.exports = {
 				embed: {
 					title: "Prefix",
 					color: 3066993,
-					description: "The prefix for this server is `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "` or `@" + bot.user.username + "#" + bot.user.discriminator + "`."
+					description: "The prefix for this server is `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "` or `@" + bot.user.username + "#" + bot.user.discriminator + "`."
 				}
 			});
 		}

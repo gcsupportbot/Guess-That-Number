@@ -212,7 +212,7 @@ module.exports = {
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
-						description: "You're not in a game. To start one, use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`.",
+						description: "You're not in a game. To start one, use `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "start`.",
 						footer: {
 							text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
 						}

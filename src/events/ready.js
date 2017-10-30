@@ -31,7 +31,7 @@ module.exports = (bot, r) => {
 		r.table("prefixes").run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((v) => {
-				if (bot.guilds.get(v.id)) bot.guilds.get(v.id).data.prefix = v.prefix;
+				bot.prefixes[v.id] = v.prefix;
 			});
 		});
 		dashboard(bot, r);

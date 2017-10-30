@@ -48,7 +48,7 @@ module.exports = {
 					embed: {
 						title: "Error!",
 						color: 0xE50000,
-						description: "You must be in a game to use this command. Start a game using `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`."
+						description: "You must be in a game to use this command. Start a game using `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "start`."
 					}
 				});
 			}

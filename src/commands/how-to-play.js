@@ -17,7 +17,7 @@ module.exports = {
 				fields: [
 					{
 						name: "Overview",
-						value: bot.user.username + " is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "start`. This will start a new game.",
+						value: bot.user.username + " is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "start`. This will start a new game.",
 						inline: false
 					},
 					{

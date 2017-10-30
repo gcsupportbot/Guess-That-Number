@@ -121,7 +121,7 @@ module.exports = {
 			msg.channel.createMessage({
 				embed: {
 					title: "Command List",
-					description: "To view specific information about a command, run `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "help <command>`. Additionally, you can use `" + ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) + "help <category>` to view all commands and information in a category.",
+					description: "To view specific information about a command, run `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "help <command>`. Additionally, you can use `" + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + "help <category>` to view all commands and information in a category.",
 					color: 3066993,
 					fields,
 					footer: {

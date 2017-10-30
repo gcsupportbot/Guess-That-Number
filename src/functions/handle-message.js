@@ -12,10 +12,10 @@ module.exports = (bot, r, msg) => {
 			return;
 		}
 	}
-	if (msg.channel.guild && !msg.channel.guild.data && !msg.channel.guild.data.prefix) msg.channel.guild.data = {
-		prefix: config.prefix
-	};
-	let prefix = ((msg.content.startsWith(((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix))) ? ((msg.channel.guild) ? msg.channel.guild.data.prefix : config.prefix) : ((msg.content.startsWith("<@" + bot.user.id + ">")) ? "<@" + bot.user.id + "> " : ((msg.content.startsWith("<@!" + bot.user.id + ">")) ? "<@!" + bot.user.id + "> " : null)));
+	if (msg.channel.guild && !(msg.channel.guild.id in bot.prefixes)) {
+		bot.prefixes[msg.channel.guild.id] = config.prefix;
+	}
+	let prefix = ((msg.content.startsWith(((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix))) ? ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) : ((msg.content.startsWith("<@" + bot.user.id + ">")) ? "<@" + bot.user.id + "> " : ((msg.content.startsWith("<@!" + bot.user.id + ">")) ? "<@!" + bot.user.id + "> " : null)));
 	if (!prefix) return;
 	let command = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(msg.content.replace(prefix, "").split(" ")[0]) > -1);
 	if (command.length > 0) {
