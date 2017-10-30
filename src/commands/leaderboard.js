@@ -51,9 +51,9 @@ module.exports = {
 					}).then((msgresponse) => {
 						if (response.length < 11) return;
 						setTimeout(() => {
-							msgresponse.react("⬅").then(() => {
+							msgresponse.addReaction("⬅").then(() => {
 								setTimeout(() => {
-									msgresponse.react("➡");
+									msgresponse.addReaction("➡");
 								}, 500);
 								bot.leaderboardPages[msg.author.id] = {
 									page: 1,

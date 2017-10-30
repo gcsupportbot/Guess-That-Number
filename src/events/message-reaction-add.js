@@ -27,7 +27,7 @@ module.exports = (bot, r) => {
 					r.table("leaderboard").filter({ difficulty: bot.leaderboardPages[userID].difficulty }).orderBy(r.asc("score")).run((error, response) => {
 						if (error) return handleDatabaseError(error, message);
 						response = response.map((i) => {
-							i.tag = bot.users.get(i.id) && bot.users.get(i.id).username + "#" + bot.users.get(i.id).discriminator;
+							i.tag = bot.users.get(i.userID) && bot.users.get(i.userID).username + "#" + bot.users.get(i.userID).discriminator;
 							return i;
 						}).filter((v) => v.tag);
 						message.edit({
