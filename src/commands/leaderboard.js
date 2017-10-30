@@ -30,7 +30,8 @@ module.exports = {
 				response = response.map((i) => {
 					i.tag = bot.users.get(i.id) && bot.users.get(i.id).username + "#" + bot.users.get(i.id).discriminator;
 					return i;
-				}).filter((v) => v.tag);
+				});
+				console.log(response);
 				if (response.length > 0) {
 					msg.channel.createMessage({
 						embed: {
