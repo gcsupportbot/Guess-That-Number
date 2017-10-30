@@ -4,7 +4,6 @@ const guess = require("../commands/guess.js");
 
 module.exports = (bot, r, msg) => {
 	if (!msg.author || msg.author.bot) return;
-	console.log(typeof msg.author);
 	if (bot.toggle.indexOf(msg.author.id) > -1) {
 		if (msg.content !== "" && !isNaN(parseInt(msg.content))) {
 			let new_event = Object.create(msg);

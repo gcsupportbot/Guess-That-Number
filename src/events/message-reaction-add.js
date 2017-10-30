@@ -3,6 +3,7 @@ const handleDatabaseError = require("../functions/handle-database-error.js");
 
 module.exports = (bot, r) => {
 	bot.on("messageReactionAdd", (message, emoji, userID) => {
+		if (!message.author) return;
 		if (emoji.name === "❌") {
 			if (config.trusted.indexOf(userID) === -1) return;
 			if (message.author.id === bot.user.id) {
