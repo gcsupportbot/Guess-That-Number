@@ -2,12 +2,12 @@ const config = require("../config.json");
 const handleDatabaseError = require("../functions/handle-database-error.js");
 
 module.exports = (bot, r) => {
-	bot.on("messageReactionAdd", (reaction, user) => {
-		if (reaction._emoji.name === "❌") {
-			if (config.trusted.indexOf(user.id) === -1) return;
-			if (reaction.message.author.id === bot.user.id) {
-				reaction.message.delete().catch(() => {
-					reaction.message.channel.send({
+	bot.on("messageReactionAdd", (message, emoji, userID) => {
+		if (emoji.name === "❌") {
+			if (config.trusted.indexOf(userID) === -1) return;
+			if (message.author.id === bot.user.id) {
+				message.delete().catch(() => {
+					message.channel.send({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,
@@ -17,24 +17,24 @@ module.exports = (bot, r) => {
 				});
 			}
 		} else {
-			if (user.data && user.data.leaderboardpages) {
-				if (reaction._emoji.name === "⬅" && user.data.leaderboardpages.page === 1) return;
-				if (reaction._emoji.name === "➡") user.data.leaderboardpages.page++;
-				if (reaction._emoji.name === "⬅") user.data.leaderboardpages.page--;
-				if (reaction._emoji.name !== "⬅" && reaction._emoji.name !== "➡") return;
+			if (bot.leaderboardPages[userID]) {
+				if (emoji.name === "⬅" && bot.leaderboardPages[userID].page === 1) return;
+				if (emoji.name === "➡") bot.leaderboardPages[userID].page++;
+				if (emoji.name === "⬅") bot.leaderboardPages[userID].page--;
+				if (emoji.name !== "⬅" && emoji.name !== "➡") return;
 				try {
-					r.table("leaderboard").filter({ difficulty: user.data.leaderboardpages.difficulty }).orderBy(r.asc("score")).run((error, response) => {
-						if (error) return handleDatabaseError(error, reaction.message);
+					r.table("leaderboard").filter({ difficulty: bot.leaderboardPages[userID].difficulty }).orderBy(r.asc("score")).run((error, response) => {
+						if (error) return handleDatabaseError(error, message);
 						response = response.map((i) => {
 							i.tag = bot.users.get(i.id) && bot.users.get(i.id).username + "#" + bot.users.get(i.id).discriminator;
 							return i;
 						}).filter((v) => v.tag);
-						reaction.message.edit({
+						message.edit({
 							embed: {
 								title: "Global Leaderboard",
-								description: response.length + " users have played " + ((user.data.leaderboardpages.difficulty === 1) ? "easy" : ((user.data.leaderboardpages.difficulty === 2) ? "medium" : ((user.data.leaderboardpages.difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
+								description: response.length + " users have played " + ((bot.leaderboardPages[userID].difficulty === 1) ? "easy" : ((bot.leaderboardPages[userID].difficulty === 2) ? "medium" : ((bot.leaderboardPages[userID].difficulty === 3) ? "hard" : "unknown"))) + " difficulty.",
 								color: 3066993,
-								fields: response.slice((user.data.leaderboardpages.page * 10) - 10, user.data.leaderboardpages.page * 10).map((v) => {
+								fields: response.slice((bot.leaderboardPages[userID].page * 10) - 10, bot.leaderboardPages[userID].page * 10).map((v) => {
 									return {
 										name: (response.indexOf(v) + 1) + ". " + v.tag,
 										value: "Score: " + v.score,
@@ -42,13 +42,13 @@ module.exports = (bot, r) => {
 									};
 								}),
 								footer: {
-									text: "Page " + user.data.leaderboardpages.page + " / " + Math.ceil(response.length / 10)
+									text: "Page " + bot.leaderboardPages[userID].page + " / " + Math.ceil(response.length / 10)
 								}
 							}
 						});
 					});
 				} catch (e) {
-					reaction.message.channel.send({
+					message.channel.send({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,

@@ -31,7 +31,6 @@ module.exports = {
 					} else {
 						r.table("toggle").insert({ id: msg.author.id }).run((error) => {
 							if (error) return handleDatabaseError(error, msg);
-							if (!msg.author.data) msg.author.data = {};
 							bot.toggle.push(msg.author.id);
 							msg.channel.createMessage({
 								embed: {

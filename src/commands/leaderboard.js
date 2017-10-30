@@ -55,8 +55,7 @@ module.exports = {
 								setTimeout(() => {
 									msgresponse.react("➡");
 								}, 500);
-								if (!msg.author.data) msg.author.data = {};
-								msg.author.data.leaderboardpages = {
+								bot.leaderboardPages[msg.author.id] = {
 									page: 1,
 									messageID: msgresponse.id,
 									difficulty

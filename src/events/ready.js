@@ -19,14 +19,11 @@ module.exports = (bot, r) => {
 		r.table("toggle").run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((u) => {
-				if (bot.users.get(u.id)) bot.users.get(u.id).data = {
-					toggle: true
-				};
+				bot.toggle.push(u.id);
 			});
 		});
 		bot.guilds.map((g) => {
-			g.data = {};
-			g.data.prefix = config.prefix;
+			bot.prefixes[g.id] = config.prefix;
 		});
 		r.table("prefixes").run((error, response) => {
 			if (error) return handleDatabaseError(error);
