@@ -8,7 +8,7 @@ module.exports = (bot, r) => {
 			if (config.trusted.indexOf(userID) === -1) return;
 			if (message.author.id === bot.user.id) {
 				message.delete().catch(() => {
-					message.channel.send({
+					message.channel.createMessage({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,
@@ -49,7 +49,7 @@ module.exports = (bot, r) => {
 						});
 					});
 				} catch (e) {
-					message.channel.send({
+					message.channel.createMessage({
 						embed: {
 							title: "Error!",
 							color: 0xE50000,
