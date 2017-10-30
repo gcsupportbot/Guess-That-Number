@@ -19,7 +19,7 @@ module.exports = {
 					if (response) {
 						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
-							if (msg.author.data) msg.author.data.toggle = false;
+							bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
 							msg.channel.createMessage({
 								embed: {
 									title: "Toggled!",
@@ -32,7 +32,7 @@ module.exports = {
 						r.table("toggle").insert({ id: msg.author.id }).run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							if (!msg.author.data) msg.author.data = {};
-							msg.author.data.toggle = true;
+							bot.toggle.push(msg.author.id);
 							msg.channel.createMessage({
 								embed: {
 									title: "Toggled!",

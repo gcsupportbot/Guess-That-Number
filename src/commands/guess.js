@@ -69,10 +69,10 @@ module.exports = {
 													if ((response.score + 1) < response2.score) {
 														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
-															if (msg.author.data && msg.author.data.toggle) {
+															if (bot.toggle.indexOf(msg.author.id) > -1) {
 																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
-																	msg.author.data.toggle = false;
+																	bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
 																	msg.channel.createMessage({
 																		embed: {
 																			title: "You guessed the correct number!",
@@ -104,10 +104,10 @@ module.exports = {
 													} else {
 														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
-															if (msg.author.data && msg.author.data.toggle) {
+															if (bot.toggle.indexOf(msg.author.id) > -1) {
 																r.table("toggle").get(msg.author.id).delete().run((error) => {
 																	if (error) return handleDatabaseError(error, msg);
-																	msg.author.data.toggle = false;
+																	bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
 																	msg.channel.createMessage({
 																		embed: {
 																			title: "You guessed the correct number!",
@@ -144,7 +144,7 @@ module.exports = {
 														difficulty: response.difficulty
 													}).run((error) => {
 														if (error) return handleDatabaseError(error, msg);
-														if (msg.author.data && msg.author.data.toggle) {
+														if (bot.toggle.indexOf(msg.author.id) > -1) {
 															r.table("toggle").get(msg.author.id).delete().run((error) => {
 																if (error) return handleDatabaseError(error, msg);
 																msg.author.data.prefix = false;

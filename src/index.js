@@ -17,6 +17,7 @@ const bot = new Eris(config.token, {
 
 bot.commands = [];
 bot.prefixes = {};
+bot.toggle = [];
 
 const r = rethink(config.rethink);
 

@@ -4,7 +4,7 @@ const guess = require("../commands/guess.js");
 
 module.exports = (bot, r, msg) => {
 	if (!msg.author || msg.author.bot) return;
-	if (msg.author.data && msg.author.data.toggle) {
+	if (bot.toggle.indexOf(msg.author.id) > -1) {
 		if (msg.content !== "" && !isNaN(parseInt(msg.content))) {
 			let new_event = Object.create(msg);
 			new_event.content = config.prefix + "guess " + Number(msg.content);
@@ -12,9 +12,7 @@ module.exports = (bot, r, msg) => {
 			return;
 		}
 	}
-	if (msg.channel.guild && !(msg.channel.guild.id in bot.prefixes)) {
-		bot.prefixes[msg.channel.guild.id] = config.prefix;
-	}
+	if (msg.channel.guild) bot.prefixes[msg.channel.guild.id] = bot.prefixes[msg.channel.guild.id] || config.prefix;
 	let prefix = ((msg.content.startsWith(((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix))) ? ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) : ((msg.content.startsWith("<@" + bot.user.id + ">")) ? "<@" + bot.user.id + "> " : ((msg.content.startsWith("<@!" + bot.user.id + ">")) ? "<@!" + bot.user.id + "> " : null)));
 	if (!prefix) return;
 	let command = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(msg.content.replace(prefix, "").split(" ")[0]) > -1);

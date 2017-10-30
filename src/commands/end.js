@@ -19,10 +19,10 @@ module.exports = {
 			if (response) {
 				r.table("games").get(msg.author.id).delete().run((error) => {
 					if (error) return handleDatabaseError(error, msg);
-					if (msg.author.data && msg.author.data.toggle) {
+					if (bot.toggle.indexOf(msg.author.id) > -1) {
 						r.table("toggle").get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
-							msg.author.data.toggle = false;
+							bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
 							msg.channel.createMessage({
 								embed: {
 									title: "You force ended the game!",
