@@ -1,5 +1,5 @@
 const handleMessage = require("../functions/handle-message.js");
 
 module.exports = (bot, r) => {
-	bot.on("messageUpdate", (oldmsg, newmsg) => handleMessage(bot, r, newmsg));
+	bot.on("messageUpdate", (msg) => handleMessage(bot, r, msg));
 };
