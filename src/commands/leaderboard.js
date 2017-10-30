@@ -28,10 +28,9 @@ module.exports = {
 			r.table("leaderboard").filter({ difficulty }).orderBy(r.asc("score")).without("id", "difficulty").run((error, response) => {
 				if (error) return handleDatabaseError(error, msg);
 				response = response.map((i) => {
-					i.tag = bot.users.get(i.id) && bot.users.get(i.id).username + "#" + bot.users.get(i.id).discriminator;
+					i.tag = bot.users.get(i.userID) && bot.users.get(i.userID).username + "#" + bot.users.get(i.userID).discriminator;
 					return i;
-				});
-				console.log(response);
+				}).filter((v) => v.tag);
 				if (response.length > 0) {
 					msg.channel.createMessage({
 						embed: {
