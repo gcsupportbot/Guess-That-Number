@@ -90,7 +90,7 @@ module.exports = (bot, r) => {
 			stats: {
 				servers: bot.guilds.size,
 				users: bot.users.size,
-				channels: bot.channels.size,
+				channels: Object.keys(bot.channelGuildMap).length,
 				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
 				commands: Object.keys(bot.commands).length
 			}
