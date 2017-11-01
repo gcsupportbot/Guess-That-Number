@@ -151,6 +151,7 @@ module.exports = (bot, r) => {
 				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
 				commands: Object.keys(bot.commands).length
 			});
+			console.log('send');
 			if (socketAlive) setTimeout(send, 1000);
 		};
 		
