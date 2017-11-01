@@ -58,7 +58,7 @@ module.exports = (bot, r) => {
 		if (!req.user) return res.redirect("/guess-that-number/auth");
 		res.render("dashboard/index.pug", {
 			user: req.user,
-			servers: bot.guilds.filter(g => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild")).map(g => ({ name: g.name, icon: g.icon, id: g.id }))
+			servers: bot.guilds.filter((g) => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild")).map(g => ({ name: g.name, icon: g.icon, id: g.id }))
 		});
 	});
 
@@ -99,9 +99,9 @@ module.exports = (bot, r) => {
 
 	app.get("/commands", (req, res) => {
 		let sorted = [];
-		Object.keys(bot.commands).forEach(v => {
-			if (sorted.filter(s => s.category === bot.commands[v].category).length < 1) sorted.push({ category: bot.commands[v].category, commands: [] });
-			sorted[sorted.indexOf(sorted.filter(s => s.category === bot.commands[v].category)[0])].commands.push(bot.commands[v]);
+		Object.keys(bot.commands).forEach((v) => {
+			if (sorted.filter((s) => s.category === bot.commands[v].category).length < 1) sorted.push({ category: bot.commands[v].category, commands: [] });
+			sorted[sorted.indexOf(sorted.filter((s) => s.category === bot.commands[v].category)[0])].commands.push(bot.commands[v]);
 		});
 		res.render("commands.pug", {
 			user: req.user,
