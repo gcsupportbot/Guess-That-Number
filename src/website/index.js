@@ -136,7 +136,9 @@ module.exports = (bot, r) => {
 		});
 	});
 	
-	const server = app.listen(config.website_port, () => {
+	const server = http.createServer(app);
+
+	server.listen(config.website_port, () => {
 		log("Website listening on port " + config.website_port + ".");
 	});
 	
@@ -161,6 +163,4 @@ module.exports = (bot, r) => {
 			socketAlive = false;	
 		});
 	});
-
-	server.listen();
 };
