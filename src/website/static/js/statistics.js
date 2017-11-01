@@ -1,5 +1,9 @@
 (function() {
 	try {
+		console.log = alert;
+		console.warn = alert;
+		console.error = alert;
+		
 		var socket = io.connect("/guess-that-number/statistics", { secure: true, path: "/guess-that-number/socket.io" });
 		var servers = document.getElementById("servers");
 		var users = document.getElementById("users");
