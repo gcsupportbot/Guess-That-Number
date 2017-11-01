@@ -18,7 +18,8 @@
         "pug": "^2.0.0-rc.4",
         "rethinkdbdash": "^2.3.31",
         "snekfetch": "^3.5.8",
-        "uws": "^8.14.1"
+        "uws": "^8.14.1",
+        "socket.io": "^2.0.4"
     },
     "homepage": "https://passthemayo.space/guess-that-number",
     "main": "src/index.js",
