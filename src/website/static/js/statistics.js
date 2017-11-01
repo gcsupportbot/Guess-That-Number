@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect("//passthemayo.space/guess-that-number/", { secure: false });
+	var socket = io();
 	var servers = document.getElementById("servers");
 	var users = document.getElementById("users");
 	var channels = document.getElementById("channels");
