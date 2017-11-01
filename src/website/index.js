@@ -35,6 +35,10 @@ module.exports = (bot, r) => {
 
 	const app = express();
 
+	app.use((req, res, next) => {
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		next();
+	});
 	app.use(cookieSession({
 		name: "session",
 		secret: config.secret,
@@ -142,7 +146,7 @@ module.exports = (bot, r) => {
 	
 	io.of("/statistics").on("connection", (socket) => {
 		console.log("connection");
-		
+
 		let socketAlive = true;
 		
 		const send = () => {
