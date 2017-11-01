@@ -1,5 +1,7 @@
 const express = require("express");
+const http = require("http");
 const passport = require("passport");
+const socketio = require("socket.io");
 const passportDiscord = require("passport-discord");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
@@ -133,9 +135,32 @@ module.exports = (bot, r) => {
 			message: "The requested page or resource was not found."
 		});
 	});
+	
+	const server = http.Server(app);
+	
+	const io = socketio(server);
+	
+	io.on("connection", (socket) => {
+		let socketAlive = true;
+		
+		const send = () => {
+			socket.emit("data", {
+				servers: bot.guilds.size,
+				users: bot.users.size,
+				channels: Object.keys(bot.channelGuildMap).length,
+				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
+				commands: Object.keys(bot.commands).length
+			});
+		};
+		
+		send();
+		
+		socket.on("disconnect", () => {
+			socketAlive = false;	
+		});
+	});
 
-	app.listen(config.website_port, (error) => {
-		if (error) throw error;
+	server.listen(config.website_port, () => {
 		log("Website listening on port " + config.website_port + ".");
 	});
 };
