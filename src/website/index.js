@@ -136,9 +136,9 @@ module.exports = (bot, r) => {
 		});
 	});
 	
-	const server = http.Server(app);
+	const server = http.createServer(app);
 	
-	const io = socketio(server);
+	const io = socketio.listen(server);
 	
 	io.on("connection", (socket) => {
 		let socketAlive = true;
