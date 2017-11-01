@@ -1,18 +1,10 @@
 {
-    "name": "guessthatnumber",
+    "name": "guess-that-number",
     "description": "A unique and addicting game in which you have to guess the randomly generated number based on hints.",
     "version": "1.0.0",
-    "keywords": [
-        "numbers",
-        "guessing",
-        "guess",
-        "random"
-    ],
     "scripts": {
         "start": "pm2 start src/index.js --name GuessThatNumber",
-        "restart": "pm2 restart GuessThatNumber",
-        "stop": "pm2 stop GuessThatNumber",
-        "delete": "pm2 delete GuessThatNumber"
+        "restart": "pm2 restart GuessThatNumber"
     },
     "dependencies": {
         "cookie-parser": "^1.4.3",
@@ -28,7 +20,7 @@
         "snekfetch": "^3.5.8",
         "uws": "^8.14.1"
     },
-    "homepage": "https://passthemayo.space/guess-that-number/",
+    "homepage": "https://passthemayo.space/guess-that-number",
     "main": "src/index.js",
     "repository": {
         "type": "git",
