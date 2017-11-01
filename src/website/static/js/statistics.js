@@ -10,6 +10,7 @@
 	var uptime = document.getElementById("uptime");
 
 	socket.on("stats", function(data) {
+		console.log('stats');
 		servers.innerText = data.servers;
 		users.innerText = data.users;
 		channels.innerText = data.channels;
