@@ -1,5 +1,5 @@
 (function() {
-	var socket = io();
+	var socket = io.connect("/guess-that-number/statistics", { secure: true });
 	var servers = document.getElementById("servers");
 	var users = document.getElementById("users");
 	var channels = document.getElementById("channels");
