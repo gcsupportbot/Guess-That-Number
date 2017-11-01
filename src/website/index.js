@@ -137,10 +137,6 @@ module.exports = (bot, r) => {
 	});
 	
 	const server = http.createServer(app);
-
-	server.listen(config.website_port, () => {
-		log("Website listening on port " + config.website_port + ".");
-	});
 	
 	const io = socketio.listen(server);
 	
@@ -162,5 +158,9 @@ module.exports = (bot, r) => {
 		socket.on("disconnect", () => {
 			socketAlive = false;	
 		});
+	});
+
+	server.listen(config.website_port, () => {
+		log("Website listening on port " + config.website_port + ".");
 	});
 };
