@@ -140,7 +140,7 @@ module.exports = (bot, r) => {
 	
 	const io = socketio.listen(server);
 	
-	io.on("connection", (socket) => {
+	io.of("/statistics").on("connection", (socket) => {
 		let socketAlive = true;
 		
 		const send = () => {
