@@ -64,7 +64,7 @@ module.exports = (bot, r) => {
 		if (!req.user) return res.redirect("/guess-that-number/auth");
 		res.render("dashboard/index.pug", {
 			user: req.user,
-			servers: bot.guilds.filter((g) => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild"))).map((g) => ({ name: g.name, icon: g.icon, id: g.id })
+			servers: bot.guilds.filter((g) => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild")).map((g) => ({ name: g.name, icon: g.icon, id: g.id })
 		});
 	});
 
