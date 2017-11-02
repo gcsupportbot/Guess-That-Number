@@ -64,7 +64,7 @@ module.exports = (bot, r) => {
 		if (!req.user) return res.redirect("/guess-that-number/auth");
 		res.render("dashboard/index.pug", {
 			user: req.user,
-			servers: bot.guilds.filter((g) => config.trusted.indexOf(req.user.id) > -1 || (g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild"))).map((g) => ({ name: g.name, icon: g.icon, id: g.id }))
+			servers: bot.guilds.filter((g) => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has("manageGuild"))).map((g) => ({ name: g.name, icon: g.icon, id: g.id })
 		});
 	});
 
@@ -75,8 +75,8 @@ module.exports = (bot, r) => {
 			code: 400,
 			message: "That is not a valid Discord server ID."
 		});
-		const guild = bot.guilds.get(req.params.id) && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
-		if (config.trusted.indexOf(req.user.id) > -1 || (guild && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has("manageGuild"))) {
+		const guild = bot.guilds.get(req.params.id) && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has("manageGuild")) && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
+		if (guild) {
 			res.render("dashboard/manage.pug", {
 				user: req.user,
 				server: guild
