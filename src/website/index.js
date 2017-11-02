@@ -75,7 +75,7 @@ module.exports = (bot, r) => {
 			code: 400,
 			message: "That is not a valid Discord server ID."
 		});
-		const guild = bot.guilds.get(req.params.id) && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has("manageGuild")) && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
+		const guild = bot.guilds.get(req.params.id) && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has("manageGuild") && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
 		if (guild) {
 			res.render("dashboard/manage.pug", {
 				user: req.user,
