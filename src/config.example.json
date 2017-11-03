@@ -1,12 +1,16 @@
 {
     "token": "",
+	"secret": "",
     "prefix": "g!",
+	"website_port": 3000,
     "trusted": [
         "153173425844781056"
     ],
     "rethink": {
         "host": "",
         "db": "",
+		"user": "admin",
+		"password": "",
         "silent": true
     },
     "api_keys": {
