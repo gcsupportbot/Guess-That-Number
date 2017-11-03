@@ -12,6 +12,7 @@ It is recommended that you do not try to run this on your own. If you are experi
 * toggle
 * user_statistics
 * users
+
 Once you have created all of those tables, please run the following command:
 ```js
 r.table("intervals").insert({ id: "reset", timestamp: Date.now() + (1000 * 60 * 60 * 24 * 15) });
