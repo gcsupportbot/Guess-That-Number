@@ -19,7 +19,8 @@
         "rethinkdbdash": "^2.3.31",
         "snekfetch": "^3.5.8",
         "socket.io": "^2.0.4",
-        "uws": "^8.14.1"
+        "uws": "^8.14.1",
+        "body-parser": "^1.18.2"
     },
     "homepage": "https://passthemayo.space/guess-that-number",
     "main": "src/index.js",
