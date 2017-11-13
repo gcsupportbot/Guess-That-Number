@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const passport = require("passport");
-const ws = require("express-ws");
+const socketio = require("socket.io");
 const passportDiscord = require("passport-discord");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
@@ -104,29 +104,6 @@ module.exports = (bot, r) => {
 		});
 	});
 
-	app.ws("/statistics", (ws, req) => {
-		console.log("connection");
-
-		let socketAlive = true;
-
-		const send = () => {
-			ws.send({
-				servers: bot.guilds.size,
-				users: bot.users.size,
-				channels: Object.keys(bot.channelGuildMap).length,
-				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
-				commands: Object.keys(bot.commands).length
-			});
-			if (socketAlive) setTimeout(send, 1000);
-		};
-
-		send();
-
-		ws.on("disconnect", () => {
-			socketAlive = false;
-		});
-	});
-
 	app.get("/commands", (req, res) => {
 		let sorted = [];
 		Object.keys(bot.commands).forEach((v) => {
@@ -164,7 +141,34 @@ module.exports = (bot, r) => {
 		});
 	});
 
-	app.listen(config.website_port, () => {
+	const server = http.createServer(app);
+
+	const io = socketio.listen(server);
+
+	io.of("/statistics").on("connection", (socket) => {
+		console.log("connection");
+
+		let socketAlive = true;
+
+		const send = () => {
+			socket.emit("stats", {
+				servers: bot.guilds.size,
+				users: bot.users.size,
+				channels: Object.keys(bot.channelGuildMap).length,
+				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
+				commands: Object.keys(bot.commands).length
+			});
+			if (socketAlive) setTimeout(send, 1000);
+		};
+
+		send();
+
+		socket.on("disconnect", () => {
+			socketAlive = false;
+		});
+	});
+
+	server.listen(config.website_port, () => {
 		log("Website listening on port " + config.website_port + ".");
 	});
 };
