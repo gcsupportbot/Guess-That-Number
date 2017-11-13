@@ -1,5 +1,6 @@
 # Guess-That-Number
 A unique and addicting game in which you have to guess the randomly generated number based on hints.
+![npm dependencies](https://david-dm.org/PassTheMayo/Guess-That-Number.svg "npm dependencies")
 
 ## Getting Started
 It is recommended that you do not try to run this on your own. If you are experienced with Node.js applications and have used RethinkDB before, then go ahead. The `config.example.json` file under `src/` needs to be renamed to `config.json`. Then please fill out the information in the file. A RethinkDB database is required in order for the bot to function. Please make sure you have that installed, created a database, added added the following tables to it:
