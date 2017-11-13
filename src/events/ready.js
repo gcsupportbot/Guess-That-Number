@@ -10,13 +10,10 @@ module.exports = (bot, r) => {
 		log(bot.user.username + " is ready!");
 		bot.startuptime = Date.now();
 		process.on("unhandledRejection", (error) => {
-			try {
-				error = JSON.parse(error.response.toString());
-				if (error.code === 50013) return;
-				if (error.code === 50001) return;
-				if (error.code === 50007) return;
-				console.error(error);
-			} catch(e) {}
+			/* if (error.code === 50013) return;
+			if (error.code === 50001) return;
+			if (error.code === 50007) return; */
+			console.error(error.toString());
 		});
 		process.on("uncaughtException", console.error);
 		r.table("toggle").run((error, response) => {
