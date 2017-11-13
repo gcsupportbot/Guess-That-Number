@@ -1,5 +1,6 @@
 # Guess-That-Number
 A unique and addicting game in which you have to guess the randomly generated number based on hints.
+
 ![npm dependencies](https://david-dm.org/PassTheMayo/Guess-That-Number.svg "npm dependencies")
 
 ## Getting Started
