@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const passport = require("passport");
-const socketio = require("socket.io");
+const WebSocket = require("ws");
 const passportDiscord = require("passport-discord");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
@@ -142,21 +142,21 @@ module.exports = (bot, r) => {
 	
 	const server = http.createServer(app);
 	
-	const io = socketio.listen(server);
+	const wss = new WebSocket.Server({ server });
 	
-	io.of("/statistics").on("connection", (socket) => {
+	wss.on("connection", (socket) => {
 		console.log("connection");
 
 		let socketAlive = true;
 		
 		const send = () => {
-			socket.emit("data", {
+			socket.emit(JSON.stringify({
 				servers: bot.guilds.size,
 				users: bot.users.size,
 				channels: Object.keys(bot.channelGuildMap).length,
 				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
 				commands: Object.keys(bot.commands).length
-			});
+			}));
 			console.log('send');
 			if (socketAlive) setTimeout(send, 1000);
 		};
