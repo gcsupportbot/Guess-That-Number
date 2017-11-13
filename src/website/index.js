@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const passport = require("passport");
-const WebSocket = require("ws");
+const ws = require("express-ws");
 const passportDiscord = require("passport-discord");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
@@ -35,6 +35,7 @@ module.exports = (bot, r) => {
 
 	const app = express();
 
+	ws(app);
 	app.use((req, res, next) => {
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		next();
@@ -103,6 +104,30 @@ module.exports = (bot, r) => {
 		});
 	});
 
+	app.ws("/statistics", (ws, req) => {
+		console.log("connection");
+
+		let socketAlive = true;
+
+		const send = () => {
+			ws.send(JSON.stringify({
+				servers: bot.guilds.size,
+				users: bot.users.size,
+				channels: Object.keys(bot.channelGuildMap).length,
+				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
+				commands: Object.keys(bot.commands).length
+			}));
+			console.log('send');
+			if (socketAlive) setTimeout(send, 1000);
+		};
+
+		send();
+
+		ws.on("disconnect", () => {
+			socketAlive = false;
+		});
+	});
+
 	app.get("/commands", (req, res) => {
 		let sorted = [];
 		Object.keys(bot.commands).forEach((v) => {
@@ -139,36 +164,8 @@ module.exports = (bot, r) => {
 			message: "The requested page or resource was not found."
 		});
 	});
-	
-	const server = http.createServer(app);
-	
-	const wss = new WebSocket.Server({ server });
-	
-	wss.on("connection", (socket) => {
-		console.log("connection");
 
-		let socketAlive = true;
-		
-		const send = () => {
-			socket.emit(JSON.stringify({
-				servers: bot.guilds.size,
-				users: bot.users.size,
-				channels: Object.keys(bot.channelGuildMap).length,
-				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
-				commands: Object.keys(bot.commands).length
-			}));
-			console.log('send');
-			if (socketAlive) setTimeout(send, 1000);
-		};
-		
-		send();
-		
-		socket.on("disconnect", () => {
-			socketAlive = false;	
-		});
-	});
-
-	server.listen(config.website_port, () => {
+	app.listen(config.website_port, () => {
 		log("Website listening on port " + config.website_port + ".");
 	});
 };
