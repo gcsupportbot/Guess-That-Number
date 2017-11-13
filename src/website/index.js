@@ -1,7 +1,5 @@
 const express = require("express");
-const http = require("http");
 const passport = require("passport");
-const socketio = require("socket.io");
 const passportDiscord = require("passport-discord");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
@@ -140,34 +138,7 @@ module.exports = (bot, r) => {
 		});
 	});
 
-	const server = http.createServer(app);
-
-	const io = socketio.listen(server);
-
-	io.on("connected", (socket) => {
-		console.log("connection");
-
-		let socketAlive = true;
-
-		const send = () => {
-			socket.emit("stats", {
-				servers: bot.guilds.size,
-				users: bot.users.size,
-				channels: Object.keys(bot.channelGuildMap).length,
-				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
-				commands: Object.keys(bot.commands).length
-			});
-			if (socketAlive) setTimeout(send, 1000);
-		};
-
-		send();
-
-		socket.on("disconnect", () => {
-			socketAlive = false;
-		});
-	});
-
-	server.listen(config.website_port, () => {
+	app.listen(config.website_port, () => {
 		log("Website listening on port " + config.website_port + ".");
 	});
 };
