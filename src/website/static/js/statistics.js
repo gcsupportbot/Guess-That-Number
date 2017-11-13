@@ -2,7 +2,7 @@
 /* global io */
 
 (function() {
-	var socket = io.connect("//passthemayo.space/guess-that-number/statistics", { secure: true, path: "/guess-that-number/socket.io" });
+	var socket = io.connect("https://passthemayo.space/guess-that-number", { secure: true, path: "/guess-that-number/socket.io" });
 	var servers = document.getElementById("servers");
 	var users = document.getElementById("users");
 	var channels = document.getElementById("channels");
