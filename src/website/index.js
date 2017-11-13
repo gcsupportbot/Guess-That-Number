@@ -110,14 +110,13 @@ module.exports = (bot, r) => {
 		let socketAlive = true;
 
 		const send = () => {
-			ws.send(JSON.stringify({
+			ws.send({
 				servers: bot.guilds.size,
 				users: bot.users.size,
 				channels: Object.keys(bot.channelGuildMap).length,
 				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
 				commands: Object.keys(bot.commands).length
-			}));
-			console.log('send');
+			});
 			if (socketAlive) setTimeout(send, 1000);
 		};
 
