@@ -5,9 +5,9 @@ const guess = require("../commands/guess.js");
 module.exports = (bot, r, msg) => {
 	if (!msg.author || msg.author.bot) return;
 	if (bot.toggle.indexOf(msg.author.id) > -1) {
-		if (msg.content !== "" && !isNaN(parseInt(msg.content))) {
+		if (msg.content !== "" && !isNaN(parseInt(msg.content.replace(/,/g, "")))) {
 			let new_event = Object.create(msg);
-			new_event.content = config.prefix + "guess " + Number(msg.content);
+			new_event.content = config.prefix + "guess " + Number(msg.content.replace(/,/g, ""));
 			guess.execute(bot, r, new_event, new_event.content.split(" ").slice(1));
 			return;
 		}
