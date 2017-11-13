@@ -43,7 +43,7 @@ module.exports = {
 											color: 3066993,
 											description: "The number is lower than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
 											footer: {
-												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
+												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator + " | Guess #" + (response.score + 1)
 											}
 										}
 									});
@@ -54,7 +54,7 @@ module.exports = {
 											color: 3066993,
 											description: "The number is higher than `" + String(guess).replace(/(.)(?=(\d{3})+$)/g, "$1,") + "`.",
 											footer: {
-												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
+												text: "Requested by " + msg.author.username + "#" + msg.author.discriminator + " | Guess #" + (response.score + 1)
 											}
 										}
 									});
@@ -63,7 +63,7 @@ module.exports = {
 										msg.channel.createMessage({
 											embed: {
 												title: "You guessed the correct number!",
-												color: 306993,
+												color: 3066993,
 												description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
 													round: true
 												}) + "`.\n\nAdditionally, you have been awarded " + coinsAwarded + " coins to use in the shop.",
