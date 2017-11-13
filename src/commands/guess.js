@@ -59,9 +59,34 @@ module.exports = {
 										}
 									});
 								} else if (guess === response.number) {
+									const sendMessage = (coinsAwarded) => {
+										msg.channel.createMessage({
+											embed: {
+												title: "You guessed the correct number!",
+												color: 306993,
+												description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
+													round: true
+												}) + "`.\n\nAdditionally, you have been awarded " + coinsAwarded + " coins to use in the shop.",
+												footer: {
+													text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
+												}
+											}
+										});
+									};
+									const handleToggle = (coinsAwarded) => {
+										if (bot.toggle.indexOf(msg.author.id) > -1) {
+											r.table("toggle").get(msg.author.id).delete().run((error) => {
+												if (error) return handleDatabaseError(error, msg);
+												bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
+												sendMessage(coinsAwarded);
+											});
+										} else {
+											sendMessage(coinsAwarded);
+										}
+									};
 									r.table("games").get(msg.author.id).delete().run((error) => {
 										if (error) return handleDatabaseError(error, msg);
-										updateUserStats(r, msg, response, (error) => {
+										updateUserStats(r, msg, response, (error, coinsAwarded) => {
 											if (error) return handleDatabaseError(error, msg);
 											r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).run((error, response2) => {
 												if (error) return handleDatabaseError(error, msg);
@@ -69,72 +94,12 @@ module.exports = {
 													if ((response.score + 1) < response2.score) {
 														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
-															if (bot.toggle.indexOf(msg.author.id) > -1) {
-																r.table("toggle").get(msg.author.id).delete().run((error) => {
-																	if (error) return handleDatabaseError(error, msg);
-																	bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
-																	msg.channel.createMessage({
-																		embed: {
-																			title: "You guessed the correct number!",
-																			color: 306993,
-																			description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																				round: true
-																			}) + "`.",
-																			footer: {
-																				text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																			}
-																		}
-																	});
-																});
-															} else {
-																msg.channel.createMessage({
-																	embed: {
-																		title: "You guessed the correct number!",
-																		color: 3066993,
-																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																			round: true
-																		}) + "`.",
-																		footer: {
-																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																		}
-																	}
-																});
-															}
+															handleToggle(coinsAwarded);
 														});
 													} else {
 														r.table("leaderboard").filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
 															if (error) return handleDatabaseError(error, msg);
-															if (bot.toggle.indexOf(msg.author.id) > -1) {
-																r.table("toggle").get(msg.author.id).delete().run((error) => {
-																	if (error) return handleDatabaseError(error, msg);
-																	bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
-																	msg.channel.createMessage({
-																		embed: {
-																			title: "You guessed the correct number!",
-																			color: 3066993,
-																			description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																				round: true
-																			}) + "`.",
-																			footer: {
-																				text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																			}
-																		}
-																	});
-																});
-															} else {
-																msg.channel.createMessage({
-																	embed: {
-																		title: "You guessed the correct number!",
-																		color: 3066993,
-																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																			round: true
-																		}) + "`.",
-																		footer: {
-																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																		}
-																	}
-																});
-															}
+															handleToggle(coinsAwarded);
 														});
 													}
 												} else {
@@ -144,37 +109,7 @@ module.exports = {
 														difficulty: response.difficulty
 													}).run((error) => {
 														if (error) return handleDatabaseError(error, msg);
-														if (bot.toggle.indexOf(msg.author.id) > -1) {
-															r.table("toggle").get(msg.author.id).delete().run((error) => {
-																if (error) return handleDatabaseError(error, msg);
-																bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
-																msg.channel.createMessage({
-																	embed: {
-																		title: "You guessed the correct number!",
-																		color: 306993,
-																		description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																			round: true
-																		}) + "`.",
-																		footer: {
-																			text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																		}
-																	}
-																});
-															});
-														} else {
-															msg.channel.createMessage({
-																embed: {
-																	title: "You guessed the correct number!",
-																	color: 3066993,
-																	description: "The number was `" + response.number + "`.\n\nYou guessed `" + (response.score + 1) + "` times before ending the game.\n\nThe game was active for `" + humanizeduration(Date.now() - response.start_time, {
-																		round: true
-																	}) + "`.",
-																	footer: {
-																		text: "Requested by " + msg.author.username + "#" + msg.author.discriminator
-																	}
-																}
-															});
-														}
+														handleToggle(coinsAwarded);
 													});
 												}
 											});
