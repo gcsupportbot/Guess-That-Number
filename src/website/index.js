@@ -35,7 +35,6 @@ module.exports = (bot, r) => {
 
 	const app = express();
 
-	ws(app);
 	app.use((req, res, next) => {
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		next();
