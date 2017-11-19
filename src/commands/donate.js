@@ -15,11 +15,16 @@ module.exports = {
 			embed: {
 				title: "Donation Links",
 				color: 3066993,
-				description: "Donating to PassTheMayo will help pay for the VPS that keeps the bots alive. For now, the only available methods is through Patreon, since I'd prefer to keep my home address private, by disabling PayPal.",
+				description: "Donating to PassTheMayo will help pay for the VPS that keeps the bots alive.",
 				fields: [
 					{
 						name: "Patreon",
 						value: config.links.patreon,
+						inline: true
+					},
+					{
+						name: "PayPal",
+						value: config.links.paypal,
 						inline: true
 					}
 				]
