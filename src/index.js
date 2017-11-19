@@ -1,6 +1,7 @@
 const Eris = require("eris");
 const fs = require("fs");
 const rethink = require("rethinkdbdash");
+const path = require("path");
 const config = require("./config.json");
 const log = require("./managers/logger.js");
 
@@ -24,23 +25,24 @@ const r = rethink(config.rethink);
 
 let start = Date.now();
 
-fs.readdir("./commands/", (error, files) => {
-	if (error) throw new error();
+fs.readdir(path.join(__dirname, "commands"), (error, files) => {
+	if (error) throw error;
 	files.map((file) => {
-		bot.commands[file.replace(/\..*/, "")] = require("./commands/" + file);
+		bot.commands[file.replace(/\..*/, "")] = require(path.join(__dirname, "commands", file));
 		if (files.indexOf(file) === files.length - 1) {
 			log("Loaded " + files.length + " commands! (" + (Date.now() - start) + " ms)");
-			fs.readdir("./events", (error, files) => {
-				if (error) throw new error();
+			fs.readdir(path.join(__dirname, "events"), (error, files) => {
+				if (error) throw error;
 				files.map((file) => {
-					require("./events/" + file)(bot, r);
+					require(path.join(__dirname, "events", file))(bot, r);
 					if (files.indexOf(file) === files.length - 1) {
 						log("Loaded " + files.length + " events! (" + (Date.now() - start) + " ms)");
 						start = Date.now();
-						fs.readdir("./schedulers", (error, files) => {
-							if (error) throw new error();
+						fs.readdir(path.join(__dirname, "schedulers"), (error, files) => {
+							if (error) throw error;
 							files.map((index) => {
-								setInterval(require("./schedulers/" + index).execute, require("./schedulers/" + index).interval, bot, r);
+								const schedule = require(path.join(__dirname, "schedulers", index));
+								setInterval(schedule.execute, schedule.interval, bot, r);
 								if (files.indexOf(index) === files.length - 1) {
 									log("Loaded " + files.length + " schedules! (" + (Date.now() - start) + " ms)");
 									bot.connect();

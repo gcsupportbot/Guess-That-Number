@@ -13,7 +13,8 @@ module.exports = (r, msg, response, callback) => {
 				easy_game_time: ((response.difficulty === 1) ? Number(response2.easy_game_time) + (Date.now() - Number(response.start_time)) : response2.easy_game_time),
 				medium_game_time: ((response.difficulty === 2) ? Number(response2.medium_game_time) + (Date.now() - Number(response.start_time)) : response2.medium_game_time),
 				hard_game_time: ((response.difficulty === 3) ? Number(response2.hard_game_time) + (Date.now() - Number(response.start_time)) : response2.hard_game_time),
-				coins: r.row("coins").add(coinsAwarded).default(0)
+				coins: response2.coins + coinsAwarded,
+				totalCoins: response2.coins + coinsAwarded
 			}).run((error) => {
 				if (error) return callback(error, null);
 				callback(false, coinsAwarded);
@@ -30,7 +31,8 @@ module.exports = (r, msg, response, callback) => {
 				easy_game_time: ((response.difficulty === 1) ? (Date.now() - Number(response.start_time)) : 0),
 				medium_game_time: ((response.difficulty === 2) ? (Date.now() - Number(response.start_time)) : 0),
 				hard_game_time: ((response.difficulty === 3) ? (Date.now() - Number(response.start_time)) : 0),
-				coins: coinsAwarded
+				coins: coinsAwarded,
+				totalCoins: coinsAwarded
 			}).run((error) => {
 				if (error) return callback(error, null);
 				callback(false, coinsAwarded);

@@ -9,7 +9,15 @@ module.exports = (bot, r) => {
 	bot.on("ready", () => {
 		log(bot.user.username + " is ready!");
 		bot.startuptime = Date.now();
-		process.on("unhandledRejection", console.error);
+		process.on("unhandledRejection", (error) => {
+			if (error.response) {
+				try {
+					const data = JSON.parse(error.response);
+					if (data.code === 50013) return;
+					console.error(error);
+				} catch(e) {}
+			}
+		});
 		process.on("uncaughtException", console.error);
 		r.table("toggle").run((error, response) => {
 			if (error) return handleDatabaseError(error);
