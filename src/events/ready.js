@@ -12,10 +12,12 @@ module.exports = (bot, r) => {
 		process.on("unhandledRejection", (error) => {
 			if (error.response) {
 				try {
-					const data = JSON.parse(error.response);
-					if (data.code === 50013) return;
+					const code = JSON.parse(error.response).code;
+					if (code === 50013 || code === 50001 || code === 50007) return;
 					console.error(error);
 				} catch(e) {}
+			} else {
+				console.error(error);
 			}
 		});
 		process.on("uncaughtException", console.error);
