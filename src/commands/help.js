@@ -17,7 +17,7 @@ module.exports = {
 				fields[fields.indexOf(filter[0])].value += ", `" + bot.commands[c].commands[0] + "`";
 			} else {
 				fields[fields.length] = {
-					name: bot.commands[c].category + " ─ " + commands.filter(c2 => bot.commands[c2].category === bot.commands[c].category).length,
+					name: bot.commands[c].category + " ─ " + commands.filter((c2) => bot.commands[c2].category === bot.commands[c].category).length,
 					value: "`" + bot.commands[c].commands[0] + "`",
 					inline: false
 				};
