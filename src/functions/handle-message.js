@@ -25,7 +25,7 @@ module.exports = (bot, r, msg) => {
 				embed: {
 					title: "Error!",
 					color: 0xE50000,
-					description: "An error occured when attempting to execute command."
+					description: "An error occured when attempting to execute command. Please report this bug on the official server: " + config.links.server
 				}
 			});
 			console.error("Failed to execute '" + bot.commands[command[0]].commands[0] + "' command.", error);

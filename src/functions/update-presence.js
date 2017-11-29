@@ -2,7 +2,7 @@ const config = require("../config.json");
 
 module.exports = (bot) => {
 	bot.editStatus("online", {
-		name: bot.guilds.size + " Servers | " + config.prefix + "help",
+		name: config.links.server + " | " + config.prefix + "help",
 		type: 0
 	});
 };
