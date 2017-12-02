@@ -1,5 +1,3 @@
-/* eslint-disable no-empty */
-
 const log = require("../managers/logger.js");
 const handleDatabaseError = require("../functions/handle-database-error.js");
 const config = require("../config.json");
@@ -10,15 +8,8 @@ module.exports = (bot, r) => {
 		log(bot.user.username + " is ready!");
 		bot.startuptime = Date.now();
 		process.on("unhandledRejection", (error) => {
-			if (error.response) {
-				try {
-					const code = JSON.parse(error.response).code;
-					if (code === 50013 || code === 50001 || code === 50007) return;
-					console.error(error);
-				} catch(e) {}
-			} else {
-				console.error(error);
-			}
+			if (error.coed && (error.code === 50013 || error.code === 50001 || error.code === 50007)) return;
+			console.error(error);
 		});
 		process.on("uncaughtException", console.error);
 		r.table("toggle").run((error, response) => {
