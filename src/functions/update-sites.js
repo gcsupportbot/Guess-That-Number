@@ -13,9 +13,9 @@ module.exports = (bot) => {
 	}).catch((error) => {
 		console.error("Failed to post server count to Discord Bot List.", error.message);
 	});
-	snekfetch.post("https://ls.terminal.ink/api/bots/" + bot.user.id + "/").set("Authorization", config.api_keys.bot_list["ls.terminal.ink"]).send({
+	snekfetch.post("https://ls.terminal.ink/api/v1/bots/" + bot.user.id + "/").set("Authorization", config.api_keys.bot_list["ls.terminal.ink"]).send({
 		server_count: bot.guilds.size
 	}).catch((error) => {
-		console.error("Failed to post server count to Discord Bot List.", error.message);
+		console.error("Failed to post server count to ls.terminal.ink.", error.message);
 	});
 };
