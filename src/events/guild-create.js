@@ -5,7 +5,7 @@ const updatePresence = require("../functions/update-presence.js");
 module.exports = (bot) => {
 	bot.on("guildCreate", (server) => {
 		bot.prefixes[server.id] = config.prefix;
-		if (bot.users.get(server.ownerID)) bot.users.get(server.ownerID).getDMChannel().then((dm) => dm.createMessage("Thanks for adding me! So I'm guessing you're new to this game? If so, you're probably going to want to use the `" + config.prefix + "howtoplay` command to learn how to play. If you're not new to this game, then have fun! If you find any bugs or have any feature requests, then join the official server using `" + config.prefix + "links` and report it in the appropriate channels. Thank you for adding " + bot.user.username + ". Have fun!"));
+		if (bot.users.get(server.ownerID)) bot.users.get(server.ownerID).getDMChannel().then((dm) => dm.createMessage("Hello, there! Either you or one of your admins added me to your server, but you are the most relavent person I can send this to.\n\nTo use the bot, use `" + config.prefix + "help` to view a list of commands. You can additionally use `" + config.prefix + "howtoplay` to get a tutorial on how to play this bot.\n\nSorry to ask this of you, but right now, I am currently not getting enough funding to support hosting costs. If you are a true supporter, then please consider donating at <https://patreon.com/passthemayo>.\n\nThank you!"));
 		updateBotLists(bot);
 		updatePresence(bot);
 	});
