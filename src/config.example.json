@@ -1,31 +1,31 @@
 {
-    "token": "",
+	"token": "",
 	"secret": "",
-    "prefix": "g!",
+	"prefix": "g!",
 	"website_port": 3000,
-    "trusted": [
-        "153173425844781056"
-    ],
-    "rethink": {
-        "host": "",
-        "db": "",
+	"trusted": [
+		"153173425844781056"
+	],
+	"rethink": {
+		"host": "",
+		"db": "",
 		"user": "admin",
 		"password": "",
-        "silent": true
-    },
-    "api_keys": {
-        "bot_list": {
-            "discordbots.org": "",
-            "carbonitex": "",
-            "ls.terminal.ink": ""
-        }
-    },
-    "links": {
+		"silent": true
+	},
+	"api_keys": {
+		"bot_list": {
+			"botlist.space": "",
+			"carbonitex": "",
+			"ls.terminal.ink": ""
+		}
+	},
+	"links": {
 		"bot": "https://passthemayo.space/guess-that-number/invite",
 		"server": "https://passthemayo.space/server",
 		"paypal": "https://www.paypal.me/JacobGunther",
 		"patreon": "https://www.patreon.com/passthemayo",
 		"contact": "https://passthemayo.space/contact",
 		"website": "https://passthemayo.space/guess-that-number/"
-    }
+	}
 }
