@@ -7,10 +7,11 @@
         "restart": "pm2 restart GuessThatNumber"
     },
     "dependencies": {
+        "body-parser": "^1.18.2",
         "cookie-parser": "^1.4.3",
         "cookie-session": "^2.0.0-beta.3",
         "dateformat": "^2.0.0",
-        "eris": "^0.8.1",
+        "eris": "^0.8.2",
         "express": "^4.15.4",
         "humanize-duration": "^3.12.0",
         "passport": "^0.4.0",
@@ -18,8 +19,7 @@
         "pug": "^2.0.0-rc.4",
         "rethinkdbdash": "^2.3.31",
         "snekfetch": "^3.5.8",
-        "uws": "^8.14.1",
-        "body-parser": "^1.18.2"
+        "uws": "^8.14.1"
     },
     "homepage": "https://passthemayo.space/guess-that-number",
     "main": "src/index.js",

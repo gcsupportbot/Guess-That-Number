@@ -8,7 +8,7 @@ module.exports = (bot, r) => {
 		log(bot.user.username + " is ready!");
 		bot.startuptime = Date.now();
 		process.on("unhandledRejection", (error) => {
-			if (error.coed && (error.code === 50013 || error.code === 50001 || error.code === 50007)) return;
+			if (error.code && (error.code === 50013 || error.code === 50001 || error.code === 50007)) return;
 			console.error(error);
 		});
 		process.on("uncaughtException", console.error);
