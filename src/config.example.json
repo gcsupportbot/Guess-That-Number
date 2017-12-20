@@ -1,6 +1,8 @@
 {
 	"token": "",
 	"secret": "",
+	"official_guild": "",
+	"log_channel": "",
 	"prefix": "g!",
 	"website_port": 3000,
 	"trusted": [
