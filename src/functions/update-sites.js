@@ -18,4 +18,9 @@ module.exports = (bot) => {
 	}).catch((error) => {
 		console.error("Failed to post server count to ls.terminal.ink.", error.message);
 	});
+	snekfetch.post("https://bots.discord.pw/api/bots/" + bot.user.id + "/stats").set("Authorization", config.api_keys.bot_list["bots.discord.pw"]).send({
+		server_count: bot.guilds.size
+	}).catch((error) => {
+		console.error("Failed to post server count to bots.discord.pw.", error.message);
+	});
 };
