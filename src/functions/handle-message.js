@@ -19,8 +19,7 @@ module.exports = (bot, r, msg) => {
 	if (command.length > 0) {
 		const args = ((msg.content.replace(prefix, "").split(" ").length > 1) ? msg.content.replace(prefix, "").split(" ").slice(1) : []);
 		try {
-			// bot.commands[command[0]].execute(bot, r, msg, args);
-			msg.channel.createMessage(":octagonal_sign: A major change is coming to this bot. Please read more here: https://passthemayo.space/notice.txt");
+			bot.commands[command[0]].execute(bot, r, msg, args);
 		} catch (error) {
 			msg.channel.createMessage({
 				embed: {
