@@ -22,12 +22,12 @@ module.exports = {
 					});
 					result = removeSensitiveInformation(result);
 					if (result.length > 1985) {
-						snekfetch.post("https://haste.passthemayo.space/documents").send(result).then((body) => {
+						snekfetch.post("https://h.mayo.pw/documents").send(result).then((body) => {
 							msg.channel.createMessage({
 								embed: {
 									title: "Warning!",
 									color: 0xFFA500,
-									description: "Result was over 2,000 characters, Generated hastebin link instead. https://haste.passthemayo.space/" + body.body.key + ".js"
+									description: "Result was over 2,000 characters, Generated hastebin link instead. https://h.mayo.pw/" + body.body.key + ".js"
 								}
 							});
 						}).catch((error) => {
