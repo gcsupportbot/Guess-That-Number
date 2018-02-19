@@ -1,9 +1,9 @@
 module.exports = (r, msg, response, callback) => {
-	r.table("user_statistics").get(msg.author.id).run((error, response2) => {
+	r.table('user_statistics').get(msg.author.id).run((error, response2) => {
 		if (error) return callback(error);
 		const coinsAwarded = (response.difficulty === 1) ? 50 : (response.difficulty === 2) ? 100 : (response.difficulty === 3) ? 150 : 100;
 		if (response2) {
-			r.table("user_statistics").get(msg.author.id).update({
+			r.table('user_statistics').get(msg.author.id).update({
 				easy_games_played: ((response.difficulty === 1) ? response2.easy_games_played + 1 : response2.easy_games_played),
 				medium_games_played: ((response.difficulty === 2) ? response2.medium_games_played + 1 : response2.medium_games_played),
 				hard_games_played: ((response.difficulty === 3) ? response2.hard_games_played + 1 : response2.hard_games_played),
@@ -20,7 +20,7 @@ module.exports = (r, msg, response, callback) => {
 				callback(false, coinsAwarded);
 			});
 		} else {
-			r.table("user_statistics").insert({
+			r.table('user_statistics').insert({
 				id: msg.author.id,
 				easy_games_played: ((response.difficulty === 1) ? 1 : 0),
 				medium_games_played: ((response.difficulty === 2) ? 1 : 0),

@@ -1,5 +1,5 @@
 module.exports = (bot) => {
-	bot.on("disconnect", () => {
+	bot.on('disconnect', () => {
 		process.exit();
 	});
 };

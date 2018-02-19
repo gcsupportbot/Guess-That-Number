@@ -1,28 +1,28 @@
-const config = require("../config.json");
+const config = require('../config.json');
 
 module.exports = {
 	commands: [
-		"invite",
-		"inv"
+		'invite',
+		'inv'
 	],
-	usage: "invite",
-	description: "Invite this bot to your server.",
-	category: "General",
+	usage: 'invite',
+	description: 'Invite this bot to your server.',
+	category: 'General',
 	hidden: false,
 	execute: (bot, r, msg) => {
 		msg.channel.createMessage({
 			embed: {
-				title: "Invite Links",
-				description: "You can invite the bot using the 'Bot Invite' link or you can join the official support server using the 'Official Server' link.",
+				title: 'Invite Links',
+				description: 'You can invite the bot using the \'Bot Invite\' link or you can join the official support server using the \'Official Server\' link.',
 				color: 3066993,
 				fields: [
 					{
-						name: "Bot Invite",
+						name: 'Bot Invite',
 						value: config.links.bot,
 						inline: true
 					},
 					{
-						name: "Official Server",
+						name: 'Official Server',
 						value: config.links.server,
 						inline: true
 					}

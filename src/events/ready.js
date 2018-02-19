@@ -1,18 +1,18 @@
-const log = require("../managers/logger.js");
-const handleDatabaseError = require("../functions/handle-database-error.js");
-const config = require("../config.json");
-const dashboard = require("../website/index.js");
+const log = require('../util/logger.js');
+const handleDatabaseError = require('../util/handleDatabaseError.js');
+const config = require('../config.json');
+const dashboard = require('../website/index.js');
 
 module.exports = (bot, r) => {
-	bot.on("ready", () => {
-		log(bot.user.username + " is ready!");
+	bot.on('ready', () => {
+		log(bot.user.username + ' is ready!');
 		bot.startuptime = Date.now();
-		process.on("unhandledRejection", (error) => {
+		process.on('unhandledRejection', (error) => {
 			if (error.code === 50013 || error.code === 50001 || error.code === 50007) return;
 			console.error(error);
 		});
-		process.on("uncaughtException", console.error);
-		r.table("toggle").run((error, response) => {
+		process.on('uncaughtException', console.error);
+		r.table('toggle').run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((u) => {
 				bot.toggle.push(u.id);
@@ -21,7 +21,7 @@ module.exports = (bot, r) => {
 		bot.guilds.map((g) => {
 			bot.prefixes[g.id] = config.prefix;
 		});
-		r.table("prefixes").run((error, response) => {
+		r.table('prefixes').run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			response.map((v) => {
 				bot.prefixes[v.id] = v.prefix;

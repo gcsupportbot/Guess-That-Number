@@ -1,21 +1,21 @@
-const config = require("../config.json");
+const config = require('../config.json');
 
 module.exports = {
 	commands: [
-		"restart",
-		"reboot"
+		'restart',
+		'reboot'
 	],
-	usage: "restart",
-	description: "Restarts the bot.",
-	category: "Developers",
+	usage: 'restart',
+	description: 'Restarts the bot.',
+	category: 'Developers',
 	hidden: true,
-	execute: (bot, r, msg, args) => {
+	execute: (bot, r, msg) => {
 		if (config.trusted.indexOf(msg.author.id) > -1) {
 			msg.channel.createMessage({
 				embed: {
-					title: "Restarting...",
+					title: 'Restarting...',
 					color: 3066993,
-					description: "Automatically restarting the bot."
+					description: 'Automatically restarting the bot.'
 				}
 			}).then(() => {
 				process.exit();
@@ -23,9 +23,9 @@ module.exports = {
 		} else {
 			msg.channel.createMessage({
 				embed: {
-					title: "Error!",
+					title: 'Error!',
 					color: 0xE50000,
-					description: "You do not have permission to execute this command."
+					description: 'You do not have permission to execute this command.'
 				}
 			});
 		}
