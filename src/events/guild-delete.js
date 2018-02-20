@@ -9,8 +9,9 @@ module.exports = (bot) => {
 		updatePresence(bot);
 		log(bot, {
 			embed: {
-				title: 'Joined a server',
-				color: 3066993,
+				title: 'Left a server',
+				color: 0xE50000,
+
 				thumbnail: {
 					url: server.icon ? 'https://cdn.discordapp.com/icons/' + server.id + '/' + server.icon + '.png?size=512' : null
 				},
