@@ -86,6 +86,12 @@ module.exports = (bot, r) => {
 		});
 	});
 	
+	app.get('/documentation/donating', (req, res) => {
+		res.render('documentation/donating.pug', {
+			page: 2
+		});
+	});
+	
 	app.get('/documentation/faq', (req, res) => {
 		res.render('documentation/faq.pug', {
 			page: 2

@@ -1,0 +1,52 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-3
+                aside.menu
+                    p.menu-label
+                        | Documentation
+                    ul.menu-list
+                        li
+                            a(href="/documentation") Home
+                        li
+                            a(href="/documentation/commands") Commands
+                        li
+                            a.is-active(href="/documentation/donating") Donation Rewards
+                        li
+                            a(href="/documentation/faq") FAQ
+            .column.is-9
+                .card
+                    header.card-header
+                        p.card-header-title
+                            | Donation Rewards
+                    .card-content
+                        .content
+                            h1.title(style="margin-bottom: 0;") $2
+                            ul(style="margin-bottom: 0;")
+                                li Custom Donator role on the official support server
+                                li Access to the donator-only chat on the official support server
+                            h1.title(style="margin-bottom: 0;") $5
+                            ul(style="margin-bottom: 0;")
+                                li All previous rewards.
+                                li A custom command for only you to use! (Upcoming Serenity bot)
+                            h1.title(style="margin-bottom: 0;") $10
+                            ul(style="margin-bottom: 0;")
+                                li All previous rewards.
+                                li A second custom command. (Upcoming Serenity bot)
+                                li Both of your custom commands now public. (Upcoming Serenity bot)
+                            h1.title(style="margin-bottom: 0;") $15
+                            ul(style="margin-bottom: 0;")
+                                li All previous rewards.
+                                li Your best leaderboard scores won't be removed when the reset occurs. (Guess That Number bot)
+                            h1.title(style="margin-bottom: 0;") $25
+                            ul
+                                li There are no special rewards for this, but you will be greatly benefiting the developer and paying for the host.
+                            p All of the levels of donation amounts listed here will include all previous rewards from the previous tier. Donation confirmation will typically be acknowledged within 12 to 24 hours, but may vary. Rules and policies from Patreon apply. 
+                                b Donate at your own risk.
+                            p Custom commands will follow 
+                                a(href="https://discordapp.com/terms" target="_blank") Discordapp's Terms of Service
+                                |  and 
+                                a(href="https://discordapp.com/privacy" target="_blank") Discordapp's Privacy Policy
+                                | . No guarantee will be made that your command will be exactly how you say you want it to be. Modifications can be made without user's consent.
