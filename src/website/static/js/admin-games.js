@@ -1,5 +1,5 @@
 (function() {
-    const ws = new WebSocket('ws://localhost:3000/admin/games');
+    const ws = new WebSocket('ws://gtn.mayo.pw/admin/games');
 
     var games = {};
     var gamesDiv = document.querySelector('#games');
