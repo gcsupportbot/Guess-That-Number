@@ -1,24 +1,33 @@
 const express = require('express');
+const path = require('path');
 const passport = require('passport');
 const passportDiscord = require('passport-discord');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
-const humanizeduration = require('humanize-duration');
+let expressWS = require('express-ws');
 const config = require('../config.json');
 const log = require('../util/logger.js');
 
-module.exports = (bot, r) => {
+module.exports = (bot, r) => {	
+	const app = express();
+
+	expressWS = expressWS(app);
+
 	passport.use(new passportDiscord.Strategy({
 		clientID: bot.user.id,
 		clientSecret: config.secret,
 		scope: ['identify'],
-		callbackURL: '/guess-that-number/auth/callback'
+		callbackURL: '/auth/callback'
 	}, (accessToken, refreshToken, profile, done) => {
 		if (accessToken !== null) {
-			r.table('users').insert(profile, { conflict: 'replace' }).run((error) => {
+			r.table('developers').get(profile.id).run((error, developer) => {
 				if (error) return done(error, null);
-				done(null, profile);
+				profile.isDeveloper = developer !== null;
+				r.table('users').insert(profile, { conflict: 'replace' }).run((error) => {
+					if (error) return done(error, null);
+					done(null, profile);
+				});
 			});
 		}
 	}));
@@ -30,13 +39,10 @@ module.exports = (bot, r) => {
 			done(null, user);
 		});
 	});
+	
+	app.set('view engine', 'pug');
+	app.set('views', path.join(__dirname, 'dynamic'));
 
-	const app = express();
-
-	app.use((req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		next();
-	});
 	app.use(cookieSession({
 		name: 'session',
 		secret: config.secret,
@@ -49,67 +55,112 @@ module.exports = (bot, r) => {
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
-	app.set('view engine', 'pug');
-	app.set('views', __dirname + '/dynamic');
 
+	app.use((req, res, next) => {
+		res.locals.user = req.user;
+		next();
+	});
+	
 	app.get('/', (req, res) => {
 		res.render('index.pug', {
-			user: req.user
+			page: 1,
+			servers: bot.guilds.size,
+			users: bot.users.size
 		});
 	});
 
-	app.get('/dashboard', (req, res) => {
-		if (!req.user) return res.redirect('/guess-that-number/auth');
-		res.render('dashboard/index.pug', {
-			user: req.user,
-			servers: bot.guilds.filter((g) => g.members.get(req.user.id) && g.members.get(req.user.id).permission.has('manageGuild')).map((g) => ({ name: g.name, icon: g.icon, id: g.id }))
+	app.get('/documentation', (req, res) => {
+		res.render('documentation/index.pug', {
+			page: 2
 		});
 	});
-
-	app.get('/dashboard/:id', (req, res) => {
-		if (!req.user) res.redirect('/guess-that-number/auth');
-		if (!/^\d+$/.test(req.params.id)) return res.render('error.pug', {
-			user: req.user,
-			code: 400,
-			message: 'That is not a valid Discord server ID.'
+	
+	app.get('/documentation/commands', (req, res) => {
+		res.render('documentation/commands.pug', {
+			page: 2,
+			commands: Object.keys(bot.commands).map((v) => bot.commands[v]).sort((a, b) => {
+				if (a.category.toLowerCase() > b.category.toLowerCase()) return 1;
+				if (a.category.toLowerCase() < b.category.toLowerCase()) return -1;
+				return 0;
+			})
 		});
-		const guild = bot.guilds.get(req.params.id) && bot.guilds.get(req.params.id).members.get(req.user.id) && bot.guilds.get(req.params.id).members.get(req.user.id).permission.has('manageGuild') && { name: bot.guilds.get(req.params.id).name, memberCount: bot.guilds.get(req.params.id).memberCount, channelCount: bot.guilds.get(req.params.id).channels.size, roleCount: bot.guilds.get(req.params.id).roles.size, avatar: bot.guilds.get(req.params.id).avatar };
-		if (guild) {
-			res.render('dashboard/manage.pug', {
-				user: req.user,
-				server: guild
-			});
-		} else {
-			res.render('error.pug', {
-				user: req.user,
-				code: '404',
-				message: 'Either that server doesn\'t exist or you don\'t have permission to manage it.'
-			});
-		}
 	});
-
-	app.get('/statistics', (req, res) => {
-		res.render('statistics.pug', {
-			user: req.user,
-			stats: {
+	
+	app.get('/documentation/faq', (req, res) => {
+		res.render('documentation/faq.pug', {
+			page: 2
+		});
+	});
+	
+	app.get('/admin', (req, res) => {
+		if (!req.user || !req.user.isDeveloper) return res.status(401).render('error.pug', {
+			code: 401
+		});
+		r.table('games').count().run((error, activeGames) => {
+			if (error) {
+				res.status(500).render('error.pug', {
+					code: 500
+				});
+				console.error(error);
+				return;
+			}
+			res.render('admin/index.pug', {
 				servers: bot.guilds.size,
 				users: bot.users.size,
 				channels: Object.keys(bot.channelGuildMap).length,
-				uptime: humanizeduration(Date.now() - bot.startuptime, { round: true }),
-				commands: Object.keys(bot.commands).length
+				activeGames: activeGames
+			});
+		});
+	});
+	
+	app.get('/admin/games', (req, res) => {
+		if (!req.user || !req.user.isDeveloper) return res.status(401).render('error.pug', {
+			code: 401
+		});
+		r.table('games').run((error, games) => {
+			if (error) {
+				res.status(500).render('error.pug', {
+					code: 500
+				});
+				console.error(error);
+				return;
 			}
+			res.render('admin/games.pug', {
+				games: games
+			});
 		});
 	});
 
-	app.get('/commands', (req, res) => {
-		let sorted = [];
-		Object.keys(bot.commands).forEach((v) => {
-			if (sorted.filter((s) => s.category === bot.commands[v].category).length < 1) sorted.push({ category: bot.commands[v].category, commands: [] });
-			sorted[sorted.indexOf(sorted.filter((s) => s.category === bot.commands[v].category)[0])].commands.push(bot.commands[v]);
+	app.ws('/admin/games', (ws, req) => {
+		if (!req.user || !req.user.isDeveloper) return ws.close(1);
+		r.table('games').run((error, games) => {
+			if (error) return console.error(error);
+			ws.send(JSON.stringify({
+				op: 1,
+				t: Date.now(),
+				d: games.map((g) => {
+					const user = bot.users.get(g.id);
+					g.tag = user ? user.username + '#' + user.discriminator : 'Unknown';
+					return g;
+				})
+			}));
 		});
-		res.render('commands.pug', {
-			user: req.user,
-			commands: sorted
+		const interval = setInterval(() => {
+			r.table('games').run((error, games) => {
+				if (error) return console.error(error);
+				ws.send(JSON.stringify({
+					op: 1,
+					t: Date.now(),
+					d: games.map((g) => {
+						const user = bot.users.get(g.id);
+						g.tag = user ? user.username + '#' + user.discriminator : 'Unknown';
+						return g;
+					})
+				}));
+			});
+		}, 1000);
+		ws.on('close', () => {
+			clearInterval(interval);
 		});
 	});
 
@@ -117,28 +168,30 @@ module.exports = (bot, r) => {
 		res.redirect('https://discordapp.com/oauth2/authorize?client_id=307994108792799244&scope=bot');
 	});
 
+	app.get('/server', (req, res) => {
+		res.redirect('https://discord.gg/3hqURjk');
+	});
+
 	app.get('/auth', passport.authenticate('discord'));
 
 	app.get('/auth/callback', passport.authenticate('discord'), (req, res) => {
-		res.redirect('/guess-that-number/dashboard');
+		res.redirect('/');
 	});
 
 	app.get('/auth/logout', (req, res) => {
 		req.logout();
-		res.redirect('/guess-that-number/');
+		res.redirect('/');
 	});
 
-	app.use('/assets', express.static(__dirname + '/static'));
+	app.use(express.static(path.join(__dirname, 'static')));
 
-	app.use('*', (req, res) => {
+	app.use((req, res) => {
 		res.status(404).render('error.pug', {
-			user: req.user,
-			code: 404,
-			message: 'The requested page or resource was not found.'
+			code: 404
 		});
 	});
 
 	app.listen(config.website_port, () => {
-		log('Website listening on port ' + config.website_port + '.');
+		log('Listening on port ' + config.website_port + '.');
 	});
 };

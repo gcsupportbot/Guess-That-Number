@@ -1,0 +1,32 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-2
+                aside.menu
+                    p.menu-label
+                        | Admin Panel
+                    ul.menu-list
+                        li
+                            a.is-active(href="/admin") Statistics
+                        li
+                            a(href="/admin/games") Active Games
+            .column.is-10
+                nav.level
+                    .level-item.has-text-centered
+                        div
+                            p.heading Servers
+                            p.title #{servers.toLocaleString()}
+                    .level-item.has-text-centered
+                        div
+                            p.heading Users
+                            p.title #{users.toLocaleString()}
+                    .level-item.has-text-centered
+                        div
+                            p.heading Channels
+                            p.title #{channels.toLocaleString()}
+                    .level-item.has-text-centered
+                        div
+                            p.heading Active Games
+                            p.title #{activeGames.toLocaleString()}

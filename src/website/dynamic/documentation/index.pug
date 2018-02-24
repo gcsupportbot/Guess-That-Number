@@ -1,0 +1,24 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-3
+                aside.menu
+                    p.menu-label
+                        | Documentation
+                    ul.menu-list
+                        li
+                            a.is-active(href="/documentation") Home
+                        li
+                            a(href="/documentation/commands") Commands
+                        li
+                            a(href="/documentation/faq") FAQ
+            .column.is-9
+                .card
+                    header.card-header
+                        p.card-header-title
+                            | Home
+                    .card-content
+                        .content
+                            | Welcome to Guess That Number's documentation. Almost everything that you need to know about the bot will be documented here. Simply just click a navigation link on the left to view information in that category.

@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-3
+                aside.menu
+                    p.menu-label
+                        | Documentation
+                    ul.menu-list
+                        li
+                            a(href="/documentation") Home
+                        li
+                            a(href="/documentation/commands") Commands
+                        li
+                            a.is-active(href="/documentation/faq") FAQ
+            .column.is-9
+                .card
+                    header.card-header
+                        p.card-header-title
+                            | FAW
+                    .card-content
+                        .content
+                            h2.title Is Guess That Number free to use?
+                            p Absolutely! Everything in Guess That Number is free to use and available to the user.

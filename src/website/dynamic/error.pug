@@ -1,7 +1,16 @@
 extends layout.pug
 
 block content
-	.jumbotron
-		.container
-			h3.display-3 Error
-			h4 #{code} - #{message}
+    .hero.is-dark.is-medium(style="margin-bottom: 120px;")
+        .hero-body
+            center
+                h1.title Oops!
+                if code === 404
+                    p.subtitle You've stumbled across a page that doesn't exist.
+                else if code === 401
+                    p.subtitle You do not have access to that page without proper authorization.
+                else
+                    p.subtitle Something unexpected happened. We'll get this fixed soon!
+        .hero-footer
+            p
+                a(href="/") Return to Home

@@ -1,0 +1,44 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-3
+                aside.menu
+                    p.menu-label
+                        | Documentation
+                    ul.menu-list
+                        li
+                            a(href="/documentation") Home
+                        li
+                            a.is-active(href="/documentation/commands") Commands
+                        li
+                            a(href="/documentation/faq") FAQ
+            .column.is-9
+                .card
+                    header.card-header
+                        p.card-header-title
+                            | Commands
+                    .card-content
+                        .content
+                            table.table
+                                thead
+                                    tr
+                                        th
+                                            | Command
+                                        th
+                                            | Aliases
+                                        th
+                                            | Module
+                                tbody
+                                    for command in commands
+                                        tr
+                                            td
+                                                strong.is-size-6
+                                                    | #{command.commands[0]}
+                                                p.is-size-7
+                                                    | #{command.description}
+                                            td
+                                                | #{command.commands.length > 1 ? command.commands.slice(1).join(", ") : "None"}
+                                            td
+                                                | #{command.category}

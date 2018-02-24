@@ -1,54 +1,44 @@
-.profile-avatar {
-	margin-right: 30px;
-	width: 200px;
-	height: 200px;
+.navbar {
+	min-height: 5rem!important;
 }
 
-.margin-top-20 {
-	margin-top: 20px;
+.navbar-item, .navbar-link {
+	color: #fff;
 }
 
-.margin-top-40 {
-	margin-top: 40px;
+a.navbar-item:hover, a.navbar-item.is-active, a.navbar-link:hover, a.navbar-link.is-active {
+	background-color: transparent;
 }
 
-.margin-bottom-40 {
-	margin-bottom: 40px;
+.navbar.is-dark .navbar-menu {
+	background-color: #363636;
 }
 
-.no-border-radius {
-	border-radius: 0;
+.navbar-item img {
+	max-height: 2.5rem;
 }
 
-.bot-avatar {
-	margin-right: 30px;
-	width: 175px;
-	height: 175px;
+.navbar-item {
+	transition: color 0.15s ease;
 }
 
-.padding-bottom-120 {
-	padding-bottom: 120px;
+.navbar-item.is-active {
+	color: #c1c1c1!important;
 }
 
-.lato-hairline {
-	font-family: "LatoWebHairline", sans-serif;
+.navbar-item:hover {
+	color: #c1c1c1!important;
 }
 
-.lato-light {
-	font-family: "LatoWebLight", sans-serif;
+.hero-footer {
+	background-color: rgba(0, 0, 0, 0.15);
+	text-align: center;
 }
 
-.lato-medium {
-	font-family: "LatoWebMedium", sans-serif;
+.hero-footer > p {
+	margin: 25px;
 }
 
-.feature {
-	width: 150px;
-	height: 150px;
-}
-
-.server-icon {
-	width: 60px;
-	height: 60px;
-	margin-right: 10px;
+.footer {
+	padding-bottom: 48px;
 }

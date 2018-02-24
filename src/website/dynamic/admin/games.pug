@@ -1,0 +1,18 @@
+extends ../layout.pug
+
+block content
+    .container(style="margin-top: 40px;")
+        .columns
+            .column.is-2
+                aside.menu
+                    p.menu-label
+                        | Admin Panel
+                    ul.menu-list
+                        li
+                            a(href="/admin") Statistics
+                        li
+                            a.is-active(href="/admin/games") Active Games
+            .column.is-10
+                #games
+    script(type="text/javascript" src="/js/humanize-duration.js")
+    script(type="text/javascript" src="/js/admin-games.js")

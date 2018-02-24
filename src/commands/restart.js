@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const handleDatabaseError = require('../util/handleDatabaseError.js');
 
 module.exports = {
 	commands: [
@@ -10,7 +10,15 @@ module.exports = {
 	category: 'Developers',
 	hidden: true,
 	execute: (bot, r, msg) => {
-		if (config.trusted.indexOf(msg.author.id) > -1) {
+		r.table('developers').get(msg.author.id).run(async (error, developer) => {
+			if (error) return handleDatabaseError(error, msg);
+			if (!developer) return msg.channel.createMessage({
+				embed: {
+					title: 'Error!',
+					color: 0xE50000,
+					description: 'You do not have permission to execute this command.'
+				}
+			});
 			msg.channel.createMessage({
 				embed: {
 					title: 'Restarting...',
@@ -20,14 +28,6 @@ module.exports = {
 			}).then(() => {
 				process.exit();
 			});
-		} else {
-			msg.channel.createMessage({
-				embed: {
-					title: 'Error!',
-					color: 0xE50000,
-					description: 'You do not have permission to execute this command.'
-				}
-			});
-		}
+		});
 	}
 };

@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const handleDatabaseError = require('../util/handleDatabaseError.js');
 const snekfetch = require('snekfetch');
 const util = require('util');
 const removeSensitiveInformation = require('../util/formatArbitrary.js');
@@ -12,7 +12,15 @@ module.exports = {
 	category: 'Developers',
 	hidden: true,
 	execute: async (bot, r, msg, args) => {
-		if (config.trusted.indexOf(msg.author.id) > -1) {
+		r.table('developers').get(msg.author.id).run(async (error, developer) => {
+			if (error) return handleDatabaseError(error, msg);
+			if (!developer) return msg.channel.createMessage({
+				embed: {
+					title: 'Error!',
+					color: 0xE50000,
+					description: 'You do not have permission to execute this command.'
+				}
+			});
 			if (args.length > 0) {
 				try {
 					let result = await eval(args.join(' '));
@@ -54,14 +62,6 @@ module.exports = {
 					}
 				});
 			}
-		} else {
-			msg.channel.createMessage({
-				embed: {
-					title: 'Error!',
-					color: 0xE50000,
-					description: 'You do not have permission to execute this command.'
-				}
-			});
-		}
+		})
 	}
 };
