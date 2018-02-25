@@ -2,14 +2,13 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'toggle',
+	command: 'toggle',
+	aliases: [
 		'tog'
 	],
-	usage: 'toggle',
-	description: 'Send guess as single message.',
 	category: 'Game',
-	hidden: false,
+	description: 'Send guess as single message.',
+	usage: 'toggle',
 	execute: (bot, r, msg) => {
 		r.table('games').get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
@@ -19,7 +18,7 @@ module.exports = {
 					if (response) {
 						r.table('toggle').get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
-							bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
+							bot.toggle.delete(msg.author.id);
 							msg.channel.createMessage({
 								embed: {
 									title: 'Toggled!',
@@ -31,7 +30,7 @@ module.exports = {
 					} else {
 						r.table('toggle').insert({ id: msg.author.id }).run((error) => {
 							if (error) return handleDatabaseError(error, msg);
-							bot.toggle.push(msg.author.id);
+							bot.toggle.set(msg.author.id, true);
 							msg.channel.createMessage({
 								embed: {
 									title: 'Toggled!',
@@ -47,7 +46,7 @@ module.exports = {
 					embed: {
 						title: 'Error!',
 						color: 0xE50000,
-						description: 'You must be in a game to use this command. Start a game using `' + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + 'start`.'
+						description: 'You must be in a game to use this command. Start a game using `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'start`.'
 					}
 				});
 			}

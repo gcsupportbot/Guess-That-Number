@@ -1,14 +1,13 @@
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'howtoplay',
+	command: 'howtoplay',
+	aliases: [
 		'tutorial'
 	],
-	usage: 'howtoplay',
-	description: 'Learn how to play this game.',
 	category: 'Information',
-	hidden: false,
+	description: 'Learn how to play this game.',
+	usage: 'howtoplay',
 	execute: (bot, r, msg) => {
 		msg.channel.createMessage({
 			embed: {
@@ -17,7 +16,7 @@ module.exports = {
 				fields: [
 					{
 						name: 'Overview',
-						value: bot.user.username + ' is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `' + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + 'start`. This will start a new game.',
+						value: bot.user.username + ' is a simple number-guessing game created for the fun-of-it. This game is entirely based on luck. To get started, type `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'start`. This will start a new game.',
 						inline: false
 					},
 					{

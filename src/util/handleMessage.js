@@ -1,10 +1,10 @@
 const config = require('../config.json');
-const handleDatabaseError = require('./handleDatabaseError.js');
 const guess = require('../commands/guess.js');
+const logger = require('./logger.js');
 
 module.exports = (bot, r, msg) => {
-	if (!msg.author || msg.author.bot) return;
-	if (bot.toggle.indexOf(msg.author.id) > -1) {
+	if (!bot.ready || !msg.author || msg.author.bot) return;
+	if (bot.toggle.has(msg.author.id)) {
 		if (msg.content !== '' && !isNaN(parseInt(msg.content.replace(/,/g, '')))) {
 			let new_event = Object.create(msg);
 			new_event.content = config.prefix + 'guess ' + Number(msg.content.replace(/,/g, ''));
@@ -12,33 +12,16 @@ module.exports = (bot, r, msg) => {
 			return;
 		}
 	}
-	if (msg.channel.guild) bot.prefixes[msg.channel.guild.id] = bot.prefixes[msg.channel.guild.id] || config.prefix;
-	let prefix = ((msg.content.startsWith(((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix))) ? ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) : ((msg.content.startsWith('<@' + bot.user.id + '>')) ? '<@' + bot.user.id + '> ' : ((msg.content.startsWith('<@!' + bot.user.id + '>')) ? '<@!' + bot.user.id + '> ' : null)));
+	if (msg.channel.type === 0 && !bot.prefixes.has(msg.channel.guild.id)) bot.prefixes.set(msg.channel.guild.id, config.prefix);
+	const prefix = ((msg.channel.guild && msg.content.startsWith(bot.prefixes.get(msg.channel.guild.id))) && bot.prefixes.get(msg.channel.guild.id)) || ((!msg.channel.guild && msg.content.startsWith(config.prefix)) && config.prefix) || (msg.content.startsWith('<@' + bot.user.id + '>') && '<@' + bot.user.id + '>') || (msg.content.startsWith('<@!' + bot.user.id + '>') && '<@!' + bot.user.id + '>');
 	if (!prefix) return;
-	let command = Object.keys(bot.commands).filter((c) => bot.commands[c].commands.indexOf(msg.content.replace(prefix, '').split(' ')[0]) > -1);
-	if (command.length > 0) {
-		const args = ((msg.content.replace(prefix, '').split(' ').length > 1) ? msg.content.replace(prefix, '').split(' ').slice(1) : []);
-		try {
-			bot.commands[command[0]].execute(bot, r, msg, args);
-		} catch (error) {
-			msg.channel.createMessage({
-				embed: {
-					title: 'Error!',
-					color: 0xE50000,
-					description: 'An error occured when attempting to execute command. Please report this bug on the official server: ' + config.links.server
-				}
-			});
-			console.error('Failed to execute \'' + bot.commands[command[0]].commands[0] + '\' command.', error);
-		}
-		r.table('command_stats').insert({
-			userID: msg.author.id,
-			channelID: (msg.channel.guild) ? msg.channel.id : null,
-			serverID: (msg.channel.guild) ? msg.channel.guild.id : null,
-			command: bot.commands[command[0]].commands[0],
-			args: (args.length > 0) ? args : null,
-			timestamp: Date.now()
-		}).run((error) => {
-			if (error) handleDatabaseError(error);
-		});
+	const commands = bot.commands.filter((c) => c.command.toLowerCase() === msg.content.replace(prefix, '').trim().split(' ')[0].toLowerCase() || c.aliases.includes(msg.content.replace(prefix, '').split(' ')[0]));
+	if (commands.length < 1) return;
+	try {
+		logger.info(msg.author.username + '#' + msg.author.discriminator + ': ' + msg.content);
+		commands[0].execute(bot, r, msg, msg.content.replace(prefix, '').trim().split(' ').slice(1));
+	} catch (e) {
+		msg.channel.createMessage('An error occured while running that command. If you want immedient assistance, please join our support server: ' + config.links.server);
+		console.error(e);
 	}
 };

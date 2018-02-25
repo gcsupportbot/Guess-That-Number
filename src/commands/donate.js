@@ -1,28 +1,14 @@
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'donate',
+	command: 'donate',
+	aliases: [
 		'patreon'
 	],
-	usage: 'donate',
-	description: 'Get the donation links to support the creator and receive perks.',
 	category: 'General',
-	hidden: false,
+	description: 'Get the donation links to support the creator.',
+	usage: 'donate',
 	execute: (bot, r, msg) => {
-		msg.channel.createMessage({
-			embed: {
-				title: 'Donation Links',
-				color: 3066993,
-				description: 'Donating can help you recieve some insane perks in this bot. Check it out on our Patreon page.',
-				fields: [
-					{
-						name: 'Patreon',
-						value: config.links.patreon,
-						inline: true
-					}
-				]
-			}
-		});
+		msg.channel.createMessage(':money_with_wings: │ Woah, there! Thank you for considering to donate to me. Any amount is greatly appreciated, and will support me with future projects and keep my current projects alive. You can either donate via PayPal (<' + config.links.paypal + '>) or you can donate via Patreon (<' + config.links.patreon + '>).');
 	}
 };

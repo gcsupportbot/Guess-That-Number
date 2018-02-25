@@ -1,15 +1,14 @@
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'shop',
+	command: 'shop',
+	aliases: [
 		'store',
 		'buy'
 	],
-	usage: 'shop [item name] [amount]',
-	description: 'Buy an item from the shop using the money that you get from games.',
 	category: 'Game',
-	hidden: false,
+	description: 'Buy an item from the shop using the money that you get from games.',
+	usage: 'shop [item name] [amount]',
 	execute: (bot, r, msg) => {
 		msg.channel.createMessage({
 			embed: {

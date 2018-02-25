@@ -2,13 +2,11 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'profile'
-	],
-	usage: 'profile [@user | userID | username]',
-	description: 'View the profile of yourself or another user.',
+	command: 'profile',
+	aliases: [],
 	category: 'General',
-	hidden: false,
+	description: 'View the profile of yourself or another user.',
+	usage: 'profile [@user | userID | username]',
 	execute: (bot, r, msg) => {
 		r.table('user_statistics').get(msg.author.id).run((error, user) => {
 			if (error) return handleDatabaseError(error, msg);
@@ -18,7 +16,7 @@ module.exports = {
 					thumbnail: {
 						url: msg.author.avatarURL
 					},
-					description: 'You can purchase things to display on your profile within the `' + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + 'shop`.',
+					description: 'You can purchase things to display on your profile within the `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'shop`.',
 					fields: [
 						{
 							name: 'Coins',

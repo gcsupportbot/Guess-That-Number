@@ -1,27 +1,11 @@
 module.exports = {
-	commands: [
-		'ping'
-	],
-	usage: 'ping',
-	description: 'See how long it takes to ping the bot.',
+	command: 'ping',
+	aliases: [],
 	category: 'General',
-	hidden: false,
+	description: 'See how long it takes to ping the bot.',
+	usage: 'ping',
 	execute: (bot, r, msg) => {
 		const start = Date.now();
-		msg.channel.createMessage({
-			embed: {
-				title: 'Pinging...',
-				color: 3066993
-			}
-		}).then((newmsg) => {
-			const end = Date.now();
-			newmsg.edit({
-				embed: {
-					title: 'Pong!',
-					description: 'It took `' + (end - start) + 'ms` to send this message.',
-					color: 3066993
-				}
-			});
-		});
+		msg.channel.createMessage(':ping_pong: │ Pinging...').then((m) => m.edit(':ping_pong: │ Pong! It took `' + (Date.now() - start) + 'ms` to send this message.'));
 	}
 };

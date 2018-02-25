@@ -2,16 +2,15 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const humanizeduration = require('humanize-duration');
 
 module.exports = {
-	commands: [
-		'leaderboardreset',
+	command: 'leaderboardreset',
+	aliases: [
 		'scoreboardreset',
 		'lbreset',
 		'sbreset'
 	],
-	usage: 'leaderboardreset',
-	description: 'Check how long until the leaderboard resets.',
 	category: 'General',
-	hidden: false,
+	description: 'Check how long until the leaderboard resets.',
+	usage: 'leaderboardreset',
 	execute: (bot, r, msg) => {
 		r.table('intervals').get('reset').run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);

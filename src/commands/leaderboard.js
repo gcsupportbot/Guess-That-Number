@@ -1,16 +1,15 @@
 const handleDatabaseError = require('../util/handleDatabaseError.js');
 
 module.exports = {
-	commands: [
-		'leaderboard',
+	command: 'leaderboard',
+	aliases: [
 		'scoreboard',
 		'lb',
 		'sb'
 	],
-	usage: 'leaderboard ["easy" | "medium" | "hard"]',
-	description: 'View the server leaderboard.',
 	category: 'Game',
-	hidden: false,
+	description: 'View the server leaderboard.',
+	usage: 'leaderboard ["easy" | "medium" | "hard"]',
 	execute: (bot, r, msg, args) => {
 		let difficulty = NaN;
 		if (args.length > 0) {

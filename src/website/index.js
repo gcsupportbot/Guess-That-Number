@@ -78,7 +78,7 @@ module.exports = (bot, r) => {
 	app.get('/documentation/commands', (req, res) => {
 		res.render('documentation/commands.pug', {
 			page: 2,
-			commands: Object.keys(bot.commands).map((v) => bot.commands[v]).sort((a, b) => {
+			commands: bot.commands.sort((a, b) => {
 				if (a.category.toLowerCase() > b.category.toLowerCase()) return 1;
 				if (a.category.toLowerCase() < b.category.toLowerCase()) return -1;
 				return 0;
@@ -198,6 +198,6 @@ module.exports = (bot, r) => {
 	});
 
 	app.listen(config.website_port, () => {
-		log('Listening on port ' + config.website_port + '.');
+		log.info('Listening on port ' + config.website_port + '.');
 	});
 };

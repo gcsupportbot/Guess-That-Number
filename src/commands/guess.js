@@ -4,14 +4,13 @@ const humanizeduration = require('humanize-duration');
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'guess',
+	command: 'guess',
+	aliases: [
 		'g'
 	],
-	usage: 'guess <number>',
-	description: 'Guess a number in your game.',
 	category: 'Game',
-	hidden: false,
+	description: 'Guess a number in your game.',
+	usage: 'guess <number>',
 	execute: (bot, r, msg, args) => {
 		r.table('games').get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
@@ -74,10 +73,10 @@ module.exports = {
 										});
 									};
 									const handleToggle = (coinsAwarded) => {
-										if (bot.toggle.indexOf(msg.author.id) > -1) {
+										if (bot.toggle.has(msg.author.id)) {
 											r.table('toggle').get(msg.author.id).delete().run((error) => {
 												if (error) return handleDatabaseError(error, msg);
-												bot.toggle.splice(bot.toggle.indexOf(msg.author.id), 1);
+												bot.toggle.delete(msg.author.id);
 												sendMessage(coinsAwarded);
 											});
 										} else {
@@ -147,7 +146,7 @@ module.exports = {
 					embed: {
 						title: 'Error!',
 						color: 0xE50000,
-						description: 'You\'re not in a game. To start one, use `' + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + 'start`.',
+						description: 'You\'re not in a game. To start one, use `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'start`.',
 						footer: {
 							text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator
 						}

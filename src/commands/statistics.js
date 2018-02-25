@@ -2,17 +2,16 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const humanizeduration = require('humanize-duration');
 
 module.exports = {
-	commands: [
-		'statistics',
+	command: 'statistics',
+	aliases: [
 		'stats',
 		'stat',
 		'info',
 		'about'
 	],
-	usage: 'stats [@user | user ID | "commands"]',
-	description: 'View bot statistics or information about a user.',
 	category: 'Information',
-	hidden: false,
+	description: 'View bot statistics or information about a user.',
+	usage: 'stats [@user | user ID | "commands"]',
 	execute: (bot, r, msg, args) => {
 		if (args.length > 0) {
 			let user = msg.author;
@@ -237,12 +236,12 @@ module.exports = {
 							},
 							{
 								name: 'Commands',
-								value: Object.keys(bot.commands).length,
+								value: bot.commands.size,
 								inline: true
 							},
 							{
 								name: 'Uptime',
-								value: humanizeduration(Date.now() - bot.startuptime, {
+								value: humanizeduration(Date.now() - bot.startTime, {
 									language: 'shortEn',
 									spacer: '',
 									delimiter: '',

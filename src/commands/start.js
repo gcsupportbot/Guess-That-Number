@@ -2,14 +2,13 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const config = require('../config.json');
 
 module.exports = {
-	commands: [
-		'start',
+	command: 'start',
+	aliases: [
 		's'
 	],
-	usage: 'start ["easy" | "medium" | "hard"]',
-	description: 'Start a new game.',
 	category: 'Game',
-	hidden: false,
+	description: 'Start a new game.',
+	usage: 'start ["easy" | "medium" | "hard"]',
 	execute: (bot, r, msg, args) => {
 		r.table('games').get(msg.author.id).run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
@@ -36,7 +35,7 @@ module.exports = {
 							embed: {
 								title: 'You started a new game!',
 								color: 3066993,
-								description: 'Use `' + ((msg.channel.guild) ? bot.prefixes[msg.channel.guild.id] : config.prefix) + 'guess <number>` to guess a number.\n\nThe numbers range from `1 to ' + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.\n\nYou will be given a hint every time you guess, that will say either \'higher\' or \'lower\'.\n\nGood luck!'
+								description: 'Use `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'guess <number>` to guess a number.\n\nThe numbers range from `1 to ' + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.\n\nYou will be given a hint every time you guess, that will say either \'higher\' or \'lower\'.\n\nGood luck!'
 							}
 						});
 					});
