@@ -14,14 +14,13 @@
 		"bot_list": {
 			"botlist.space": "",
 			"carbonitex": "",
-			"ls.terminal.ink": ""
+			"ls.terminal.ink": "",
+			"bots.discord.pw": ""
 		}
 	},
 	"links": {
 		"bot": "https://gtn.mayo.pw/invite",
 		"server": "https://discord.gg/3hqURjk",
-		"patreon": "https://www.patreon.com/passthemayo",
-		"contact": "https://mayo.pw/contact",
-		"website": "https://mayo.pw/"
+		"patreon": "https://www.patreon.com/passthemayo"
 	}
 }
