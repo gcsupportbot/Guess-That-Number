@@ -35,27 +35,18 @@ module.exports = {
 							embed: {
 								title: 'You started a new game!',
 								color: 3066993,
-								description: 'Use `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'guess <number>` to guess a number.\n\nThe numbers range from `1 to ' + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.\n\nYou will be given a hint every time you guess, that will say either \'higher\' or \'lower\'.\n\nGood luck!'
+								description: 'Use `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'guess <number>` to guess a number.\n\nThe numbers range from `1 to ' + String(max).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.\n\nYou will be given a hint every time you guess, that will say either \'higher\' or \'lower\'.\n\nGood luck!',
+								footer: {
+									text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator
+								}
 							}
 						});
 					});
 				} else {
-					msg.channel.createMessage({
-						embed: {
-							title: 'Error!',
-							color: 0xE50000,
-							description: 'Unknown option, `' + args[0] + '`. Please use `easy`, `medium`, or `hard`.'
-						}
-					});
+					msg.channel.createMessage(':question: │ Unknown option, `' + args[0] + '`. Please use `easy`, `medium`, or `hard`.');
 				}
 			} else {
-				msg.channel.createMessage({
-					embed: {
-						title: 'Error!',
-						color: 0xE50000,
-						description: 'You already have a game in-progress.'
-					}
-				});
+				msg.channel.createMessage(':question: │ You already have a game in-progress.');
 			}
 		});
 	}

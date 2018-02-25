@@ -8,13 +8,7 @@ module.exports = (bot, r) => {
 			if (config.trusted.indexOf(userID) === -1) return;
 			if (message.author.id === bot.user.id) {
 				message.delete().catch(() => {
-					message.channel.createMessage({
-						embed: {
-							title: 'Error!',
-							color: 0xE50000,
-							description: 'Failed to delete message.'
-						}
-					});
+					message.channel.createMessage(':exclamation: │ Failed to delete message.');
 				});
 			}
 		} else {
@@ -49,13 +43,7 @@ module.exports = (bot, r) => {
 						});
 					});
 				} catch (e) {
-					message.channel.createMessage({
-						embed: {
-							title: 'Error!',
-							color: 0xE50000,
-							description: 'Failed to switch pages on global leaderboard.'
-						}
-					});
+					message.channel.createMessage(':exclamation: │ Failed to switch pages on global leaderboard.');
 					console.error('Failed to switch pages on global leaderboard.', e);
 				}
 			}

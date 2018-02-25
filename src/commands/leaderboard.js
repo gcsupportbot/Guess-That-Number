@@ -63,23 +63,11 @@ module.exports = {
 						}, 500);
 					}).catch(() => { });
 				} else {
-					msg.channel.createMessage({
-						embed: {
-							title: 'Global Leaderboard',
-							color: 3066993,
-							description: 'No users have played ' + ((difficulty === 1) ? 'easy' : ((difficulty === 2) ? 'medium' : ((difficulty === 3) ? 'hard' : 'unknown'))) + ' difficulty.'
-						}
-					});
+					msg.channel.createMessage(':question: │ No users have played ' + ((difficulty === 1) ? 'easy' : ((difficulty === 2) ? 'medium' : ((difficulty === 3) ? 'hard' : 'unknown'))) + ' difficulty.');
 				}
 			});
 		} else {
-			msg.channel.createMessage({
-				embed: {
-					title: 'Error!',
-					color: 0xE50000,
-					description: 'Unknown option, `' + args[0] + '`. Please use `easy`, `medium`, or `hard`.'
-				}
-			});
+			msg.channel.createMessage(':question: │ Unknown option, `' + args[0] + '`. Please use `easy`, `medium`, or `hard`.');
 		}
 	}
 };

@@ -19,36 +19,18 @@ module.exports = {
 						r.table('toggle').get(msg.author.id).delete().run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							bot.toggle.delete(msg.author.id);
-							msg.channel.createMessage({
-								embed: {
-									title: 'Toggled!',
-									color: 3066993,
-									description: 'Turned off toggle mode.'
-								}
-							});
+							msg.channel.createMessage(':pause_button: │ Turned off toggle mode.');
 						});
 					} else {
 						r.table('toggle').insert({ id: msg.author.id }).run((error) => {
 							if (error) return handleDatabaseError(error, msg);
 							bot.toggle.set(msg.author.id, true);
-							msg.channel.createMessage({
-								embed: {
-									title: 'Toggled!',
-									color: 3066993,
-									description: 'All your messages that are numbers will be counted as a guess from now on.'
-								}
-							});
+							msg.channel.createMessage(':arrow_forward: │ All your messages that are numbers will be counted as a guess from now on.');
 						});
 					}
 				});
 			} else {
-				msg.channel.createMessage({
-					embed: {
-						title: 'Error!',
-						color: 0xE50000,
-						description: 'You must be in a game to use this command. Start a game using `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'start`.'
-					}
-				});
+				msg.channel.createMessage(':question: │ You must be in a game to use this command. Start a game using `' + ((msg.channel.guild) ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'start`.');
 			}
 		});
 	}
