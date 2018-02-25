@@ -3,7 +3,7 @@ const guess = require('../commands/guess.js');
 const logger = require('./logger.js');
 
 module.exports = (bot, r, msg) => {
-	if (!bot.ready || !msg.author || msg.author.bot) return;
+	if (!bot.ready || !msg || !msg.author || msg.author.bot) return;
 	if (bot.toggle.has(msg.author.id)) {
 		if (msg.content !== '' && !isNaN(parseInt(msg.content.replace(/,/g, '')))) {
 			let new_event = Object.create(msg);
