@@ -5,10 +5,11 @@ module.exports = (bot, r) => {
 	bot.on('messageReactionAdd', (message, emoji, userID) => {
 		if (!message.author) return;
 		if (emoji.name === '❌') {
-			if (config.trusted.indexOf(userID) === -1) return;
 			if (message.author.id === bot.user.id) {
-				message.delete().catch(() => {
-					message.channel.createMessage(':exclamation: │ Failed to delete message.');
+				r.table('developers').get(userID).run((error, developer) => {
+					if (error) return handleDatabaseError(error, message);
+					if (!developer) return;
+					message.delete();
 				});
 			}
 		} else {

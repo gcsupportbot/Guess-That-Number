@@ -1,5 +1,5 @@
 const path = require('path');
-const config = require('../config.json');
+const handleDatabaseError = require('../util/handleDatabaseError.js');
 const fs = require('fs');
 const util = require('util');
 
@@ -10,7 +10,9 @@ module.exports = {
 	description: 'Reloads a command from the filesystem.',
 	usage: 'reload <command | file>',
 	execute: (bot, r, msg, args) => {
-		if (config.trusted.indexOf(msg.author.id) > -1) {
+		r.table('developers').get(msg.author.id).run((error, developer) => {
+			if (error) return handleDatabaseError(error, msg);
+			if (!developer) return msg.channel.createMessage(':no_entry_sign: │ You do not have permission to execute this command.');
 			if (args.length > 0) {
 				if (args[0] === 'all') {
 					fs.readdir('./commands/', (error, files) => {
@@ -54,8 +56,6 @@ module.exports = {
 			} else {
 				msg.channel.createMessage(':question: │ Missing `<command | file>` option.');
 			}
-		} else {
-			msg.channel.createMessage(':no_entry_sign: │ You do not have permission to execute this command.');
-		}
+		});
 	}
 };

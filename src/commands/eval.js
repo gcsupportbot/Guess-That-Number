@@ -10,9 +10,9 @@ module.exports = {
 	description: 'Evaluate arbatrary code within the bot.',
 	usage: 'eval <code>',
 	execute: (bot, r, msg, args) => {
-		r.table('developers').get(msg.author.id).run(async (error, isDeveloper) => {
-			if (error) return handleDatabaseError(bot, error, msg);
-			if (!isDeveloper) return;
+		r.table('developers').get(msg.author.id).run(async (error, developer) => {
+			if (error) return handleDatabaseError(error, msg);
+			if (!developer) return msg.channel.createMessage(':no_entry_sign: │ You do not have permission to execute this command.');
 			if (args.length < 1) return msg.channel.createMessage(bot.__('commands.eval.missing_option.0'));
 			try {
 				let result = await eval(args.join(' '));
