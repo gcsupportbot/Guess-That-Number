@@ -31,27 +31,27 @@ fs.readdir(path.join(__dirname, 'commands'), (error, commands) => {
 		if (error) throw error;
 		fs.readdir(path.join(__dirname, 'schedulers'), (error, schedulers) => {
 			if (error) throw error;
-			commands.map((command) => {
-				const cmd = require(path.join(__dirname, 'commands', command));
+			for (let i = 0; i < commands.length; i++) {
+				const cmd = require(path.join(__dirname, 'commands', commands[i]));
 				bot.commands.set(cmd.command, new Command(cmd));
-				if (commands.indexOf(command) === commands.length - 1) {
+				if (i === commands.length - 1) {
 					log.info('Loaded ' + commands.length + ' commands!');
-					events.map((event) => {
-						require(path.join(__dirname, 'events', event))(bot, r);
-						if (events.indexOf(event) === events.length - 1) {
+					for (let i = 0; i < events.length; i++) {
+						require(path.join(__dirname, 'events', events[i]))(bot, r);
+						if (i === events.length - 1) {
 							log.info('Loaded ' + events.length + ' events!');
-							schedulers.map((schedule) => {
-								const sch = require(path.join(__dirname, 'schedulers', schedule));
+							for (let i = 0; i < schedulers.length; i++) {
+								const sch = require(path.join(__dirname, 'schedulers', schedulers[i]));
 								setInterval(sch.execute, sch.interval, bot, r);
-								if (schedulers.indexOf(schedule) === schedulers.length - 1) {
+								if (i === schedulers.length - 1) {
 									log.info('Loaded ' + schedulers.length + ' schedules!');
 									bot.connect();
 								}
-							});
+							}
 						}
-					});
+					}
 				}
-			});
+			}
 		});
 	});
 });
