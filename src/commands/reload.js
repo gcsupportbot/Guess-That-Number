@@ -15,24 +15,24 @@ module.exports = {
 			if (!developer) return msg.channel.createMessage(':no_entry_sign: │ You do not have permission to execute this command.');
 			if (args.length > 0) {
 				if (args[0] === 'all') {
-					fs.readdir('./commands/', (error, files) => {
+					fs.readdir(__dirname, (error, files) => {
 						if (error) return msg.channel.createMessage(':exclamation: │ An unexpected error occured while reading commands directory.');
-						files.forEach((c) => {
-							delete require.cache[path.normalize(__dirname + '/' + c)];
+						for (let i = 0; i < files.length; i++) {
+							delete require.cache[path.join(__dirname, files[i])];
 							try {
-								bot.commands.set(c.replace(/\..*/g, ''), require(path.normalize('./commands/' + c)));
-								if (files.indexOf(c) === files.length - 1) {
+								bot.commands.set(files[i].replace(/\..*/g, ''), require(path.join(__dirname, files[i])));
+								if (i === files.length - 1) {
 									msg.channel.createMessage(':arrows_counterclockwise: │ Successfully reloaded all commands.');
 								}
 							} catch (e) {
 								msg.channel.createMessage(':exclamation: │ An error occured while trying to reload command.\n```js\n' + util.inspect(e) + '```');
 							}
-						});
+						}
 					});
 				} else {
-					var check = bot.commands.filter((c) => c.command.toLowerCase() === args[0].toLowerCase() || c.aliases.map((v) => v.toLowerCase()).indexOf(args[0].toLowerCase()) > -1);
+					const check = Array.from(bot.commands.keys()).filter((c) => bot.commands.get(c).command.toLowerCase() === args[0].toLowerCase() || bot.commands.get(c).aliases.map((v) => v.toLowerCase()).indexOf(args[0].toLowerCase()) > -1);
 					if (check.length > 0) {
-						delete require.cache[path.normalize(__dirname + '/' + check[0] + '.js')];
+						delete require.cache[path.join(__dirname, check[0] + '.js')];
 						try {
 							bot.commands.set(check[0], require('./' + check[0] + '.js'));
 							msg.channel.createMessage(':arrows_counterclockwise: │ Command `' + bot.commands.get(check[0]).command + '` has been reloaded.');
@@ -40,12 +40,12 @@ module.exports = {
 							msg.channel.createMessage(':exclamation: │ An error occured while trying to reload command.\n```js\n' + util.inspect(e) + '```');
 						}
 					} else {
-						fs.readdir('./commands/', (error, files) => {
+						fs.readdir(__dirname, (error, files) => {
 							if (error) return msg.channel.createMessage(':exclamation: │ An unexpected error occured while reading commands directory.');
 							if (files.indexOf(args[0] + '.js') < 0) return msg.channel.createMessage(':question: │ Unknown command, `' + args[0] + '`.');
-							delete require.cache[path.normalize(__dirname + '/' + args[0] + '.js')];
+							delete require.cache[path.join(__dirname, args[0] + '.js')];
 							try {
-								bot.commands.set(args[0], require('./commands/' + args[0] + '.js'));
+								bot.commands.set(args[0], require(path.join(__dirname, args[0] + '.js')));
 								msg.channel.createMessage(':arrows_counterclockwise: │ Command `' + bot.commands.get(args[0]).command + '` has been reloaded.');
 							} catch (e) {
 								msg.channel.createMessage(':exclamation: │ An error occured while trying to reload command.\n```js\n' + util.inspect(e) + '```');
