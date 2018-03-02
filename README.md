@@ -1,8 +1,6 @@
 # Guess-That-Number
 A unique and addicting game in which you have to guess the randomly generated number based on hints.
 
-![npm dependencies](https://david-dm.org/PassTheMayo/Guess-That-Number.svg "npm dependencies")
-
 ## Getting Started
 I will not provide any sort of information on how to install this bot. The only reason I made it open source is because people were requesting it. If you want to get it up and running, then you can try to do it yourself.
 
