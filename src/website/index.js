@@ -78,7 +78,7 @@ module.exports = (bot, r) => {
 	app.get('/documentation/commands', (req, res) => {
 		res.render('documentation/commands.pug', {
 			page: 2,
-			commands: bot.commands.sort((a, b) => {
+			commands: Array.from(bot.commands.values()).sort((a, b) => {
 				if (a.category.toLowerCase() > b.category.toLowerCase()) return 1;
 				if (a.category.toLowerCase() < b.category.toLowerCase()) return -1;
 				return 0;
