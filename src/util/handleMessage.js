@@ -18,7 +18,6 @@ module.exports = (bot, r, msg) => {
 	const commands = bot.commands.filter((c) => c.command.toLowerCase() === msg.content.replace(prefix, '').trim().split(' ')[0].toLowerCase() || c.aliases.includes(msg.content.replace(prefix, '').split(' ')[0]));
 	if (commands.length < 1) return;
 	try {
-		logger.info(msg.author.username + '#' + msg.author.discriminator + ': ' + msg.content);
 		commands[0].execute(bot, r, msg, msg.content.replace(prefix, '').trim().split(' ').slice(1));
 	} catch (e) {
 		msg.channel.createMessage('An error occured while running that command. If you want immedient assistance, please join our support server: ' + config.links.server);
