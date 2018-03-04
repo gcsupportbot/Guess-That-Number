@@ -37,10 +37,10 @@ block content
                                         tr
                                             td
                                                 strong.is-size-6
-                                                    | #{command.commands[0]}
+                                                    | #{command.command}
                                                 p.is-size-7
                                                     | #{command.description}
                                             td
-                                                | #{command.commands.length > 1 ? command.commands.slice(1).join(", ") : "None"}
+                                                | #{command.aliases.length > 1 ? command.aliases.join(", ") : "None"}
                                             td
                                                 | #{command.category}
