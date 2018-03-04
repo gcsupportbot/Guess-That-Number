@@ -9,7 +9,7 @@ module.exports = {
 	execute: (bot, r, msg, args) => {
 		let fields = [];
 		bot.commands.forEach((c) => {
-			const filter = fields.filter((f) => f.name.split(' ')[0] === c.category);
+			const filter = fields.filter((f) => f.name.split(' - ')[0] === c.category);
 			if (filter.length > 0) {
 				fields[fields.indexOf(filter[0])].value += ', `' + c.command + '`';
 			} else {
