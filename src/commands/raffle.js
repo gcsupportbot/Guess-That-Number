@@ -1,6 +1,7 @@
 const humanizeDuration = require('humanize-duration');
 const dateformat = require('dateformat');
 const handleDatabaseError = require('../util/handleDatabaseError.js');
+const config = require('../config.json');
 
 module.exports = {
 	command: 'raffle',
@@ -60,6 +61,9 @@ module.exports = {
 								inline: true
 							}
 						]
+					},
+					footer: {
+						text: 'Use `' + (msg.channel.guild ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'raffle <amount>` to join the raffle.'
 					}
 				});
 			});
