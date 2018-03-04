@@ -60,10 +60,10 @@ module.exports = {
 								value: humanizeDuration(raffle.end_time - Date.now(), { round: true }),
 								inline: true
 							}
-						]
-					},
-					footer: {
-						text: 'Use `' + (msg.channel.guild ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'raffle <amount>` to join the raffle.'
+						],
+						footer: {
+							text: 'Use `' + (msg.channel.guild ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'raffle <amount>` to join the raffle.'
+						}
 					}
 				});
 			});
