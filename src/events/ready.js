@@ -3,6 +3,7 @@ const handleDatabaseError = require('../util/handleDatabaseError.js');
 const config = require('../config.json');
 const dashboard = require('../website/index.js');
 const updatePresence = require('../util/updatePresence.js');
+const handleRaffle = require('../util/handleRaffle.js');
 
 module.exports = (bot, r) => {
 	bot.on('ready', () => {
@@ -25,6 +26,7 @@ module.exports = (bot, r) => {
 				bot.toggle.set(u.id, true);
 			});
 		});
+		handleRaffle(bot, r);
 
 		process.on('unhandledRejection', (error) => {
 			if (error.code === 50013 || error.code === 50001 || error.code === 50007) return;

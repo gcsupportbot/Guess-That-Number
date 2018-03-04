@@ -1,7 +1,7 @@
 const handleDatabaseError = require('../util/handleDatabaseError.js');
 
 module.exports = {
-	interval: 12e4,
+	interval: (1000 * 60 * 2),
 	execute: (bot, r) => {
 		r.table('intervals').get('reset').run((error, response) => {
 			if (error) return handleDatabaseError(error);

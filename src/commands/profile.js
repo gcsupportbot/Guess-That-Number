@@ -13,6 +13,7 @@ module.exports = {
 			msg.channel.createMessage({
 				embed: {
 					title: 'Your Profile',
+					color: 3066993,
 					thumbnail: {
 						url: msg.author.avatarURL
 					},
