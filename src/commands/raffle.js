@@ -62,7 +62,7 @@ module.exports = {
 							}
 						],
 						footer: {
-							text: 'Use `' + (msg.channel.guild ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'raffle <amount>` to join the raffle.'
+							text: 'Use "' + (msg.channel.guild ? bot.prefixes.get(msg.channel.guild.id) : config.prefix) + 'raffle <amount>" to join the raffle.'
 						}
 					}
 				});
