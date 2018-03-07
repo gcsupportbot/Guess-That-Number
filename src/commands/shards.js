@@ -23,7 +23,7 @@ module.exports = {
 				s.latency.toLocaleString() + 'ms'
 			])
 		];
-		msg.channel.createMessage('```\n' + table(data, {
+		let dataTable = table(data, {
 			border: {
 				topBody: '─',
 				topJoin: '┬',
@@ -41,6 +41,12 @@ module.exports = {
 				joinRight: '┤',
 				joinJoin: '┼'
 			}
-		}) + '```');
+		}).trim().split('\n');
+		dataTable = dataTable.map((line) => {
+			if (!/│ (\d+)/.test(line)) return '  ' + line;
+			const match = line.match(/│ (\d+)/);
+			return (bot.shards.get(Number(match[1])).status.toUpperCase() !== 'READY' ? '- ' : '+ ') + line;
+		});
+		msg.channel.createMessage('```diff\n' + dataTable.join('\n') + '```');
 	}
 };
