@@ -1,14 +1,2 @@
-# Guess-That-Number
-A unique and addicting game in which you have to guess the randomly generated number based on hints.
-
-## Getting Started
-I will not provide any sort of information on how to install this bot. The only reason I made it open source is because people were requesting it. If you want to get it up and running, then you can try to do it yourself.
-
-## Feature Requests
-If you want to request a feature, please don't open an issue here. We provide faster and better support via our [Discord support server](https://discord.gg/3hqURjk).
-
-## Bugs
-If you find a bug within this bot, please don't open an issue here. We provide faster and better support via our [Discord support server](https://discord.gg/3hqURjk).
-
-## License
-This bot is under the Apache 2.0 License which you can view [here](https://github.com/PassTheMayo/Guess-That-Number/blob/master/LICENSE).
+# Guess That Number (Archived)
+I am no longer going to keep my bots open source. As a result, the GitHub repository of Guess That Number will no longer be receiving updates. This code is extremely old, and may not function properly. I will provide no help if you want to get it working again. Thank you!
