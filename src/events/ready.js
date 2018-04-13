@@ -1,7 +1,6 @@
 const logger = require('../util/logger.js');
 const handleDatabaseError = require('../util/handleDatabaseError.js');
 const config = require('../config.json');
-const dashboard = require('../website/index.js');
 const updatePresence = require('../util/updatePresence.js');
 const handleRaffle = require('../util/handleRaffle.js');
 const GuildSettings = require('../structure/GuildSettings.js');
@@ -10,7 +9,6 @@ module.exports = (bot, r) => {
 	bot.on('ready', () => {
 		logger.info(bot.user.username + ' is ready!');
 		bot.startTime = Date.now();
-		dashboard(bot, r);
 		updatePresence(bot);
 		bot.guilds.map((g) => {
 			bot.prefixes.set(g.id, config.prefix);
