@@ -3,48 +3,46 @@ const fs = require('fs');
 const rethink = require('rethinkdbdash');
 const path = require('path');
 const config = require('./config.json');
-const log = require('./util/logger.js');
+const logger = require('./util/logger.js');
 const Collection = require('./structure/Collection.js');
-const Command = require('./structure/Command.js');
+const Module = require('./structure/Module.js');
 
 const bot = new Eris(config.token, {
-	disableEvents: {
-		'TYPING_START': true,
-		'USER_UPDATE': true,
-		'VOICE_STATE_UPDATE': true,
-		'PRESENCE_UPDATE': true
-	},
+	disableEvents: config.disabled_events,
 	disableEveryone: true,
-	maxShards: 'auto'
+	maxShards: 'auto',
+	restMode: true
 });
 
-bot.commands = new Collection();
+bot.modules = new Collection();
 bot.prefixes = new Collection();
+bot.settings = new Collection();
 bot.toggle = new Collection();
+bot.startupTime = Date.now();
 bot.leaderboardPages = {};
 
 const r = rethink(config.rethink);
 
-fs.readdir(path.join(__dirname, 'commands'), (error, commands) => {
+fs.readdir(path.join(__dirname, 'modules'), (error, modules) => {
 	if (error) throw error;
 	fs.readdir(path.join(__dirname, 'events'), (error, events) => {
 		if (error) throw error;
 		fs.readdir(path.join(__dirname, 'schedulers'), (error, schedulers) => {
 			if (error) throw error;
-			for (let i = 0; i < commands.length; i++) {
-				const cmd = require(path.join(__dirname, 'commands', commands[i]));
-				bot.commands.set(cmd.command, new Command(cmd));
-				if (i === commands.length - 1) {
-					log.info('Loaded ' + commands.length + ' commands!');
+			for (let i = 0; i < modules.length; i++) {
+				const mod = require(path.join(__dirname, 'modules', modules[i]));
+				bot.modules.set(mod.name, new Module(mod, modules[i]));
+				if (i === modules.length - 1) {
+					logger.info('Loaded ' + modules.length + ' modules & ' + bot.modules.map((m) => m.commandCount).reduce((a, b) => a + b, 0) + ' commands!');
 					for (let i = 0; i < events.length; i++) {
-						require(path.join(__dirname, 'events', events[i]))(bot, r);
+						require('./events/' + events[i])(bot, r);
 						if (i === events.length - 1) {
-							log.info('Loaded ' + events.length + ' events!');
+							logger.info('Loaded ' + events.length + ' events!');
 							for (let i = 0; i < schedulers.length; i++) {
-								const sch = require(path.join(__dirname, 'schedulers', schedulers[i]));
-								setInterval(sch.execute, sch.interval, bot, r);
+								const schedule = require('./schedulers/' + schedulers[i]);
+								setInterval(schedule.execute, schedule.interval, bot, r);
 								if (i === schedulers.length - 1) {
-									log.info('Loaded ' + schedulers.length + ' schedules!');
+									logger.info('Loaded ' + schedulers.length + ' schedulers!');
 									bot.connect();
 								}
 							}

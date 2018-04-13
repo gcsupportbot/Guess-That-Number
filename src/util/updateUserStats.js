@@ -1,7 +1,7 @@
 module.exports = (r, msg, response, callback) => {
 	r.table('user_statistics').get(msg.author.id).run((error, response2) => {
 		if (error) return callback(error);
-		const coinsAwarded = (response.difficulty === 1) ? 50 : (response.difficulty === 2) ? 100 : (response.difficulty === 3) ? 150 : 100;
+		const coinsAwarded = ((response.difficulty === 1) ? 50 : (response.difficulty === 2) ? 100 : (response.difficulty === 3) ? 150 : 100) * 2; // double coins for database loss
 		if (response2) {
 			r.table('user_statistics').get(msg.author.id).update({
 				easy_games_played: ((response.difficulty === 1) ? response2.easy_games_played + 1 : response2.easy_games_played),
@@ -13,8 +13,7 @@ module.exports = (r, msg, response, callback) => {
 				easy_game_time: ((response.difficulty === 1) ? Number(response2.easy_game_time) + (Date.now() - Number(response.start_time)) : response2.easy_game_time),
 				medium_game_time: ((response.difficulty === 2) ? Number(response2.medium_game_time) + (Date.now() - Number(response.start_time)) : response2.medium_game_time),
 				hard_game_time: ((response.difficulty === 3) ? Number(response2.hard_game_time) + (Date.now() - Number(response.start_time)) : response2.hard_game_time),
-				coins: response2.coins + coinsAwarded,
-				totalCoins: response2.coins + coinsAwarded
+				coins: response2.coins + coinsAwarded
 			}).run((error) => {
 				if (error) return callback(error, null);
 				callback(false, coinsAwarded);
@@ -31,8 +30,7 @@ module.exports = (r, msg, response, callback) => {
 				easy_game_time: ((response.difficulty === 1) ? (Date.now() - Number(response.start_time)) : 0),
 				medium_game_time: ((response.difficulty === 2) ? (Date.now() - Number(response.start_time)) : 0),
 				hard_game_time: ((response.difficulty === 3) ? (Date.now() - Number(response.start_time)) : 0),
-				coins: coinsAwarded,
-				totalCoins: coinsAwarded
+				coins: coinsAwarded
 			}).run((error) => {
 				if (error) return callback(error, null);
 				callback(false, coinsAwarded);

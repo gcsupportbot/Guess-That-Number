@@ -1,4 +1,3 @@
-const config = require('../config.json');
 const handleDatabaseError = require('../util/handleDatabaseError.js');
 
 module.exports = (bot, r) => {
