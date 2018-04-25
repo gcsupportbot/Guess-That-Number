@@ -1,27 +1,33 @@
 {
-	"token": "",
-	"secret": "",
-	"prefix": "g!",
-	"website_port": 3000,
-	"rethink": {
-		"host": "",
-		"db": "",
-		"user": "admin",
-		"password": "",
-		"silent": true
-	},
-	"api_keys": {
-		"bot_list": {
-			"botlist.space": "",
-			"carbonitex": "",
-			"ls.terminal.ink": "",
-			"bots.discord.pw": ""
-		}
-	},
-	"links": {
-		"bot": "https://gtn.mayo.pw/invite",
-		"server": "https://discord.gg/3hqURjk",
-		"patreon": "https://www.patreon.com/passthemayo",
-		"github": "https://github.com/PassTheMayo/Guess-That-Number/"
-	}
+    "token": "",
+    "default_prefix": "g!",
+    "rethinkdb": {
+        "silent": true,
+        "discovery": true,
+        "host": "localhost",
+        "db": "guessthatnumber"
+    },
+    "api_keys": {
+        "discordbots.org": "",
+        "bots.discord.pw": "",
+        "ls.terminal.ink": "",
+        "botlist.space": ""
+    },
+    "links": {
+        "server": "https://discord.gg/3hqURjk",
+        "github": "https://github.com/PassTheMayo/Guess-That-Number",
+        "patreon": "https://patreon.com/PassTheMayo",
+        "invite": "https://discordapp.com/oauth2/authorize?client_id=307994108792799244&scope=bot&permissions=0"
+    },
+    "webhooks": {
+        "guilds": {
+            "id": "",
+            "token": ""
+        },
+        "commands": {
+            "id": "",
+            "token": ""
+        }
+    },
+    "client_options": {}
 }

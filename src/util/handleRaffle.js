@@ -1,4 +1,4 @@
-const handleDatabaseError = require('./handleDatabaseError.js');
+const handleDatabaseError = require('./handleDatabaseError');
 
 module.exports = (bot, r) => {
 	r.table('intervals').get('raffle').run((error, response) => {
@@ -18,7 +18,7 @@ module.exports = (bot, r) => {
 				}).run((error) => {
 					if (error) return handleDatabaseError(error);
 					if (user) user.getDMChannel().then((dm) => {
-						dm.createMessage(':tada: │ Congratulations! You\'ve won the raffle that you entered a while back. You have been given ' + potSize + ' coins to use within the shop. Good luck, and thank you for playing!');
+						dm.createMessage(':tada:   **»**   Congratulations! You\'ve won the raffle that you entered a while back. You have been given ' + potSize + ' coins to use within the shop. Good luck, and thank you for playing!');
 					});
 				});
 			});

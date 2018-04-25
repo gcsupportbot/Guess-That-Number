@@ -1,6 +1,6 @@
-const logger = require('./logger.js');
+const Logger = require('./Logger');
 
 module.exports = (error, msg) => {
-	if (msg) msg.channel.createMessage(':exclamation: │ An error occured while running that command. This incident has been reported and will be resolved shortly.');
-	logger.error('Failed to query database.', error);
+	Logger.error('Failed to query the database.', error);
+	if (msg) msg.channel.createMessage(':exclamation:   **»**   Failed to run the command. This incident has been reported.');
 };

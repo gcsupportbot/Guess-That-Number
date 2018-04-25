@@ -1,8 +1,7 @@
-const handleDatabaseError = require('../util/handleDatabaseError.js');
+const handleDatabaseError = require('./handleDatabaseError');
 
-module.exports = {
-	interval: (1000 * 60 * 2),
-	execute: (bot, r) => {
+module.exports = (bot, r) => {
+	setInterval(() => {
 		r.table('intervals').get('reset').run((error, response) => {
 			if (error) return handleDatabaseError(error);
 			if (Date.now() - response.timestamp > (1000 * 60 * 60 * 24 * 15)) {
@@ -14,5 +13,5 @@ module.exports = {
 				});
 			}
 		});
-	}
+	}, 1000 * 60 * 60);
 };

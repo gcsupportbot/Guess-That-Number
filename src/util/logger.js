@@ -1,20 +1,16 @@
 /* eslint no-console: off */
 
 const dateformat = require('dateformat');
-const chalk = require('chalk');
 const util = require('util');
 
-module.exports.info = (...message) => {
-	message = message.map((v) => typeof (v) !== 'string' ? util.inspect(v) : v).join(' ');
-	console.log(chalk.blue(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT')) + ' - ' + chalk.green('[INFO]') + ' ' + message);
+module.exports.info = (...msg) => {
+	console.log(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT') + ' | ' + msg.map((v) => typeof v === 'string' ? v : util.inspect(v)).join(' '));
 };
 
-module.exports.warn = (...message) => {
-	message = message.map((v) => typeof (v) !== 'string' ? util.inspect(v) : v).join(' ');
-	console.log(chalk.blue(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT')) + ' - ' + chalk.yellow('[WARN]') + ' ' + message);
+module.exports.warn = (...msg) => {
+	console.warn(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT') + ' | ' + msg.map((v) => typeof v === 'string' ? v : util.inspect(v)).join(' '));
 };
 
-module.exports.error = (...message) => {
-	message = message.map((v) => typeof (v) !== 'string' ? util.inspect(v) : v).join(' ');
-	console.log(chalk.blue(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT')) + ' - ' + chalk.red('[ERROR]') + ' ' + message);
+module.exports.error = (...msg) => {
+	console.error(dateformat(Date.now(), 'mm/dd/yyyy hh:MM:ss TT') + ' | ' + msg.map((v) => typeof v === 'string' ? v : util.inspect(v)).join(' '));
 };
