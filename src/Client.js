@@ -6,8 +6,8 @@ const Collection = require('./Structure/Collection');
 const config = require('./config.json');
 
 class Client {
-	constructor(...args) {
-		this.bot = new Eris(...args);
+	constructor(token, options) {
+		this.bot = new Eris(token, options);
 	}
 
 	launch() {
