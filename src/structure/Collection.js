@@ -1,6 +1,6 @@
 class Collection extends Map {
-	constructor(args) {
-		super(args);
+	constructor() {
+		super();
 	}
 
 	filter(func) {
