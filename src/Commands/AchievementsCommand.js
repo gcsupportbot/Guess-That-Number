@@ -24,10 +24,10 @@ class Achievements extends BaseCommand {
 				embed: {
 					title: 'Achievements',
 					color: 3066993,
-					description: ':tada: │ Complete 50 games    │ ' + (achievements ? (achievements.gamesCompleted < 25 ? ((Math.floor(achievements.gamesCompleted / 50) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
-						+ ':tada: │ Complete 100 games  │ ' + (achievements ? (achievements.gamesCompleted < 25 ? ((Math.floor(achievements.gamesCompleted / 100) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
-						+ ':tada: │ Complete 200 games │ ' + (achievements ? (achievements.gamesCompleted < 25 ? ((Math.floor(achievements.gamesCompleted / 200) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
-						+ ':tada: │ Complete 500 games │ ' + (achievements ? (achievements.gamesCompleted < 25 ? ((Math.floor(achievements.gamesCompleted / 500) * 100) + '% completed') : 'Completed') : '0% completed')
+					description: ':tada: │ Complete 50 games    │ ' + (achievements ? (achievements.gamesCompleted < 25 ? (Math.floor((achievements.gamesCompleted / 50) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
+						+ ':tada: │ Complete 100 games  │ ' + (achievements ? (achievements.gamesCompleted < 25 ? (Math.floor((achievements.gamesCompleted / 100) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
+						+ ':tada: │ Complete 200 games │ ' + (achievements ? (achievements.gamesCompleted < 25 ? (Math.floor((achievements.gamesCompleted / 200) * 100) + '% completed') : 'Completed') : '0% completed') + '\n'
+						+ ':tada: │ Complete 500 games │ ' + (achievements ? (achievements.gamesCompleted < 25 ? (Math.floor((achievements.gamesCompleted / 500) * 100) + '% completed') : 'Completed') : '0% completed')
 				}
 			});
 		});
