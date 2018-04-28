@@ -48,11 +48,11 @@ class Reload extends BaseCommand {
 				const commands = this.bot.commands.filter((command) => command.command.toLowerCase() === args[0].toLowerCase() || command.aliases.includes(args[0].toLowerCase()));
 				if (commands.length < 1) return msg.channel.createMessage(':exclamation:   **»**   Unable to find any commands by that name.');
 				try {
-					delete require.cache[path.join(__dirname, commands[0].file)];
-					const Command = require(path.join(__dirname, commands[0].file));
+					delete require.cache[commands[0].file];
+					const Command = require(commands[0].file);
 					const command = new Command(this.bot, this.r);
 					this.bot.commands.delete(command.command);
-					command.file = path.join(__dirname, commands[0].file);
+					command.file = commands[0].file;
 					this.bot.commands.set(command.command, command);
 					msg.channel.createMessage(':arrows_counterclockwise:   **»**   Command file `' + command.file + '` has been reloaded.');
 				} catch (e) {
