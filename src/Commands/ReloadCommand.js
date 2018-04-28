@@ -54,7 +54,7 @@ class Reload extends BaseCommand {
 					this.bot.commands.delete(command.command);
 					command.file = commands[0].file;
 					this.bot.commands.set(command.command, command);
-					msg.channel.createMessage(':arrows_counterclockwise:   **»**   Command file `' + command.file + '` has been reloaded.');
+					msg.channel.createMessage(':arrows_counterclockwise:   **»**   Command file `' + command.file.split('/')[command.file.split('/').length - 1] + '` has been reloaded.');
 				} catch (e) {
 					msg.channel.createMessage(':exclamation:   **»**   An error occured while trying to reload command.\n```js\n' + util.inspect(e) + '```');
 				}
