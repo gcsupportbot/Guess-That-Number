@@ -105,15 +105,36 @@ class Guess extends BaseCommand {
 							}
 						});
 					};
+					const addAchievements = (coinsAwarded) => {
+						this.r.table('achievements').get(msg.author.id).run((error, achievements) => {
+							if (error) return handleDatabaseError(error, msg);
+							if (achievements) {
+								this.r.table('achievements').get(msg.author.id).update({
+									gamesCompleted: this.r.row('gamesCompleted').default(0).add(1)
+								}).run((error) => {
+									if (error) return handleDatabaseError(error, msg);
+									sendMessage(coinsAwarded);
+								});
+							} else {
+								this.r.table('achievements').insert({
+									id: msg.author.id,
+									gamesCompleted: 1
+								}).run((error) => {
+									if (error) return handleDatabaseError(error, msg);
+									sendMessage(coinsAwarded);
+								});
+							}
+						});
+					};
 					const handleToggle = (coinsAwarded) => {
 						if (this.bot.toggle.has(msg.author.id)) {
 							this.r.table('toggle').get(msg.author.id).delete().run((error) => {
 								if (error) return handleDatabaseError(error, msg);
 								this.bot.toggle.delete(msg.author.id);
-								sendMessage(coinsAwarded);
+								addAchievements(coinsAwarded);
 							});
 						} else {
-							sendMessage(coinsAwarded);
+							addAchievements(coinsAwarded);
 						}
 					};
 					this.r.table('games').get(msg.author.id).delete().run((error) => {
