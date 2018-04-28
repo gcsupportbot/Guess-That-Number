@@ -45,7 +45,7 @@ class Reload extends BaseCommand {
 					}
 				});
 			} else {
-				const commands = this.bot.commands.filter((command) => command.name.toLowerCase() === args[0].toLowerCase() || command.aliases.includes(args[0].toLowerCase()));
+				const commands = this.bot.commands.filter((command) => command.command.toLowerCase() === args[0].toLowerCase() || command.aliases.includes(args[0].toLowerCase()));
 				if (commands.length < 1) return msg.channel.createMessage(':exclamation:   **»**   Unable to find any commands by that name.');
 				try {
 					delete require.cache[path.join(__dirname, commands[0].file)];
