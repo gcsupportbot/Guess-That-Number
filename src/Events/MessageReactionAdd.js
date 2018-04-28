@@ -1,4 +1,4 @@
-const handleDatabaseError = require('../util/handleDatabaseError');
+const handleDatabaseError = require('../Util/handleDatabaseError');
 const Logger = require('../Util/Logger');
 
 module.exports = (bot, r) => {
