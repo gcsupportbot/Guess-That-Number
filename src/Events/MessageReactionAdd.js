@@ -25,7 +25,7 @@ module.exports = (bot, r) => {
 					message.edit({
 						embed: {
 							title: 'Global Leaderboard',
-							description: response.length + ' users have played ' + ((bot.leaderboardPages[userID].difficulty === 1) ? 'easy' : ((bot.leaderboardPages[userID].difficulty === 2) ? 'medium' : ((bot.leaderboardPages[userID].difficulty === 3) ? 'hard' : 'unknown'))) + ' difficulty.',
+							description: response.length + ' users have played ' + (bot.leaderboardPages[userID].difficulty === 1 ? 'easy' : bot.leaderboardPages[userID].difficulty === 2 ? 'medium' : bot.leaderboardPages[userID].difficulty === 3 ? 'hard' : bot.leaderboardPages[userID].difficulty === 4 ? 'extreme' : 'unknown') + ' difficulty.',
 							color: 3066993,
 							fields: response.slice((bot.leaderboardPages[userID].page * 10) - 10, bot.leaderboardPages[userID].page * 10).map((v) => {
 								return {

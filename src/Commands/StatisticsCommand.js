@@ -25,62 +25,44 @@ class Statistics extends BaseCommand {
 		snekfetch.get('https://api.github.com/repos/PassTheMayo/Guess-That-Number/commits').then((result) => {
 			this.r.table('games').count().run((error, games) => {
 				if (error) return handleDatabaseError(error, msg);
-				this.r.table('commands').count().run((error, commands) => {
-					if (error) return handleDatabaseError(error, msg);
-					msg.channel.createMessage({
-						embed: {
-							title: 'Bot Statistics',
-							color: this.bot.embedColor,
-							description: result.body.slice(0, 3).map((commit) => '[`' + commit.sha.substr(0, 7) + '`](' + commit.commit.url + ') ' + commit.commit.message).join('\n'),
-							fields: [
-								{
-									name: 'Shards',
-									value: this.bot.shards.size,
-									inline: true
-								},
-								{
-									name: 'Guilds',
-									value: this.bot.guilds.size,
-									inline: true
-								},
-								{
-									name: 'Users',
-									value: this.bot.users.size,
-									inline: true
-								},
-								{
-									name: 'Voice Connections',
-									value: this.bot.voiceConnections.size,
-									inline: true
-								},
-								{
-									name: 'Memory Usage',
-									value: formatSize(process.memoryUsage().heapUsed),
-									inline: true
-								},
-								{
-									name: 'Uptime',
-									value: formatDuration(this.bot.uptime),
-									inline: true
-								},
-								{
-									name: 'Commands',
-									value: this.bot.commands.size,
-									inline: true
-								},
-								{
-									name: 'Active Games',
-									value: games,
-									inline: true
-								},
-								{
-									name: 'Commands Ran',
-									value: commands,
-									inline: true
-								}
-							]
-						}
-					});
+				msg.channel.createMessage({
+					embed: {
+						title: 'Bot Statistics',
+						color: this.bot.embedColor,
+						description: result.body.slice(0, 3).map((commit) => '[`' + commit.sha.substr(0, 7) + '`](' + commit.commit.url + ') ' + commit.commit.message).join('\n'),
+						fields: [
+							{
+								name: 'Shards',
+								value: this.bot.shards.size,
+								inline: true
+							},
+							{
+								name: 'Guilds',
+								value: this.bot.guilds.size,
+								inline: true
+							},
+							{
+								name: 'Users',
+								value: this.bot.users.size,
+								inline: true
+							},
+							{
+								name: 'Memory Usage',
+								value: formatSize(process.memoryUsage().heapUsed),
+								inline: true
+							},
+							{
+								name: 'Uptime',
+								value: formatDuration(this.bot.uptime),
+								inline: true
+							},
+							{
+								name: 'Active Games',
+								value: games,
+								inline: true
+							}
+						]
+					}
 				});
 			});
 		}).catch((error) => {

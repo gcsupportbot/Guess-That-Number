@@ -12,7 +12,7 @@ class Leaderboard extends BaseCommand {
 			],
 			description: 'View the global leaderboard.',
 			category: 'Game',
-			usage: 'leaderboard [easy|medium|hard]',
+			usage: 'leaderboard [easy|medium|hard|extreme]',
 			hidden: false
 		});
 		this.bot = bot;
@@ -20,7 +20,7 @@ class Leaderboard extends BaseCommand {
 	}
 
 	execute(msg, args) {
-		const difficulty = args.length > 0 ? (args[0].toLowerCase() === 'easy' ? 1 : args[0].toLowerCase() === 'medium' ? 2 : args[0].toLowerCase() === 'hard' ? 3 : NaN) : 2;
+		const difficulty = args.length > 0 ? (args[0].toLowerCase() === 'easy' ? 1 : args[0].toLowerCase() === 'medium' ? 2 : args[0].toLowerCase() === 'hard' ? 3 : args[0].toLowerCase() === 'extreme' ? 4 : NaN) : 2;
 		if (isNaN(difficulty)) return msg.channel.createMessage(':exclamation:   **»**   Unknown argument `' + args[0].toLowerCase() + '`. Please refer to the command usage for more information.');
 		this.r.table('leaderboard').filter({ difficulty }).orderBy(this.r.asc('score')).without('id', 'difficulty').run((error, response) => {
 			if (error) return handleDatabaseError(error, msg);
@@ -29,11 +29,11 @@ class Leaderboard extends BaseCommand {
 				i.tag = user ? user.username + '#' + user.discriminator : false;
 				return i;
 			}).filter((v) => v.tag);
-			if (response.length < 1) return msg.channel.createMessage(':exclamation:   **»**   No users have played ' + ((difficulty === 1) ? 'easy' : ((difficulty === 2) ? 'medium' : ((difficulty === 3) ? 'hard' : 'unknown'))) + ' difficulty.');
+			if (response.length < 1) return msg.channel.createMessage(':exclamation:   **»**   No users have played ' + (difficulty === 1 ? 'easy' : difficulty === 2 ? 'medium' : difficulty === 3 ? 'hard' : difficulty === 4 ? 'extreme' : 'unknown') + ' difficulty.');
 			msg.channel.createMessage({
 				embed: {
 					title: 'Global Leaderboard',
-					description: response.length + ' users have played ' + ((difficulty === 1) ? 'easy' : ((difficulty === 2) ? 'medium' : ((difficulty === 3) ? 'hard' : 'unknown'))) + ' difficulty.',
+					description: response.length + ' users have played ' + (difficulty === 1 ? 'easy' : difficulty === 2 ? 'medium' : difficulty === 3 ? 'hard' : difficulty === 4 ? 'extreme' : 'unknown') + ' difficulty.',
 					color: 3066993,
 					fields: response.slice(0, 10).map((v) => {
 						return {

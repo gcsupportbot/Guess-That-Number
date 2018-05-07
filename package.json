@@ -1,12 +1,11 @@
 {
     "name": "guess-that-number",
     "description": "A unique and addicting game in which you have to guess the randomly generated number based on hints.",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "scripts": {
         "start": "node ."
     },
     "dependencies": {
-        "body-parser": "^1.18.2",
         "dateformat": "^3.0.3",
         "eris": "^0.8.4",
         "humanize-duration": "^3.12.1",
@@ -14,12 +13,11 @@
         "snekfetch": "^4.0.0-rc.0",
         "uws": "^9.14.0"
     },
-    "homepage": "https://gtn.mayo.pw/",
     "main": "src/index.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/PassTheMayo/Guess-That-Number"
     },
     "author": "PassTheMayo",
-    "license": "Apache-2.0"
+    "license": "MIT"
 }
