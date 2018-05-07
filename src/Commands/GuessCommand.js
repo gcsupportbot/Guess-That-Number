@@ -53,7 +53,7 @@ class Guess extends BaseCommand {
 					}
 				}
 			});
-			const max = ((response.difficulty === 1) ? 10000 : ((response.difficulty === 2) ? 100000 : ((response.difficulty === 3) ? 1000000 : 100000)));
+			const max = response.difficulty === 1 ? 10000 : response.difficulty === 2 ? 100000 : response.difficulty === 3 ? 1000000 : response.difficulty === 4 ? 1000000000 : 100000;
 			if (guess < 1 || guess > max) return msg.channel.createMessage({
 				embed: {
 					title: 'Error!',
