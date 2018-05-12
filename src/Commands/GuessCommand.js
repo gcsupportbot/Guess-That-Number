@@ -53,7 +53,7 @@ class Guess extends BaseCommand {
 					}
 				}
 			});
-			const max = ((response.difficulty === 1) ? 10000 : ((response.difficulty === 2) ? 100000 : ((response.difficulty === 3) ? 1000000 : 100000)));
+			const max = response.difficulty === 1 ? 10000 : response.difficulty === 2 ? 100000 : response.difficulty === 3 ? 1000000 : response.difficulty === 4 ? 1000000000 : 100000;
 			if (guess < 1 || guess > max) return msg.channel.createMessage({
 				embed: {
 					title: 'Error!',
@@ -68,105 +68,101 @@ class Guess extends BaseCommand {
 				score: response.score + 1
 			}).run((error) => {
 				if (error) return handleDatabaseError(error, msg);
-				if (guess > response.number) {
+				if (guess > response.number) return msg.channel.createMessage({
+					embed: {
+						title: 'Lower!',
+						color: 3066993,
+						description: 'The number is lower than `' + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.',
+						footer: {
+							text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator + ' | Guess #' + (response.score + 1)
+						}
+					}
+				});
+				if (guess < response.number) return msg.channel.createMessage({
+					embed: {
+						title: 'Higher!',
+						color: 3066993,
+						description: 'The number is higher than `' + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.',
+						footer: {
+							text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator + ' | Guess #' + (response.score + 1)
+						}
+					}
+				});
+				const sendMessage = (coinsAwarded) => {
 					msg.channel.createMessage({
 						embed: {
-							title: 'Lower!',
+							title: 'You guessed the correct number!',
 							color: 3066993,
-							description: 'The number is lower than `' + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.',
+							description: 'The number was `' + response.number + '`.\n\nYou guessed `' + (response.score + 1) + '` times before ending the game.\n\nThe game was active for `' + humanizeDuration(Date.now() - response.start_time, {
+								round: true
+							}) + '`.\n\nAdditionally, you have been awarded ' + coinsAwarded + ' coins to use in the shop.',
 							footer: {
-								text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator + ' | Guess #' + (response.score + 1)
+								text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator
 							}
 						}
 					});
-				} else if (guess < response.number) {
-					msg.channel.createMessage({
-						embed: {
-							title: 'Higher!',
-							color: 3066993,
-							description: 'The number is higher than `' + String(guess).replace(/(.)(?=(\d{3})+$)/g, '$1,') + '`.',
-							footer: {
-								text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator + ' | Guess #' + (response.score + 1)
-							}
-						}
-					});
-				} else if (guess === response.number) {
-					const sendMessage = (coinsAwarded) => {
-						msg.channel.createMessage({
-							embed: {
-								title: 'You guessed the correct number!',
-								color: 3066993,
-								description: 'The number was `' + response.number + '`.\n\nYou guessed `' + (response.score + 1) + '` times before ending the game.\n\nThe game was active for `' + humanizeDuration(Date.now() - response.start_time, {
-									round: true
-								}) + '`.\n\nAdditionally, you have been awarded ' + coinsAwarded + ' coins to use in the shop.',
-								footer: {
-									text: 'Requested by ' + msg.author.username + '#' + msg.author.discriminator
-								}
-							}
-						});
-					};
-					const addAchievements = (coinsAwarded) => {
-						this.r.table('achievements').get(msg.author.id).run((error, achievements) => {
-							if (error) return handleDatabaseError(error, msg);
-							if (achievements) {
-								this.r.table('achievements').get(msg.author.id).update({
-									gamesCompleted: this.r.row('gamesCompleted').default(0).add(1)
-								}).run((error) => {
-									if (error) return handleDatabaseError(error, msg);
-									sendMessage(coinsAwarded);
-								});
-							} else {
-								this.r.table('achievements').insert({
-									id: msg.author.id,
-									gamesCompleted: 1
-								}).run((error) => {
-									if (error) return handleDatabaseError(error, msg);
-									sendMessage(coinsAwarded);
-								});
-							}
-						});
-					};
-					const handleToggle = (coinsAwarded) => {
-						if (this.bot.toggle.has(msg.author.id)) {
-							this.r.table('toggle').get(msg.author.id).delete().run((error) => {
+				};
+				const addAchievements = (coinsAwarded) => {
+					this.r.table('achievements').get(msg.author.id).run((error, achievements) => {
+						if (error) return handleDatabaseError(error, msg);
+						if (achievements) {
+							this.r.table('achievements').get(msg.author.id).update({
+								gamesCompleted: this.r.row('gamesCompleted').default(0).add(1)
+							}).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
-								this.bot.toggle.delete(msg.author.id);
-								addAchievements(coinsAwarded);
+								sendMessage(coinsAwarded);
 							});
 						} else {
-							addAchievements(coinsAwarded);
-						}
-					};
-					this.r.table('games').get(msg.author.id).delete().run((error) => {
-						if (error) return handleDatabaseError(error, msg);
-						updateUserStats(this.r, msg, response).then((coinsAwarded) => {
-							this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).run((error, response2) => {
+							this.r.table('achievements').insert({
+								id: msg.author.id,
+								gamesCompleted: 1
+							}).run((error) => {
 								if (error) return handleDatabaseError(error, msg);
-								if (response2.length > 0) {
-									if ((response.score + 1) < response2.score) return this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
-										if (error) return handleDatabaseError(error, msg);
-										handleToggle(coinsAwarded);
-									});
-									this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
-										if (error) return handleDatabaseError(error, msg);
-										handleToggle(coinsAwarded);
-									});
-								} else {
-									this.r.table('leaderboard').insert({
-										userID: msg.author.id,
-										score: response.score + 1,
-										difficulty: response.difficulty
-									}).run((error) => {
-										if (error) return handleDatabaseError(error, msg);
-										handleToggle(coinsAwarded);
-									});
-								}
+								sendMessage(coinsAwarded);
 							});
-						}).catch((error) => {
-							handleDatabaseError(error, msg);
-						});
+						}
 					});
-				}
+				};
+				const handleToggle = (coinsAwarded) => {
+					if (this.bot.toggle.has(msg.author.id)) {
+						this.r.table('toggle').get(msg.author.id).delete().run((error) => {
+							if (error) return handleDatabaseError(error, msg);
+							this.bot.toggle.delete(msg.author.id);
+							addAchievements(coinsAwarded);
+						});
+					} else {
+						addAchievements(coinsAwarded);
+					}
+				};
+				this.r.table('games').get(msg.author.id).delete().run((error) => {
+					if (error) return handleDatabaseError(error, msg);
+					updateUserStats(this.r, msg, response).then((coinsAwarded) => {
+						this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).run((error, response2) => {
+							if (error) return handleDatabaseError(error, msg);
+							if (response2.length > 0) {
+								if ((response.score + 1) < response2.score) return this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
+									if (error) return handleDatabaseError(error, msg);
+									handleToggle(coinsAwarded);
+								});
+								this.r.table('leaderboard').filter({ userID: msg.author.id, difficulty: response.difficulty }).update({ score: response.score + 1 }).run((error) => {
+									if (error) return handleDatabaseError(error, msg);
+									handleToggle(coinsAwarded);
+								});
+							} else {
+								this.r.table('leaderboard').insert({
+									userID: msg.author.id,
+									score: response.score + 1,
+									difficulty: response.difficulty
+								}).run((error) => {
+									if (error) return handleDatabaseError(error, msg);
+									handleToggle(coinsAwarded);
+								});
+							}
+						});
+					}).catch((error) => {
+						handleDatabaseError(error, msg);
+					});
+				});
 			});
 		});
 	}
