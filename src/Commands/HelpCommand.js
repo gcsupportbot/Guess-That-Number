@@ -36,7 +36,7 @@ class Help extends BaseCommand {
 					}))
 				}
 			});
-			const command = commands.filter((command) => command.name.toLowerCase() === args[0].toLowerCase() || command.aliases.includes(args[0].toLowerCase()))[0];
+			const command = commands.filter((command) => command.command.toLowerCase() === args[0].toLowerCase() || command.aliases.includes(args[0].toLowerCase()))[0];
 			if (!command) return msg.channel.createMessage(':exclamation:   **»**   Unable to find any commands by that name.');
 			msg.channel.createMessage({
 				embed: {
