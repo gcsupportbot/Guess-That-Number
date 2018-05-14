@@ -20,7 +20,7 @@ class Prefix extends BaseCommand {
 		this.r.table('developers').get(msg.author.id).run((error, developer) => {
 			if (error) return handleDatabaseError(error, msg);
 			if (msg.channel.type === 1) return msg.channel.createMessage(':no_entry_sign:   **»**   You cannot change the prefix in a direct message.');
-			if (!msg.member.permission.has('manageChannels') && msg.author.id !== msg.channel.guild.ownerID || !developer) return msg.channel.createMessage(':no_entry_sign:   **»**   You do not have permission to change this server\'s prefix. You need to have `Manage Channels` permission.');
+			if (!msg.member.permission.has('manageChannels') && msg.author.id !== msg.channel.guild.ownerID && !developer) return msg.channel.createMessage(':no_entry_sign:   **»**   You do not have permission to change this server\'s prefix. You need to have `Manage Channels` permission.');
 			if (args.join(' ').length > 10) return msg.channel.createMessage(':exclamation:   **»**   The prefix cannot be longer than 10 characters.');
 			this.r.table('prefixes').get(msg.channel.guild.id).run((error, count) => {
 				if (error) return handleDatabaseError(error, msg);
