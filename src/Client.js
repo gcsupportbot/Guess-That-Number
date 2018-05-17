@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const rethink = require('rethinkdbdash');
 const Collection = require('./Structure/Collection');
+const Logger = require('./Util/Logger');
 const config = require('./config.json');
 
 class Client {
@@ -26,6 +27,11 @@ class Client {
 			this.bot.disconnect({
 				reconnect: false
 			});
+		});
+
+		process.on('unhandledRejection', (error) => {
+			if (error.code && (error.code === 50013 || error.code === 50007)) return;
+			Logger.error(error);
 		});
 
 		this.bot.connect();
