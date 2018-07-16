@@ -5,7 +5,7 @@ module.exports = (bot, r) => {
 		if (error) return handleDatabaseError(error);
 		setTimeout(() => {
 			r.table('intervals').get('raffle').update({
-				end_time: response.end_time + (1000 * 60 * 60 * 24 * 7),
+				end_time: Date.now() + (1000 * 60 * 60 * 24 * 7),
 				participants: []
 			}).run((error) => {
 				if (error) return handleDatabaseError(error);
