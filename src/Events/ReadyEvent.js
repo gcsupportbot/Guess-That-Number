@@ -2,6 +2,7 @@ const Logger = require('../Util/Logger.js');
 const handleAutoKick = require('../Util/handleAutoKick');
 const handleLeaderboardReset = require('../Util/handleLeaderboardReset');
 const updateGuildCount = require('../Util/updateGuildCount');
+const handleRaffle = require('../Util/handleRaffle');
 
 module.exports = (bot, r) => {
 	bot.on('ready', () => {
@@ -10,5 +11,6 @@ module.exports = (bot, r) => {
 		handleAutoKick(bot, r);
 		handleLeaderboardReset(bot, r);
 		updateGuildCount(bot);
+		handleRaffle(bot, r);
 	});
 };
