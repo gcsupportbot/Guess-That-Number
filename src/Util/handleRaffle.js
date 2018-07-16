@@ -22,6 +22,6 @@ module.exports = (bot, r) => {
 					});
 				});
 			});
-		}, response.end_time - Date.now());
+		}, Math.max(response.end_time - Date.now(), 0));
 	});
 };
