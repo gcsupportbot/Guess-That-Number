@@ -87,7 +87,7 @@ class Event extends BaseCommand {
 							return 0;
 						})[0];
 						this.bot.events.delete(msg.channel.id);
-						msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '`, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
+						msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '` guesses, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
 					});
 				});
 			});
@@ -98,16 +98,23 @@ class Event extends BaseCommand {
 				if (!event) return;
 				if (args.length < 2) return;
 				if (isNaN(args[1])) return;
-				this.r.table('events').get(msg.channel.id).update({
-					guesses: this.r.row('guesses').append({
-						id: msg.author.id,
-						guess: Number(args[1]),
-						offset: Math.abs(event.number - Number(args[1])),
-						tag: msg.author.username + '#' + msg.author.discriminator
-					})
-				}).run((error) => {
-					if (error) return handleDatabaseError(error);
-				});
+				if (event.number === Number(args[1])) {
+					this.r.table('events').get(msg.channel.id).delete().run((error) => {
+						if (error) return handleDatabaseError(error);
+						msg.channel.createMessage(':tada:   **»**   Congratulations to `' + msg.author.username + '#' + msg.author.discriminator + '`, you have guessed the correct number of `' + event.number.toLocaleString() + '`. There were a total of `' + (event.guesses.length + 1).toLocaleString() + '` guesses over a span of `' + humanizeDuration(Date.now() - event.start, { round: true }) + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants!');
+					});
+				} else {
+					this.r.table('events').get(msg.channel.id).update({
+						guesses: this.r.row('guesses').append({
+							id: msg.author.id,
+							guess: Number(args[1]),
+							offset: Math.abs(event.number - Number(args[1])),
+							tag: msg.author.username + '#' + msg.author.discriminator
+						})
+					}).run((error) => {
+						if (error) return handleDatabaseError(error);
+					});
+				}
 			});
 		}
 	}
