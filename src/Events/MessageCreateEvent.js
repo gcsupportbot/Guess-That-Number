@@ -8,6 +8,8 @@ module.exports = (bot, r) => {
 		let prefix = msg.channel.guild && bot.prefixes.has(msg.channel.guild.id) ? bot.prefixes.get(msg.channel.guild.id) : config.default_prefix;
 		if (bot.toggle.has(msg.author.id) && msg.content !== '' && !isNaN(parseInt(msg.content.replace(/,/g, '')))) {
 			msg.content = prefix + 'guess ' + Number(msg.content.replace(/,/g, ''));
+		} else if (msg.channel.guild && bot.events.has(msg.channel.id) && !isNaN(parseInt(msg.content.replace(/,/g, '')))) {
+			msg.content = prefix + 'event guess ' + Number(msg.content.replace(/,/g, ''));
 		}
 		if (!msg.content.startsWith(prefix)) return;
 		msg.prefix = prefix;

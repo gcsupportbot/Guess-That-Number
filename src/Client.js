@@ -18,6 +18,7 @@ class Client {
 		this.bot.commands = new Collection();
 		this.bot.prefixes = new Collection();
 		this.bot.toggle = new Collection();
+		this.bot.events = new Collection();
 		this.bot.leaderboardPages = {};
 
 		this.loadCommand(path.join(__dirname, 'Commands'));
