@@ -81,6 +81,7 @@ class Event extends BaseCommand {
 						if (b.offset > a.offset) return -1;
 						return 0;
 					})[0];
+					this.bot.events.delete(msg.channel.id);
 					msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '`, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
 				});
 			});
