@@ -26,24 +26,27 @@ class Event extends BaseCommand {
 			}
 		});
 		if (args[0].toLowerCase() === 'start') {
-			if (!msg.member.permission.has('manageMessages')) return msg.channel.createMessage(':no_entry_sign:   **»**   You do not have permission to execute this command. You must have the `Manage Messages` permission.');
-			this.r.table('events').get(msg.channel.id).run((error, event) => {
+			this.r.table('developers').get(msg.author.id).run((error, developer) => {
 				if (error) return handleDatabaseError(error, msg);
-				if (event) return msg.channel.createMessage(':exclamation:   **»**   There is already an event running in this channel. Use `' + msg.prefix + 'event end` before starting another one.');
-				if (args.length < 2) return msg.channel.createMessage(':question:   **»**   You must provide a maximum number to guess to.');
-				if (isNaN(args[1])) return msg.channel.createMessage(':exclamation:   **»**   The maximum number must be a valid number.');
-				if (Number(args[1]) < 1000) return msg.channel.createMessage(':exclamation:   **»**   The minimum for the maximum number must be above 1,000.');
-				this.r.table('events').insert({
-					id: msg.channel.id,
-					number: Math.floor(Math.random() * Number(args[1])),
-					start: Date.now(),
-					starter: msg.author.id,
-					maximum: Number(args[1]),
-					guesses: []
-				}).run((error) => {
+				if (!msg.member.permission.has('manageMessages') && !developer) return msg.channel.createMessage(':no_entry_sign:   **»**   You do not have permission to execute this command. You must have the `Manage Messages` permission.');
+				this.r.table('events').get(msg.channel.id).run((error, event) => {
 					if (error) return handleDatabaseError(error, msg);
-					this.bot.events.set(msg.channel.id, true);
-					msg.channel.createMessage(':white_check_mark:   **»**   Successfully created an event. The number ranges from `0` to `' + Number(args[1]).toLocaleString() + '`, and everyone can participate. If you want to cancel this event, type `' + msg.prefix + 'event end`. Good luck!');
+					if (event) return msg.channel.createMessage(':exclamation:   **»**   There is already an event running in this channel. Use `' + msg.prefix + 'event end` before starting another one.');
+					if (args.length < 2) return msg.channel.createMessage(':question:   **»**   You must provide a maximum number to guess to.');
+					if (isNaN(args[1])) return msg.channel.createMessage(':exclamation:   **»**   The maximum number must be a valid number.');
+					if (Number(args[1]) < 1000) return msg.channel.createMessage(':exclamation:   **»**   The minimum for the maximum number must be above 1,000.');
+					this.r.table('events').insert({
+						id: msg.channel.id,
+						number: Math.floor(Math.random() * Number(args[1])),
+						start: Date.now(),
+						starter: msg.author.id,
+						maximum: Number(args[1]),
+						guesses: []
+					}).run((error) => {
+						if (error) return handleDatabaseError(error, msg);
+						this.bot.events.set(msg.channel.id, true);
+						msg.channel.createMessage(':white_check_mark:   **»**   Successfully created an event. The number ranges from `0` to `' + Number(args[1]).toLocaleString() + '`, and everyone can participate. If you want to cancel this event, type `' + msg.prefix + 'event end`. Good luck!');
+					});
 				});
 			});
 		} else if (args[0].toLowerCase() === 'status') {
@@ -70,19 +73,22 @@ class Event extends BaseCommand {
 				});
 			});
 		} else if (args[0].toLowerCase() === 'end') {
-			this.r.table('events').get(msg.channel.id).run((error, event) => {
+			this.r.table('developers').get(msg.author.id).run((error, developer) => {
 				if (error) return handleDatabaseError(error, msg);
-				if (!event) return msg.channel.createMessage(':exclamation:   **»**   There are no events running within this channel.');
-				if (event.starter !== msg.author.id) return msg.channel.createMessage(':exclamation:   **»**   Only the original event starter can cancel this event. Their ID is `' + event.starter + '`.');
-				this.r.table('events').get(msg.channel.id).delete().run((error) => {
+				this.r.table('events').get(msg.channel.id).run((error, event) => {
 					if (error) return handleDatabaseError(error, msg);
-					const closest = event.guesses.sort((a, b) => {
-						if (a.offset > b.offset) return 1;
-						if (b.offset > a.offset) return -1;
-						return 0;
-					})[0];
-					this.bot.events.delete(msg.channel.id);
-					msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '`, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
+					if (!event) return msg.channel.createMessage(':exclamation:   **»**   There are no events running within this channel.');
+					if (event.starter !== msg.author.id && !developer) return msg.channel.createMessage(':exclamation:   **»**   Only the original event starter can cancel this event. Their ID is `' + event.starter + '`.');
+					this.r.table('events').get(msg.channel.id).delete().run((error) => {
+						if (error) return handleDatabaseError(error, msg);
+						const closest = event.guesses.sort((a, b) => {
+							if (a.offset > b.offset) return 1;
+							if (b.offset > a.offset) return -1;
+							return 0;
+						})[0];
+						this.bot.events.delete(msg.channel.id);
+						msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '`, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
+					});
 				});
 			});
 		} else if (args[0].toLowerCase() === 'guess') {
