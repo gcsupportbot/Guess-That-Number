@@ -65,7 +65,7 @@ class Event extends BaseCommand {
 							},
 							{
 								name: 'Time Since Start',
-								value: humanizeDuration(Date.now() - event.start),
+								value: humanizeDuration(Date.now() - event.start, { round: true }),
 								inline: false
 							}
 						]
@@ -87,7 +87,7 @@ class Event extends BaseCommand {
 							return 0;
 						})[0];
 						this.bot.events.delete(msg.channel.id);
-						msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start) + '`. There were a total of `' + event.guesses.length + '` guesses, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
+						msg.channel.createMessage(':white_check_mark:   **»**   Successfully ended event after `' + humanizeDuration(Date.now() - event.start, { round: true }) + '`. There were a total of `' + event.guesses.length + '` guesses, but the closest guess is awarded to `' + closest.tag + ' (' + closest.id + ')` for their guess of `' + closest.guess.toLocaleString() + '` which was `' + closest.offset.toLocaleString() + '` away from the random number. The random number was `' + event.number.toLocaleString() + '`. Good job to all `' + new Set(event.guesses.map((guess) => guess.id)).size + '` participants.');
 					});
 				});
 			});
